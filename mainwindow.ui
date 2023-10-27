@@ -198,7 +198,7 @@ color: rgb(242, 242, 242);
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="mainArea" native="true">
       <property name="enabled">
        <bool>false</bool>
       </property>

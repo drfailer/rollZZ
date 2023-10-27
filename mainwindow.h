@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include "mainmenu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,10 +15,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void resizeEvent(QResizeEvent* event) override;
 
 private:
     Ui::MainWindow *ui;
-    MainMenu mainMenu;
 };
 #endif // MAINWINDOW_H

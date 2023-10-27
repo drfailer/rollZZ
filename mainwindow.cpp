@@ -5,8 +5,7 @@
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    mainMenu(MainMenu(this))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 }
@@ -15,10 +14,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-    QMainWindow::resizeEvent(event);
-    mainMenu.update();
-}
-
