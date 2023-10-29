@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "../../ressources/ui_mainwindow.h"
 #include <QLayout>
 #include <iostream>
 #include <QPushButton>
