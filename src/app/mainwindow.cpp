@@ -12,15 +12,12 @@ MainWindow::MainWindow(QWidget *parent):
     // le setup permet de parser et récupérer les élément du fichier .ui (généré avec le designer)
     ui->setupUi(this);
 
-    // accès au body label
-    ui->bodyLabel->setText("rollZZ");
-
     // on utilise des connects pour exécuter une fonction lorsque le bouton est préssé
-    connect(ui->mainIconButton, &QPushButton::clicked, this, [&](){ std::cout << "rollZZ" << std::endl; ui->bodyLabel->setText("rollZZ"); });
-    connect(ui->createGameButton, &QPushButton::clicked, this, [&](){ std::cout << "create game" << std::endl; ui->bodyLabel->setText("create game"); });
-    connect(ui->joinGameButton, &QPushButton::clicked, this, [&](){ std::cout << "join game" << std::endl; ui->bodyLabel->setText("join game"); });
-    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&](){ std::cout << "charater sheet" << std::endl; ui->bodyLabel->setText("charater sheet"); });
-    connect(ui->settingsButton, &QPushButton::clicked, this, [&](){ std::cout << "settings" << std::endl; ui->bodyLabel->setText("settings"); });
+    connect(ui->mainIconButton, &QPushButton::clicked, this, [&](){ std::cout << "rollZZ" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->mainPage)); });
+    connect(ui->createGameButton, &QPushButton::clicked, this, [&](){ std::cout << "create game" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->createGamePage)); });
+    connect(ui->joinGameButton, &QPushButton::clicked, this, [&](){ std::cout << "join game" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->joinGamePage)); });
+    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&](){ std::cout << "charater sheet" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->charactersSheetsPage)); });
+    connect(ui->settingsButton, &QPushButton::clicked, this, [&](){ std::cout << "settings" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->settingsPage)); });
 
     // TODO: répartir les éléments de l'ui dans des classes pour simplifier la gestion
     // NOTE: à terme, on ne changera que ce qu'il y a dansle body (les menus pas besoins d'y toucher)
