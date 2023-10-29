@@ -13,11 +13,11 @@ MainWindow::MainWindow(QWidget *parent):
     ui->setupUi(this);
 
     // on utilise des connects pour exécuter une fonction lorsque le bouton est préssé
-    connect(ui->mainIconButton, &QPushButton::clicked, this, [&](){ std::cout << "rollZZ" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->mainPage)); });
-    connect(ui->createGameButton, &QPushButton::clicked, this, [&](){ std::cout << "create game" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->createGamePage)); });
-    connect(ui->joinGameButton, &QPushButton::clicked, this, [&](){ std::cout << "join game" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->joinGamePage)); });
-    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&](){ std::cout << "charater sheet" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->charactersSheetsPage)); });
-    connect(ui->settingsButton, &QPushButton::clicked, this, [&](){ std::cout << "settings" << std::endl; ui->pages->setCurrentIndex(ui->pages->indexOf(ui->settingsPage)); });
+    connect(ui->mainIconButton, &QPushButton::clicked, this, [&]() { goTo(ui->mainPage); });
+    connect(ui->createGameButton, &QPushButton::clicked, this, [&]() { goTo(ui->createGamePage); });
+    connect(ui->joinGameButton, &QPushButton::clicked, this, [&]() { goTo(ui->joinGamePage); });
+    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() { goTo(ui->charactersSheetsPage); });
+    connect(ui->settingsButton, &QPushButton::clicked, this, [&]() { goTo(ui->settingsPage); });
 
     // TODO: répartir les éléments de l'ui dans des classes pour simplifier la gestion
     // NOTE: à terme, on ne changera que ce qu'il y a dansle body (les menus pas besoins d'y toucher)
@@ -27,4 +27,9 @@ MainWindow::MainWindow(QWidget *parent):
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::goTo(QWidget* w)
+{
+    ui->pages->setCurrentIndex(ui->pages->indexOf(w));
 }
