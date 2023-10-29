@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
                   "#QPushButton:hover         { background-color: #383838; }"
                   "#QPushButton:checked       { background-color: #303030; }"
                   "#QPushButton:checked:hover { background-color: #484848; }"
+                  "#QLabel                    { color: #F2F2F2; }"
                   );
   w.show();
   return app.exec();

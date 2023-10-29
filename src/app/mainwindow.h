@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include "widgets/gamelist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,9 +18,10 @@ public:
     ~MainWindow();
 
 public slots:
-    void goTo(QWidget* w);
+    void goToPage(QWidget *w);
 
 private:
-    Ui::MainWindow* ui;
+    Ui::MainWindow *ui;
+    GameList *gameList;
 };
 #endif // MAINWINDOW_H
