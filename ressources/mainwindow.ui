@@ -440,33 +440,8 @@ QPushButton:checked:hover {
           <item>
            <widget class="QStackedWidget" name="pages">
             <property name="currentIndex">
-             <number>4</number>
+             <number>6</number>
             </property>
-            <widget class="QWidget" name="createGamePage">
-             <layout class="QVBoxLayout" name="verticalLayout_11">
-              <item>
-               <widget class="QWidget" name="createGamePageWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_10">
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="createGamePageLabel">
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(242, 242, 242);</string>
-                   </property>
-                   <property name="text">
-                    <string>create game</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
             <widget class="QWidget" name="mainPage">
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
@@ -492,13 +467,13 @@ QPushButton:checked:hover {
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="charactersSheetsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_9">
+            <widget class="QWidget" name="createGamePage">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
               <item>
-               <widget class="QWidget" name="charactersSheetsPageWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_8">
+               <widget class="QWidget" name="createGamePageWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_10">
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="charactersSheetsPageLabel">
+                  <widget class="QLabel" name="createGamePageLabel">
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
@@ -508,32 +483,7 @@ QPushButton:checked:hover {
                     <string notr="true">color: rgb(242, 242, 242);</string>
                    </property>
                    <property name="text">
-                    <string>characters sheets</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="settingsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_13">
-              <item>
-               <widget class="QWidget" name="settingsPageWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_12">
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="settingsPageLabel">
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">color: rgb(242, 242, 242);</string>
-                   </property>
-                   <property name="text">
-                    <string>settings</string>
+                    <string>create game</string>
                    </property>
                   </widget>
                  </item>
@@ -614,6 +564,58 @@ QPushButton:checked:hover {
               </item>
              </layout>
             </widget>
+            <widget class="QWidget" name="charactersSheetsPage">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QWidget" name="charactersSheetsPageWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                  <widget class="QLabel" name="charactersSheetsPageLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(242, 242, 242);</string>
+                   </property>
+                   <property name="text">
+                    <string>characters sheets</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="settingsPage">
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QWidget" name="settingsPageWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_12">
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                  <widget class="QLabel" name="settingsPageLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(242, 242, 242);</string>
+                   </property>
+                   <property name="text">
+                    <string>settings</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="playerBoardPage"/>
+            <widget class="QWidget" name="GMBoardPage"/>
            </widget>
           </item>
          </layout>
