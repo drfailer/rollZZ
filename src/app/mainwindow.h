@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include "widgets/cscreator.h"
+#include "widgets/cscreator/cscreator.h"
 #include "widgets/gamelist.h"
 
 QT_BEGIN_NAMESPACE

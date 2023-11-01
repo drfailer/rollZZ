@@ -26,16 +26,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
-        src/app/widgets/cscreator.h src/app/widgets/cscreator.cpp
-        src/app/widgets/popup/statcreationpopup.h src/app/widgets/popup/statcreationpopup.cpp
-        src/app/widgets/popup/cscreatorpopup.h src/app/widgets/popup/cscreatorpopup.cpp
-        src/app/widgets/popup/categorycreationpopup.h src/app/widgets/popup/categorycreationpopup.cpp
-        src/app/widgets/popup/descriptorcreationpopup.h src/app/widgets/popup/descriptorcreationpopup.cpp
-        src/app/widgets/popup/equipmentcreationpopup.h src/app/widgets/popup/equipmentcreationpopup.cpp
-
-
-
-
+        src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
+        src/app/widgets/cscreator/popup/statcreationpopup.h src/app/widgets/cscreator/popup/statcreationpopup.cpp
+        src/app/widgets/cscreator/popup/cscreatorpopup.h src/app/widgets/cscreator/popup/cscreatorpopup.cpp
+        src/app/widgets/cscreator/popup/categorycreationpopup.h src/app/widgets/cscreator/popup/categorycreationpopup.cpp
+        src/app/widgets/cscreator/popup/descriptorcreationpopup.h src/app/widgets/cscreator/popup/descriptorcreationpopup.cpp
+        src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rollZZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

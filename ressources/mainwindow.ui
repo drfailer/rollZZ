@@ -751,6 +751,13 @@ QPushButton:checked:hover {
                                <number>0</number>
                               </property>
                               <item>
+                               <widget class="QPushButton" name="CSCreatorImportBtn">
+                                <property name="text">
+                                 <string>import</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
                                <widget class="QPushButton" name="CSCreatorSaveBtn">
                                 <property name="text">
                                  <string>save</string>
@@ -770,6 +777,9 @@ QPushButton:checked:hover {
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 2px, solid, #F2F2F2;</string>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_16">
                            <property name="spacing">
