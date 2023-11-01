@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() { goToPage(ui->charactersSheetsPage); });
     connect(ui->settingsButton, &QPushButton::clicked, this, [&]() { goToPage(ui->settingsPage); });
 
+    int index=0;
+    connect(ui->createCS, &QPushButton::clicked,this,[&](){goToPage(ui->characterSheetCreator);});
+    connect(ui->addNewStat, &QPushButton::clicked,this,[&](){ui->CSLayout->addWidget(new QPushButton("Button Text"), index/3, index%3); index++;});
+
     // TODO: répartir les éléments de l'ui dans des classes pour simplifier la gestion
     // NOTE: à terme, on ne changera que ce qu'il y a dansle body (les menus pas besoins d'y toucher)
     // TODO (UI): remplacer le texte des boutons par une icone
