@@ -48,7 +48,10 @@ private:
     QVBoxLayout *sheetContent;
 
     /* popup menus *************************************************************/
+    CategoryCreationPopup *categoryCreationPopup = nullptr;
+    DescriptorCreationPopup *descriptorCreationPopup = nullptr;
     StatCreationPopup *statCreationPopup = nullptr;
+    EquipmentCreationPopup *equipmentCreationPopup = nullptr;
 };
 
 #endif // CSCREATOR_H

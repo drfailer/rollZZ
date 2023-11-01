@@ -10,7 +10,7 @@ class CSCreatorPopup : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CSCreatorPopup(QString name, QWidget *parent = nullptr);
+    explicit CSCreatorPopup(QString name);
     void add(QWidget *wdgt);
 
 signals:

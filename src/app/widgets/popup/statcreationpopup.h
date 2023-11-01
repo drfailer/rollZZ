@@ -15,7 +15,7 @@ class StatCreationPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    explicit StatCreationPopup(QWidget *parent = nullptr);
+    explicit StatCreationPopup();
     QString getName() const { return nameEdit.text(); }
     int getValue() const { return valueMaxEdit.value(); }
 

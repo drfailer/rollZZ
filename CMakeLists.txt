@@ -29,6 +29,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator.h src/app/widgets/cscreator.cpp
         src/app/widgets/popup/statcreationpopup.h src/app/widgets/popup/statcreationpopup.cpp
         src/app/widgets/popup/cscreatorpopup.h src/app/widgets/popup/cscreatorpopup.cpp
+        src/app/widgets/popup/categorycreationpopup.h src/app/widgets/popup/categorycreationpopup.cpp
+        src/app/widgets/popup/descriptorcreationpopup.h src/app/widgets/popup/descriptorcreationpopup.cpp
+        src/app/widgets/popup/equipmentcreationpopup.h src/app/widgets/popup/equipmentcreationpopup.cpp
 
 
 

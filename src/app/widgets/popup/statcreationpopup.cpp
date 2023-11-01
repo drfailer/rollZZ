@@ -1,8 +1,8 @@
 #include "statcreationpopup.h"
 #include <iostream>
 
-StatCreationPopup::StatCreationPopup(QWidget *parent):
-    CSCreatorPopup("STATISTIC", parent),
+StatCreationPopup::StatCreationPopup():
+    CSCreatorPopup("STATISTIC"),
     nameEdit("stat name"),
     valueMaxEdit(0),
     diceEdit(this)

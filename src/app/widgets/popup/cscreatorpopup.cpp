@@ -1,7 +1,7 @@
 #include "cscreatorpopup.h"
 
-CSCreatorPopup::CSCreatorPopup(QString name, QWidget *parent):
-    QWidget(parent),
+CSCreatorPopup::CSCreatorPopup(QString name):
+    QWidget(nullptr),
     mainLyt(this),
     title(name),
     bodyLyt(this),
