@@ -795,7 +795,11 @@ QPushButton:checked:hover {
                             <number>0</number>
                            </property>
                            <item>
-                            <layout class="QGridLayout" name="CSLayout"/>
+                            <layout class="QVBoxLayout" name="CSContent">
+                             <property name="leftMargin">
+                              <number>10</number>
+                             </property>
+                            </layout>
                            </item>
                           </layout>
                          </widget>

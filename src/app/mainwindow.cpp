@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent):
         .addStatBtn = ui->addStatBtn,
         .addEquipmentBtn = ui->addEquipmentBtn,
         .addMoneyBtn = ui->addMoneyBtn,
-        .sheetBase = ui->CSLayout
+        .sheetContent = ui->CSContent
     };
     csCreator = new CSCreator(csCreatorConfig, ui->CSCreator);
     connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });

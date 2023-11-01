@@ -3,17 +3,29 @@
 
 StatCreationPopup::StatCreationPopup(QWidget *parent):
     QWidget(parent),
-    layout(this),
-    confirmBtn("add"),
+    mainLyt(this),
+    title("STATISTIC"),
     nameEdit("stat name"),
-    valueEdit(0)
+    valueMaxEdit(0),
+    confirmBtn("confirm"),
+    cancelBtn("cancel"),
+    btnLyt(this)
 {
-    layout.addWidget(&nameEdit);
-    layout.addWidget(&valueEdit);
-    layout.addWidget(&confirmBtn);
+    mainLyt.addWidget(&title);
+    mainLyt.addWidget(&nameEdit);
+    mainLyt.addWidget(&valueMaxEdit);
+    btnLyt.addWidget(&cancelBtn);
+    btnLyt.addWidget(&confirmBtn);
+    mainLyt.addLayout(&btnLyt);
 
     connect(&confirmBtn, &QPushButton::clicked, this, [&]() {
-        std::cout << "confirm" << std::endl;
-        emit confirm();
+        emit confirm(true);
     });
+    connect(&cancelBtn, &QPushButton::clicked, this, [&]() {
+        emit confirm(false);
+    });
+
+    setFixedWidth(300);
+    setFixedHeight(150);
+    mainLyt.setAlignment(Qt::AlignTop);
 }

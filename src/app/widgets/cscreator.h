@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 #include <QWidget>
-#include <QGridLayout>
+#include <QVBoxLayout>
 
 // the configuration corresponds to the elements on the page that has been created with the designer
 struct CSCreatorConfig {
@@ -12,7 +12,7 @@ struct CSCreatorConfig {
     QPushButton *addStatBtn;
     QPushButton *addEquipmentBtn;
     QPushButton *addMoneyBtn;
-    QGridLayout *sheetBase;
+    QVBoxLayout *sheetContent;
 };
 
 class StatCreationPopup;
@@ -26,7 +26,7 @@ public:
 
 private slots:
     void addStatPopup();
-    void addStat();
+    void addStat(bool);
 
 private:
     int index = 0;
@@ -37,7 +37,7 @@ private:
     QPushButton *addStatBtn;
     QPushButton *addEquipmentBtn;
     QPushButton *addMoneyBtn;
-    QGridLayout *sheetBase;
+    QVBoxLayout *sheetContent;
 
     /* popup menus *************************************************************/
     StatCreationPopup *statCreationPopup = nullptr;

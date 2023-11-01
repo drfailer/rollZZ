@@ -2,10 +2,11 @@
 #define STATCREATIONPOPUP_H
 
 #include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QWidget>
 
 class StatCreationPopup : public QWidget
@@ -14,16 +15,20 @@ class StatCreationPopup : public QWidget
 public:
     explicit StatCreationPopup(QWidget *parent = nullptr);
     QString getName() const { return nameEdit.text(); }
-    int getValue() const { return valueEdit.value(); }
+    int getValue() const { return valueMaxEdit.value(); }
 
 signals:
-    void confirm();
+    void confirm(bool);
 
 private:
-    QVBoxLayout layout;
-    QPushButton confirmBtn;
+    QVBoxLayout mainLyt;
+    QLabel title;
     QLineEdit nameEdit;
-    QSpinBox valueEdit;
+    QSpinBox valueMaxEdit;
+    QComboBox diceEdit;
+    QHBoxLayout btnLyt;
+    QPushButton confirmBtn;
+    QPushButton cancelBtn;
 };
 
 #endif // STATCREATIONPOPUP_H

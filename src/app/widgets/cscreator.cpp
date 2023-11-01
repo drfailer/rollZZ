@@ -9,10 +9,10 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     addStatBtn(config.addStatBtn),
     addEquipmentBtn(config.addEquipmentBtn),
     addMoneyBtn(config.addMoneyBtn),
-    sheetBase(config.sheetBase)
+    sheetContent(config.sheetContent)
 {
-    sheetBase->setHorizontalSpacing(10);
-    sheetBase->setVerticalSpacing(10);
+    sheetContent->setSpacing(10);
+    sheetContent->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
     // connect for bnts
     connect(addStatBtn, &QPushButton::clicked, this, &CSCreator::addStatPopup);
@@ -20,7 +20,7 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
 
 CSCreator::~CSCreator()
 {
-    for (auto wgt : sheetBase->children()) {
+    for (auto wgt : sheetContent->children()) {
         delete wgt;
     }
 }
@@ -30,22 +30,19 @@ void CSCreator::addStatPopup()
     if (statCreationPopup == nullptr) {
         statCreationPopup = new StatCreationPopup(nullptr);
     }
-    statCreationPopup->setFixedWidth(200);
-    statCreationPopup->setFixedHeight(100);
     statCreationPopup->show();
     connect(statCreationPopup, &StatCreationPopup::confirm, this, &CSCreator::addStat);
 }
 
-void CSCreator::addStat()
+void CSCreator::addStat(bool add)
 {
-    // TODO: create a custom widget for this
-    QPushButton *button = new QPushButton(statCreationPopup->getName());
-
-    // TODO: find a way to make the stat modifiable
-
-    // add the button to the grid
-    sheetBase->addWidget(button, index/3, index%3);
-    index++;
+    if (add) {
+        // TODO: create a custom widget for this
+        QPushButton *button = new QPushButton(statCreationPopup->getName());
+        // add the button to the grid
+        sheetContent->addWidget(button);
+        index++;
+    }
     // remove the popup window
     delete statCreationPopup;
     statCreationPopup = nullptr;
