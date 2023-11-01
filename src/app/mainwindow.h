@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include "widgets/cscreator.h"
 #include "widgets/gamelist.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,5 +24,6 @@ public slots:
 private:
     Ui::MainWindow *ui;
     GameList *gameList;
+    CSCreator *csCreator;
 };
 #endif // MAINWINDOW_H

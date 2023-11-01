@@ -204,7 +204,6 @@ QPushButton:checked:hover {
             <property name="font">
              <font>
               <pointsize>-1</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -296,7 +295,7 @@ QPushButton:checked:hover {
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QWidget" name="menus" native="true">
             <property name="minimumSize">
              <size>
@@ -437,8 +436,33 @@ QPushButton:checked:hover {
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QStackedWidget" name="pages">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	margin: 0, 0, 0, 0;
+	padding: 2px, 2px, 2px, 2px;
+	background-color: #282828;
+	color: #f2f2f2;
+	font-size: 18px;
+	border: 0px solid rgb(59, 59, 59); /* flat button */
+	/* Si on veut faire des boutons ronds. */
+	/* border: 1px solid;
+	border-radius: 25%; */
+}
+
+QPushButton:hover {
+	background-color: #303030;
+}
+
+QPushButton:checked {
+	background-color: #303030;
+}
+
+QPushButton:checked:hover {
+	background-color: #484848;
+}</string>
+               </property>
                <property name="currentIndex">
-                <number>5</number>
+                <number>3</number>
                </property>
                <widget class="QWidget" name="mainPage">
                 <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -565,55 +589,111 @@ QPushButton:checked:hover {
                <widget class="QWidget" name="charactersSheetsPage">
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <widget class="QFrame" name="charactersSheetsPageFrame">
-                   <layout class="QVBoxLayout" name="verticalLayout_8">
-                    <item>
-                     <widget class="QGroupBox" name="horizontalGroupBox">
-                      <property name="minimumSize">
-                       <size>
-                        <width>103</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>200000</width>
-                        <height>100</height>
-                       </size>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_6">
-                       <property name="leftMargin">
-                        <number>7</number>
+                  <widget class="QStackedWidget" name="CSPages">
+                   <widget class="QWidget" name="characterSheetsWidget">
+                    <layout class="QVBoxLayout" name="verticalLayout_17">
+                     <item>
+                      <widget class="QLabel" name="characterSheetsTitle">
+                       <property name="font">
+                        <font>
+                         <pointsize>20</pointsize>
+                        </font>
                        </property>
-                       <property name="topMargin">
-                        <number>1</number>
+                       <property name="text">
+                        <string>Characters sheets</string>
                        </property>
-                       <item alignment="Qt::AlignLeft">
-                        <widget class="QPushButton" name="createCS">
-                         <property name="text">
-                          <string>Create a new character sheet</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="charactersSheetsPageLabel">
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(242, 242, 242);</string>
-                      </property>
-                      <property name="text">
-                       <string>characters sheets</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="CSList" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="createCS">
+                       <property name="styleSheet">
+                        <string notr="true">padding: 2px, 2px, 2px, 2px;</string>
+                       </property>
+                       <property name="text">
+                        <string>add new character</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="characterSheetCreator">
+                    <layout class="QVBoxLayout" name="verticalLayout_8">
+                     <item>
+                      <widget class="QWidget" name="CSCreationPageWidget" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_6">
+                        <property name="spacing">
+                         <number>0</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                         <widget class="QWidget" name="CSCreationMenu" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_15">
+                           <item alignment="Qt::AlignTop">
+                            <widget class="QPushButton" name="addNewStat">
+                             <property name="text">
+                              <string>add new stat</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="CSLayoutWidget" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_16">
+                           <property name="spacing">
+                            <number>0</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <item>
+                            <layout class="QGridLayout" name="CSLayout"/>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -642,38 +722,6 @@ QPushButton:checked:hover {
                   </widget>
                  </item>
                 </layout>
-               </widget>
-               <widget class="QWidget" name="characterSheetCreator">
-                <widget class="QWidget" name="verticalLayoutWidget">
-                 <property name="geometry">
-                  <rect>
-                   <x>10</x>
-                   <y>0</y>
-                   <width>110</width>
-                   <height>23</height>
-                  </rect>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_14">
-                  <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-                   <widget class="QPushButton" name="addNewStat">
-                    <property name="text">
-                     <string>Add new stat</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-                <widget class="QWidget" name="gridLayoutWidget">
-                 <property name="geometry">
-                  <rect>
-                   <x>170</x>
-                   <y>10</y>
-                   <width>841</width>
-                   <height>591</height>
-                  </rect>
-                 </property>
-                 <layout class="QGridLayout" name="CSLayout"/>
-                </widget>
                </widget>
                <widget class="QWidget" name="playerBoardPage"/>
                <widget class="QWidget" name="GMBoardPage"/>
