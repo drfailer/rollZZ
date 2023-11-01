@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent):
         .addDescritorBtn = ui->addDescriptorBtn,
         .addStatBtn = ui->addStatBtn,
         .addEquipmentBtn = ui->addEquipmentBtn,
-        .addMoneyBtn = ui->addMoneyBtn,
         .sheetContent = ui->CSContent
     };
     csCreator = new CSCreator(csCreatorConfig, ui->CSCreator);

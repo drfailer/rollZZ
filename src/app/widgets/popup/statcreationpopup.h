@@ -1,6 +1,8 @@
 #ifndef STATCREATIONPOPUP_H
 #define STATCREATIONPOPUP_H
 
+#include "cscreatorpopup.h"
+
 #include <QComboBox>
 #include <QLabel>
 #include <QLineEdit>
@@ -9,7 +11,7 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
-class StatCreationPopup : public QWidget
+class StatCreationPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
@@ -17,18 +19,10 @@ public:
     QString getName() const { return nameEdit.text(); }
     int getValue() const { return valueMaxEdit.value(); }
 
-signals:
-    void confirm(bool);
-
 private:
-    QVBoxLayout mainLyt;
-    QLabel title;
     QLineEdit nameEdit;
     QSpinBox valueMaxEdit;
     QComboBox diceEdit;
-    QHBoxLayout btnLyt;
-    QPushButton confirmBtn;
-    QPushButton cancelBtn;
 };
 
 #endif // STATCREATIONPOPUP_H

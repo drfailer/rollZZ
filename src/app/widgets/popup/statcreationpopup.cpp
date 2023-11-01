@@ -2,30 +2,19 @@
 #include <iostream>
 
 StatCreationPopup::StatCreationPopup(QWidget *parent):
-    QWidget(parent),
-    mainLyt(this),
-    title("STATISTIC"),
+    CSCreatorPopup("STATISTIC", parent),
     nameEdit("stat name"),
     valueMaxEdit(0),
-    confirmBtn("confirm"),
-    cancelBtn("cancel"),
-    btnLyt(this)
+    diceEdit(this)
 {
-    mainLyt.addWidget(&title);
-    mainLyt.addWidget(&nameEdit);
-    mainLyt.addWidget(&valueMaxEdit);
-    btnLyt.addWidget(&cancelBtn);
-    btnLyt.addWidget(&confirmBtn);
-    mainLyt.addLayout(&btnLyt);
+    // dices
+    diceEdit.addItem("1d20", 0);
+    diceEdit.addItem("1d10", 1);
+    diceEdit.addItem("1d6", 3);
+    diceEdit.addItem("1d4", 4);
 
-    connect(&confirmBtn, &QPushButton::clicked, this, [&]() {
-        emit confirm(true);
-    });
-    connect(&cancelBtn, &QPushButton::clicked, this, [&]() {
-        emit confirm(false);
-    });
-
-    setFixedWidth(300);
-    setFixedHeight(150);
-    mainLyt.setAlignment(Qt::AlignTop);
+    // add elements to the popup
+    add(&nameEdit);
+    add(&valueMaxEdit);
+    add(&diceEdit);
 }

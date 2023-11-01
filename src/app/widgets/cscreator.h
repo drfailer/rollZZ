@@ -11,11 +11,13 @@ struct CSCreatorConfig {
     QPushButton *addDescritorBtn;
     QPushButton *addStatBtn;
     QPushButton *addEquipmentBtn;
-    QPushButton *addMoneyBtn;
     QVBoxLayout *sheetContent;
 };
 
+class CategoryCreationPopup;
+class DescriptorCreationPopup;
 class StatCreationPopup;
+class EquipmentCreationPopup;
 
 class CSCreator : public QWidget
 {
@@ -25,8 +27,15 @@ public:
     ~CSCreator();
 
 private slots:
+    /* add bnts ****************************************************************/
+    void addCategoryPopup();
+    void addCategory(bool);
+    void addDescriptorPopup();
+    void addDescriptor(bool);
     void addStatPopup();
     void addStat(bool);
+    void addEquipmentPopup();
+    void addEquipment(bool);
 
 private:
     int index = 0;
@@ -36,7 +45,6 @@ private:
     QPushButton *addDescritorBtn;
     QPushButton *addStatBtn;
     QPushButton *addEquipmentBtn;
-    QPushButton *addMoneyBtn;
     QVBoxLayout *sheetContent;
 
     /* popup menus *************************************************************/

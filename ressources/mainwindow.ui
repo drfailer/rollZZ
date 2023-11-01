@@ -732,13 +732,6 @@ QPushButton:checked:hover {
                                 </property>
                                </widget>
                               </item>
-                              <item>
-                               <widget class="QPushButton" name="addMoneyBtn">
-                                <property name="text">
-                                 <string>money</string>
-                                </property>
-                               </widget>
-                              </item>
                              </layout>
                             </widget>
                            </item>
