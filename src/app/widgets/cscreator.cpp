@@ -1,31 +1,28 @@
 #include "cscreator.h"
+#include "popup/statcreationpopup.h"
 #include <iostream>
 
-CSCreator::CSCreator(QWidget *parent):
+CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     QWidget(parent),
-    statCreationPopup(nullptr)
+    addCategoryBtn(config.addCategoryBtn),
+    addDescritorBtn(config.addDescritorBtn),
+    addStatBtn(config.addStatBtn),
+    addEquipmentBtn(config.addEquipmentBtn),
+    addMoneyBtn(config.addMoneyBtn),
+    sheetBase(config.sheetBase)
 {
+    sheetBase->setHorizontalSpacing(10);
+    sheetBase->setVerticalSpacing(10);
 
+    // connect for bnts
+    connect(addStatBtn, &QPushButton::clicked, this, &CSCreator::addStatPopup);
 }
 
 CSCreator::~CSCreator()
 {
-    for (auto wgt : statList->children()) {
+    for (auto wgt : sheetBase->children()) {
         delete wgt;
     }
-}
-
-void CSCreator::config(QPushButton *newStat, QGridLayout *statList)
-{
-    this->newStat = newStat;
-    this->statList = statList;
-
-    // change spacing of the grid layout for stats
-    this->statList->setHorizontalSpacing(10);
-    this->statList->setVerticalSpacing(10);
-
-    // TODO: popup window
-    connect(newStat, &QPushButton::clicked, this, &CSCreator::addStatPopup);
 }
 
 void CSCreator::addStatPopup()
@@ -41,10 +38,13 @@ void CSCreator::addStatPopup()
 
 void CSCreator::addStat()
 {
+    // TODO: create a custom widget for this
     QPushButton *button = new QPushButton(statCreationPopup->getName());
 
+    // TODO: find a way to make the stat modifiable
+
     // add the button to the grid
-    this->statList->addWidget(button, index/3, index%3);
+    sheetBase->addWidget(button, index/3, index%3);
     index++;
     // remove the popup window
     delete statCreationPopup;

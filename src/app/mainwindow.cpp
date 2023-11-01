@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->mainIconButton, &QPushButton::clicked, this, [&]() { goToPage(ui->mainPage); });
     connect(ui->createGameButton, &QPushButton::clicked, this, [&]() { goToPage(ui->createGamePage); });
     connect(ui->joinGameButton, &QPushButton::clicked, this, [&]() { goToPage(ui->joinGamePage); });
-    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() { goToPage(ui->charactersSheetsPage); });
+    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() { goToPage(ui->CSPage); });
     connect(ui->settingsButton, &QPushButton::clicked, this, [&]() { goToPage(ui->settingsPage); });
 
     /***************************************************************************/
@@ -38,9 +38,16 @@ MainWindow::MainWindow(QWidget *parent):
     /* Character sheets creation                                               */
     /***************************************************************************/
 
-    csCreator = new CSCreator(ui->characterSheetCreator);
-    csCreator->config(ui->addNewStat, ui->CSLayout);
-    connect(ui->createCS, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->characterSheetCreator)); });
+    CSCreatorConfig csCreatorConfig = {
+        .addCategoryBtn = ui->addCategoryBtn,
+        .addDescritorBtn = ui->addDescriptorBtn,
+        .addStatBtn = ui->addStatBtn,
+        .addEquipmentBtn = ui->addEquipmentBtn,
+        .addMoneyBtn = ui->addMoneyBtn,
+        .sheetBase = ui->CSLayout
+    };
+    csCreator = new CSCreator(csCreatorConfig, ui->CSCreator);
+    connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });
 }
 
 MainWindow::~MainWindow()

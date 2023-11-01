@@ -27,7 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator.h src/app/widgets/cscreator.cpp
-        src/app/widgets/statcreationpopup.h src/app/widgets/statcreationpopup.cpp
+        src/app/widgets/popup/statcreationpopup.h src/app/widgets/popup/statcreationpopup.cpp
+
 
 
 

@@ -434,6 +434,21 @@ QPushButton:checked:hover {
              <string notr="true">background-color: rgb(27, 27, 27);</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QStackedWidget" name="pages">
                <property name="styleSheet">
@@ -586,12 +601,12 @@ QPushButton:checked:hover {
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="charactersSheetsPage">
+               <widget class="QWidget" name="CSPage">
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
                   <widget class="QStackedWidget" name="CSPages">
-                   <widget class="QWidget" name="characterSheetsWidget">
-                    <layout class="QVBoxLayout" name="verticalLayout_17">
+                   <widget class="QWidget" name="CSWidget">
+                    <layout class="QVBoxLayout" name="verticalLayout_14">
                      <item>
                       <widget class="QLabel" name="characterSheetsTitle">
                        <property name="font">
@@ -615,18 +630,31 @@ QPushButton:checked:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="createCS">
-                       <property name="styleSheet">
-                        <string notr="true">padding: 2px, 2px, 2px, 2px;</string>
-                       </property>
-                       <property name="text">
-                        <string>add new character</string>
-                       </property>
+                      <widget class="QWidget" name="CSButtons" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_7">
+                        <item>
+                         <widget class="QPushButton" name="createCS">
+                          <property name="styleSheet">
+                           <string notr="true">padding: 2px, 2px, 2px, 2px;</string>
+                          </property>
+                          <property name="text">
+                           <string>add new character</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="createTemplate">
+                          <property name="text">
+                           <string>create template</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
                     </layout>
                    </widget>
-                   <widget class="QWidget" name="characterSheetCreator">
+                   <widget class="QWidget" name="CSCreator">
                     <layout class="QVBoxLayout" name="verticalLayout_8">
                      <item>
                       <widget class="QWidget" name="CSCreationPageWidget" native="true">
@@ -646,14 +674,97 @@ QPushButton:checked:hover {
                         <property name="bottomMargin">
                          <number>0</number>
                         </property>
-                        <item alignment="Qt::AlignLeft|Qt::AlignTop">
-                         <widget class="QWidget" name="CSCreationMenu" native="true">
+                        <item>
+                         <widget class="QWidget" name="CSCreationSideArea" native="true">
                           <layout class="QVBoxLayout" name="verticalLayout_15">
-                           <item alignment="Qt::AlignTop">
-                            <widget class="QPushButton" name="addNewStat">
-                             <property name="text">
-                              <string>add new stat</string>
-                             </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                            <widget class="QWidget" name="CSCreationMenu" native="true">
+                             <layout class="QVBoxLayout" name="verticalLayout_17">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="addCategoryBtn">
+                                <property name="text">
+                                 <string>category</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="addDescriptorBtn">
+                                <property name="text">
+                                 <string>descriptor</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="addStatBtn">
+                                <property name="text">
+                                 <string>statistic</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="addEquipmentBtn">
+                                <property name="text">
+                                 <string>equipment</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="addMoneyBtn">
+                                <property name="text">
+                                 <string>money</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item alignment="Qt::AlignBottom">
+                            <widget class="QWidget" name="CSCreatorBottomMenu" native="true">
+                             <layout class="QVBoxLayout" name="verticalLayout_18">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="CSCreatorSaveBtn">
+                                <property name="text">
+                                 <string>save</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
                             </widget>
                            </item>
                           </layout>
