@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(-Wall -Wextra -g)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
@@ -32,6 +33,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/categorycreationpopup.h src/app/widgets/cscreator/popup/categorycreationpopup.cpp
         src/app/widgets/cscreator/popup/descriptorcreationpopup.h src/app/widgets/cscreator/popup/descriptorcreationpopup.cpp
         src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
+        src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
+        src/app/widgets/cscreator/popup/newtabpopup.h src/app/widgets/cscreator/popup/newtabpopup.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rollZZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

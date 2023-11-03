@@ -5,9 +5,9 @@ CSCreatorPopup::CSCreatorPopup(QString name):
     mainLyt(this),
     title(name),
     bodyLyt(this),
+    btnLyt(this),
     confirmBtn("confirm"),
-    cancelBtn("cancel"),
-    btnLyt(this)
+    cancelBtn("cancel")
 {
     mainLyt.addWidget(&title);
     // body

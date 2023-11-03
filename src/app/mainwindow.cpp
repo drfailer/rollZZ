@@ -39,11 +39,10 @@ MainWindow::MainWindow(QWidget *parent):
     /***************************************************************************/
 
     CSCreatorConfig csCreatorConfig = {
-        .addCategoryBtn = ui->addCategoryBtn,
-        .addDescritorBtn = ui->addDescriptorBtn,
-        .addStatBtn = ui->addStatBtn,
-        .addEquipmentBtn = ui->addEquipmentBtn,
-        .sheetContent = ui->CSContent
+        .contentWgt = ui->CSCreatorContent,
+        .newTabBtn = ui->CSCreatornewTabBtn,
+        .saveBtn = ui->CSCreatorSaveBtn,
+        .importBtn = ui->CSCreatorImportBtn,
     };
     csCreator = new CSCreator(csCreatorConfig, ui->CSCreator);
     connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });
