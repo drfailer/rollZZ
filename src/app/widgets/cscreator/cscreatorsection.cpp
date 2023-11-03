@@ -46,9 +46,16 @@ CSCreatorSection::CSCreatorSection(const QString& title, QWidget *parent):
 
     // connect buttons
     connect(&settingsBtn, &QPushButton::clicked, this, &CSCreatorSection::settingsPopup);
-    connect(&removeBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
-    connect(&moveUpBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
-    connect(&moveDownBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+    connect(&removeBtn, &QPushButton::clicked, this, [&]() { emit remove(); });
+    connect(&moveUpBtn, &QPushButton::clicked, this, [&]() { emit moveUp(); });
+    connect(&moveDownBtn, &QPushButton::clicked, this, [&]() { emit moveDown(); });
+}
+
+CSCreatorSection::~CSCreatorSection()
+{
+    for (auto wgt : content) {
+        delete wgt;
+    }
 }
 
 void CSCreatorSection::add(QWidget *wgt)
@@ -57,10 +64,10 @@ void CSCreatorSection::add(QWidget *wgt)
     bodyLyt.addWidget(wgt);
 }
 
-void CSCreatorSection::move(Direction direction, QWidget *wgt)
+void CSCreatorSection::move(bool up, QWidget *wgt)
 {
     int index = content.indexOf(wgt);
-    int newIndex = (direction == UP)? index - 1 : index + 1;
+    int newIndex = up ? index - 1 : index + 1;
 
     bodyLyt.removeWidget(wgt);
     bodyLyt.insertWidget(newIndex, wgt);

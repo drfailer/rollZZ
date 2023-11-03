@@ -30,22 +30,12 @@ public:
     ~CSCreator();
     QWidget* createTab();
 
-    // not working yet
-    // template<typename T>
-    // void addElementPopup(T *popup, std::function<void(bool)> addFunction) {
-        // std::cout << "hello" << std::endl;
-        // if (popup == nullptr) {
-            // popup = new T();
-        // }
-        // popup->show();
-        // connect(popup, &T::confirm, this, addFunction);
-    // }
-
 public slots:
     /* add bnts ****************************************************************/
     void addTabPopup();
     void renameTabPopup(int index);
     void addSectionPopup();
+    void move(bool up, QWidget *wgt);
     // void addDescriptorPopup();
     // void addDescriptor(bool);
     // void addStatPopup();

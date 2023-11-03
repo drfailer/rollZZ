@@ -28,7 +28,6 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     tabWgt->addTab(createTab(), "main");
 
     // the other buttons
-    // connect(newTabBtn, &QPushButton::clicked, this, [&]() { addElementPopup(newTabPopup, ADD_FN(addTab)); });
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
     connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
     connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
@@ -49,6 +48,15 @@ CSCreator::~CSCreator()
     }
     delete contentLyt;
     delete tabWgt;
+}
+
+void CSCreator::move(bool up, QWidget *wgt)
+{
+    int index = currentTabLyt()->indexOf(wgt);
+    int newIndex = up ? index - 1 : index + 1;
+
+    currentTabLyt()->removeWidget(wgt);
+    currentTabLyt()->insertWidget(newIndex, wgt);
 }
 
 /******************************************************************************/
@@ -117,6 +125,10 @@ void CSCreator::addSectionPopup()
             CSCreatorSection *newSection = new CSCreatorSection(sectionPopup->getName(), this);
             currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSection);
             index++;
+            // connections
+            connect(newSection, &CSCreatorSection::remove, this, [&, wgt = newSection]() { currentTabLyt()->removeWidget(wgt); delete wgt; });
+            connect(newSection, &CSCreatorSection::moveUp, this, [&, wgt = newSection]() { move(true, wgt); });
+            connect(newSection, &CSCreatorSection::moveDown, this, [&, wgt = newSection]() { move(false, wgt); });
         }
         // remove the popup window
         delete sectionPopup;

@@ -6,11 +6,6 @@
 #include <QPushButton>
 #include <QWidget>
 
-enum Direction {
-    UP = 0,
-    DOWN = 1,
-};
-
 class SectionPopup;
 
 class CSCreatorSection : public QWidget
@@ -18,16 +13,16 @@ class CSCreatorSection : public QWidget
     Q_OBJECT
 public:
     explicit CSCreatorSection(const QString& title, QWidget *parent = nullptr);
+    ~CSCreatorSection();
     void setTitle(QString newTitle) { title.setText(newTitle); }
     void add(QWidget* wgt);
-    void move(Direction direction, QWidget* wgt);
+    void move(bool up, QWidget* wgt);
 
     // TODO: write accessors
     QString getTitle() const { return title.text(); }
     void setTitle(const QString& newTitle) { title.setText(newTitle); }
 
 signals:
-    void edit();
     void remove();
     void moveUp();
     void moveDown();
