@@ -15,6 +15,16 @@ add_compile_options(-Wall -Wextra -g)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+find_package(libmongocxx REQUIRED)
+find_package(libbsoncxx REQUIRED)
+include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+include_directories(${LIBBSONCXX_INCLUDE_DIR})
+include_directories("/usr/local/include/mongocxx/v_noabi")
+include_directories("/usr/local/include/bsoncxx/v_noabi")
+include_directories("/usr/local/include/libmongoc-1.0")
+include_directories("/usr/local/include/libbson-1.0")
+include_directories("/usr/local/lib")
+
 set(PROJECT_SOURCES
         src/app/main.cpp
         src/app/mainwindow.cpp
@@ -35,8 +45,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
         src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
-
+        src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
     )
+
+target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
+target_link_libraries(rollZZ PRIVATE ${LIBBSONCXX_LIBRARIES})
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rollZZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
