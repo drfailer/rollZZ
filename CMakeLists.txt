@@ -15,15 +15,37 @@ add_compile_options(-Wall -Wextra -g)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-find_package(libmongocxx REQUIRED)
-find_package(libbsoncxx REQUIRED)
-include_directories(${LIBMONGOCXX_INCLUDE_DIR})
-include_directories(${LIBBSONCXX_INCLUDE_DIR})
-include_directories("/usr/local/include/mongocxx/v_noabi")
-include_directories("/usr/local/include/bsoncxx/v_noabi")
-include_directories("/usr/local/include/libmongoc-1.0")
-include_directories("/usr/local/include/libbson-1.0")
-include_directories("/usr/local/lib")
+################################################################################
+#                                   mongocxx                                   #
+################################################################################
+
+if(EXISTS /usr/local/include/mongocxx/v_noabi)
+    # when the lib is installed on the machine
+    find_package(libmongocxx REQUIRED)
+    find_package(libbsoncxx REQUIRED)
+    include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+    include_directories(${LIBBSONCXX_INCLUDE_DIR})
+    include_directories("/usr/local/include/mongocxx/v_noabi")
+    include_directories("/usr/local/include/bsoncxx/v_noabi")
+    include_directories("/usr/local/include/libmongoc-1.0")
+    include_directories("/usr/local/include/libbson-1.0")
+    include_directories("/usr/local/lib")
+elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/include/mongocxx/v_noabi/)
+    # local installation of libbson & mongocxx (must use the install script in lib/)
+    include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/include/mongocxx/v_noabi/
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/include/bsoncxx/v_noabi/
+        )
+    link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/lib/)
+    set(LIBMONGOCXX_LIBRARIES mongocxx)
+    set(LIBBSONCXX_LIBRARIES bsoncxx)
+else()
+    message(FATAL_ERROR "mongocxx is not available")
+endif()
+
+################################################################################
+#                                      Qt                                      #
+################################################################################
 
 set(PROJECT_SOURCES
         src/app/main.cpp

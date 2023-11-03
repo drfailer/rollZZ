@@ -75,3 +75,4 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+lib/mongo-cxx
