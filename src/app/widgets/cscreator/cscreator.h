@@ -20,7 +20,7 @@ class CategoryCreationPopup;
 class DescriptorCreationPopup;
 class StatCreationPopup;
 class EquipmentCreationPopup;
-class NewTabPopup;
+class TabPopup;
 
 class CSCreator : public QWidget
 {
@@ -43,6 +43,10 @@ public:
 
 private slots:
     /* add bnts ****************************************************************/
+    void addTabPopup();
+    void addTab(bool add);
+    void renameTabPopup(int index);
+    void renameTab(int index, bool rename);
     // void addCategoryPopup();
     // void addCategory(bool);
     // void addDescriptorPopup();
@@ -51,8 +55,6 @@ private slots:
     // void addStat(bool);
     // void addEquipmentPopup();
     // void addEquipment(bool);
-    void addTabPopup();
-    void addTab(bool add);
 
 private:
     int index = 0;
@@ -67,7 +69,7 @@ private:
     QList<QWidget*> tabs;
 
     /* popup menus *************************************************************/
-    NewTabPopup *newTabPopup = nullptr;
+    TabPopup *tabPopup = nullptr;
     CategoryCreationPopup *categoryCreationPopup = nullptr;
     DescriptorCreationPopup *descriptorCreationPopup = nullptr;
     StatCreationPopup *statCreationPopup = nullptr;

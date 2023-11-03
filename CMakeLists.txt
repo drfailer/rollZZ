@@ -34,7 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/descriptorcreationpopup.h src/app/widgets/cscreator/popup/descriptorcreationpopup.cpp
         src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
         src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
-        src/app/widgets/cscreator/popup/newtabpopup.h src/app/widgets/cscreator/popup/newtabpopup.cpp
+        src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

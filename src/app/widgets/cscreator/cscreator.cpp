@@ -2,7 +2,7 @@
 #include <QTabWidget>
 #include "popup/categorycreationpopup.h"
 #include "popup/descriptorcreationpopup.h"
-#include "popup/newtabpopup.h"
+#include "popup/tabpopup.h"
 #include "popup/statcreationpopup.h"
 #include "popup/equipmentcreationpopup.h"
 #include <iostream>
@@ -29,6 +29,7 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     // the other buttons
     // connect(newTabBtn, &QPushButton::clicked, this, [&]() { addElementPopup(newTabPopup, ADD_FN(addTab)); });
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
+    connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
     connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
     connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
 
@@ -53,7 +54,7 @@ CSCreator::~CSCreator()
 /* Tabs                                                                       */
 /******************************************************************************/
 
-QWidget *CSCreator::createTab()
+QWidget* CSCreator::createTab()
 {
     QWidget *newTabWgt = new QWidget(tabWgt);
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
@@ -69,21 +70,40 @@ QWidget *CSCreator::createTab()
 
 void CSCreator::addTabPopup()
 {
-    if (newTabPopup == nullptr) {
-        newTabPopup = new NewTabPopup();
+    if (tabPopup == nullptr) {
+        tabPopup = new TabPopup("NEW TAB");
     }
-    newTabPopup->show();
-    connect(newTabPopup, &CategoryCreationPopup::confirm, this, &CSCreator::addTab);
+    tabPopup->show();
+    connect(tabPopup, &TabPopup::confirm, this, &CSCreator::addTab);
 }
 
 void CSCreator::addTab(bool add)
 {
     if (add) {
-        tabWgt->addTab(createTab(), newTabPopup->getName());
+        tabWgt->addTab(createTab(), tabPopup->getName());
     }
     // remove the popup window
-    delete newTabPopup;
-    newTabPopup = nullptr;
+    delete tabPopup;
+    tabPopup = nullptr;
+}
+
+void CSCreator::renameTabPopup(int index)
+{
+    if (tabPopup == nullptr) {
+        tabPopup = new TabPopup("RENAME TAB", tabWgt->tabText(index));
+    }
+    tabPopup->show();
+    connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) { renameTab(index, rename); });
+}
+
+void CSCreator::renameTab(int index, bool rename)
+{
+    if (rename) {
+        tabWgt->setTabText(index, tabPopup->getName());
+    }
+    // remove the popup window
+    delete tabPopup;
+    tabPopup = nullptr;
 }
 
 /******************************************************************************/
