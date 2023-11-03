@@ -1,4 +1,5 @@
 #include "cscreator.h"
+#include "cscreatorsection.h"
 #include <QTabWidget>
 #include "popup/sectionpopup.h"
 #include "popup/descriptorcreationpopup.h"
@@ -62,7 +63,7 @@ QWidget* CSCreator::createTab()
 
     newTabLyt->addWidget(newSectionBtn);
     newTabWgt->setLayout(newTabLyt);
-    newTabLyt->setAlignment(Qt::AlignTop|Qt::AlignLeft);
+    newTabLyt->setAlignment(Qt::AlignTop);
     connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
     tabs.push_back(newTabWgt);
     return newTabWgt;
@@ -74,17 +75,14 @@ void CSCreator::addTabPopup()
         tabPopup = new TabPopup("NEW TAB");
     }
     tabPopup->show();
-    connect(tabPopup, &TabPopup::confirm, this, &CSCreator::addTab);
-}
-
-void CSCreator::addTab(bool add)
-{
-    if (add) {
-        tabWgt->addTab(createTab(), tabPopup->getName());
-    }
-    // remove the popup window
-    delete tabPopup;
-    tabPopup = nullptr;
+    connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
+        if (add) {
+            tabWgt->addTab(createTab(), tabPopup->getName());
+        }
+        // remove the popup window
+        delete tabPopup;
+        tabPopup = nullptr;
+    });
 }
 
 void CSCreator::renameTabPopup(int index)
@@ -93,17 +91,14 @@ void CSCreator::renameTabPopup(int index)
         tabPopup = new TabPopup("RENAME TAB", tabWgt->tabText(index));
     }
     tabPopup->show();
-    connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) { renameTab(index, rename); });
-}
-
-void CSCreator::renameTab(int index, bool rename)
-{
-    if (rename) {
-        tabWgt->setTabText(index, tabPopup->getName());
-    }
-    // remove the popup window
-    delete tabPopup;
-    tabPopup = nullptr;
+    connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) {
+        if (rename) {
+            tabWgt->setTabText(index, tabPopup->getName());
+        }
+        // remove the popup window
+        delete tabPopup;
+        tabPopup = nullptr;
+    });
 }
 
 /******************************************************************************/
@@ -112,24 +107,21 @@ void CSCreator::renameTab(int index, bool rename)
 
 void CSCreator::addSectionPopup()
 {
-    if (categoryCreationPopup == nullptr) {
-        categoryCreationPopup = new SectionPopup();
+    if (sectionPopup == nullptr) {
+        sectionPopup = new SectionPopup();
     }
-    categoryCreationPopup->show();
-    connect(categoryCreationPopup, &SectionPopup::confirm, this, &CSCreator::addSection);
-}
-
-void CSCreator::addSection(bool add)
-{
-    if (add) {
-        // TODO: create a custom widget for this
-        QPushButton *button = new QPushButton(categoryCreationPopup->getName());
-        currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, button);
-        index++;
-    }
-    // remove the popup window
-    delete categoryCreationPopup;
-    categoryCreationPopup = nullptr;
+    sectionPopup->show();
+    connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
+        if (add) {
+            // TODO: create a custom widget for this
+            CSCreatorSection *newSection = new CSCreatorSection(sectionPopup->getName(), this);
+            currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSection);
+            index++;
+        }
+        // remove the popup window
+        delete sectionPopup;
+        sectionPopup = nullptr;
+    });
 }
 
 /******************************************************************************/

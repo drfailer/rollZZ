@@ -41,14 +41,11 @@ public:
         // connect(popup, &T::confirm, this, addFunction);
     // }
 
-private slots:
+public slots:
     /* add bnts ****************************************************************/
     void addTabPopup();
-    void addTab(bool add);
     void renameTabPopup(int index);
-    void renameTab(int index, bool rename);
     void addSectionPopup();
-    void addSection(bool);
     // void addDescriptorPopup();
     // void addDescriptor(bool);
     // void addStatPopup();
@@ -70,7 +67,7 @@ private:
 
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;
-    SectionPopup *categoryCreationPopup = nullptr;
+    SectionPopup *sectionPopup = nullptr;
     DescriptorCreationPopup *descriptorCreationPopup = nullptr;
     StatCreationPopup *statCreationPopup = nullptr;
     EquipmentCreationPopup *equipmentCreationPopup = nullptr;

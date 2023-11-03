@@ -10,6 +10,7 @@ class SectionPopup : public CSCreatorPopup
     Q_OBJECT
 public:
     SectionPopup();
+    SectionPopup(const QString& defaultValue);
     QString getName() const { return nameEdit.text(); }
 
 private:

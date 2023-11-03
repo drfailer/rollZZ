@@ -11,6 +11,8 @@ enum Direction {
     DOWN = 1,
 };
 
+class SectionPopup;
+
 class CSCreatorSection : public QWidget
 {
     Q_OBJECT
@@ -20,11 +22,18 @@ public:
     void add(QWidget* wgt);
     void move(Direction direction, QWidget* wgt);
 
+    // TODO: write accessors
+    QString getTitle() const { return title.text(); }
+    void setTitle(const QString& newTitle) { title.setText(newTitle); }
+
 signals:
     void edit();
     void remove();
     void moveUp();
     void moveDown();
+
+private slots:
+    void settingsPopup();
 
 private:
     QVBoxLayout mainLyt;
@@ -39,6 +48,8 @@ private:
     QPushButton moveDownBtn;
     QPushButton addElementBtn;
     QList<QWidget*> content;
+
+    SectionPopup *sectionPopup = nullptr;
 };
 
 #endif // CSCREATORSECTION_H

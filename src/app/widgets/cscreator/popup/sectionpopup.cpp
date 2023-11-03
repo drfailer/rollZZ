@@ -1,8 +1,13 @@
 #include "sectionpopup.h"
 
-SectionPopup::SectionPopup():
-    CSCreatorPopup("CATEGORY"),
-    nameEdit("name")
+SectionPopup::SectionPopup(const QString &defaultValue):
+    CSCreatorPopup("SECTION"),
+    nameEdit(defaultValue)
 {
     add(&nameEdit);
+}
+
+SectionPopup::SectionPopup():
+    SectionPopup("name")
+{
 }
