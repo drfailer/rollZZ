@@ -30,7 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
         src/app/widgets/cscreator/popup/statcreationpopup.h src/app/widgets/cscreator/popup/statcreationpopup.cpp
         src/app/widgets/cscreator/popup/cscreatorpopup.h src/app/widgets/cscreator/popup/cscreatorpopup.cpp
-        src/app/widgets/cscreator/popup/categorycreationpopup.h src/app/widgets/cscreator/popup/categorycreationpopup.cpp
+        src/app/widgets/cscreator/popup/sectionpopup.h src/app/widgets/cscreator/popup/sectionpopup.cpp
         src/app/widgets/cscreator/popup/descriptorcreationpopup.h src/app/widgets/cscreator/popup/descriptorcreationpopup.cpp
         src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
         src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp

@@ -1,6 +1,6 @@
 #include "cscreator.h"
 #include <QTabWidget>
-#include "popup/categorycreationpopup.h"
+#include "popup/sectionpopup.h"
 #include "popup/descriptorcreationpopup.h"
 #include "popup/tabpopup.h"
 #include "popup/statcreationpopup.h"
@@ -63,7 +63,7 @@ QWidget* CSCreator::createTab()
     newTabLyt->addWidget(newSectionBtn);
     newTabWgt->setLayout(newTabLyt);
     newTabLyt->setAlignment(Qt::AlignTop|Qt::AlignLeft);
-    connect(newSectionBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+    connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
     tabs.push_back(newTabWgt);
     return newTabWgt;
 }
@@ -110,28 +110,27 @@ void CSCreator::renameTab(int index, bool rename)
 /* add Category                                                               */
 /******************************************************************************/
 
-// void CSCreator::addCategoryPopup()
-// {
-    // if (categoryCreationPopup == nullptr) {
-        // categoryCreationPopup = new CategoryCreationPopup();
-    // }
-    // categoryCreationPopup->show();
-    // connect(categoryCreationPopup, &CategoryCreationPopup::confirm, this, &CSCreator::addCategory);
-// }
+void CSCreator::addSectionPopup()
+{
+    if (categoryCreationPopup == nullptr) {
+        categoryCreationPopup = new SectionPopup();
+    }
+    categoryCreationPopup->show();
+    connect(categoryCreationPopup, &SectionPopup::confirm, this, &CSCreator::addSection);
+}
 
-// void CSCreator::addCategory(bool add)
-// {
-    // if (add) {
-        // // TODO: create a custom widget for this
-        // QPushButton *button = new QPushButton(categoryCreationPopup->getName());
-        // // add the button to the grid
-        // sheetContent->addWidget(button);
-        // index++;
-    // }
-    // // remove the popup window
-    // delete categoryCreationPopup;
-    // categoryCreationPopup = nullptr;
-// }
+void CSCreator::addSection(bool add)
+{
+    if (add) {
+        // TODO: create a custom widget for this
+        QPushButton *button = new QPushButton(categoryCreationPopup->getName());
+        currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, button);
+        index++;
+    }
+    // remove the popup window
+    delete categoryCreationPopup;
+    categoryCreationPopup = nullptr;
+}
 
 /******************************************************************************/
 /* add descriptor                                                             */

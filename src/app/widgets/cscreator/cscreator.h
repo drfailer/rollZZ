@@ -16,7 +16,7 @@ struct CSCreatorConfig {
     QPushButton *importBtn;
 };
 
-class CategoryCreationPopup;
+class SectionPopup;
 class DescriptorCreationPopup;
 class StatCreationPopup;
 class EquipmentCreationPopup;
@@ -47,8 +47,8 @@ private slots:
     void addTab(bool add);
     void renameTabPopup(int index);
     void renameTab(int index, bool rename);
-    // void addCategoryPopup();
-    // void addCategory(bool);
+    void addSectionPopup();
+    void addSection(bool);
     // void addDescriptorPopup();
     // void addDescriptor(bool);
     // void addStatPopup();
@@ -70,10 +70,12 @@ private:
 
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;
-    CategoryCreationPopup *categoryCreationPopup = nullptr;
+    SectionPopup *categoryCreationPopup = nullptr;
     DescriptorCreationPopup *descriptorCreationPopup = nullptr;
     StatCreationPopup *statCreationPopup = nullptr;
     EquipmentCreationPopup *equipmentCreationPopup = nullptr;
+
+    QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }
 };
 
 #endif // CSCREATOR_H
