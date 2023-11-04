@@ -12,7 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-Wall -Wextra -g)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 ################################################################################
@@ -68,6 +68,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
         src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
+        src/CS/cs.h src/CS/cs.cpp
+        src/CS/part.h src/CS/part.cpp
+        src/CS/section.h src/CS/section.cpp
+        src/CS/component.h src/CS/component.cpp
+        src/CS/bonusstat.h src/CS/bonusstat.cpp
+        src/CS/basicstat.h src/CS/basicstat.cpp
+        src/CS/liststat.h src/CS/liststat.cpp
+        src/CS/equipment.h src/CS/equipment.cpp
+        src/CS/attacks.h src/CS/attacks.cpp
+        src/CS/descriptor.h src/CS/descriptor.cpp
+        src/CS/dice.h src/CS/dice.cpp
+        src/CS/item.h src/CS/item.cpp
+        src/CS/weapon.h src/CS/weapon.cpp
+        src/CS/caracteristic.h src/CS/caracteristic.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
