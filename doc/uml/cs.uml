@@ -1,0 +1,118 @@
+@startuml
+/' skinparam linetype ortho '/
+skinparam groupInheritance 2
+hide empty attributes
+hide empty methods
+
+class Root {
+    -parts: QList<Part>
+}
+
+Part -u-* Root
+class Part {
+    -name: string
+    -sections: QList<Section>
+}
+
+Section -u-* Part
+class Section {
+    -title: string
+    -components: QList<Component>
+}
+
+Component -u-* Section
+abstract class Component {
+    -title: string
+}
+
+Component <|-- BasicStat
+Component <|-- BonusStat
+Component <|-- ListStat
+Component <|-- Equipment
+Component <|-- Attacks
+Component <|-- Descriptor
+
+class Dice {
+    -faces: int
+    -number: int
+    +roll(): int
+}
+
+BasicStat *-- Dice
+class BasicStat {
+    -value: int
+    -valueMax: int
+    -dice: Dice
+    +roll(): int
+}
+
+BonusStat *-- Dice
+class BonusStat {
+    -statValue: int
+    -bonusValue: int
+    -bonusCalculusStrategy(int): int
+    -dice: Dice
+    +roll(): int
+}
+
+class ListStat {
+    -stats: QList<Caracteristic>
+}
+
+ListStat *-- Caracteristic
+Caracteristic *-- Dice
+class Caracteristic {
+    -name: string
+    -bonus: int
+    -checked: bool
+    -dice: Dice
+    +roll(): int
+}
+
+note left of Caracteristic::checked
+    used to modelize
+    proficiency stats
+end note
+
+class Attacks {
+    -maxItems: int
+    -weapons: QList<Weapon>
+}
+
+Attacks *-- Weapon
+Weapon *-- Dice
+class Weapon {
+    -damageType: string
+    -attackDice: Dice
+    -damageDice: Dice
+    -weaponType: string
+    -range: int
+    -weight: int
+    +rollAttack(): int
+    +rollDamage(): int
+}
+
+note right of Weapon::damageType
+    This is a string and not an
+    enum as we can have infinit
+    damages types depending on
+    the RPG we play.
+end note
+
+class Equipment {
+    -items: QList<Item>
+}
+
+Equipment --o Item
+class Item {
+    -name: string
+    -description: string
+    -quantity: int
+    -weight: int
+}
+
+class Descriptor {
+    -description: string
+}
+
+@enduml

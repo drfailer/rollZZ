@@ -1,0 +1,16 @@
+@startuml
+
+class Player {
+    -name: string
+    -games: List<Game>
+}
+
+Game --o Player
+class Game {
+    -name: string
+    -id: int
+    -players: List<string>
+    -gm: string
+}
+
+@enduml
