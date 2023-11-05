@@ -13,10 +13,11 @@ class Section
 public:
     Section(const QString& title);
     ~Section();
-    /* methods *************************************/
+    /* methods *****************************************************************/
     void addComponent(Component*);
     // TODO: move components
 
+    /* accessors ***************************************************************/
     QString getTitle() const { return title; }
     void setTitle(const QString &newTitle) { title = newTitle; }
 

@@ -9,6 +9,7 @@ class Item
 public:
     Item(QString name, QString description, int quantity = 0, int weight = 0);
 
+    /* accessors ***************************************************************/
     QString getName() const { return name; }
     void setName(const QString &newName) { name = newName; }
     QString getDescription() const { return description; }

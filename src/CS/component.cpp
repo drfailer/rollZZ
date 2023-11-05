@@ -1,3 +1,11 @@
 #include "component.h"
 
-CS::Component::~Component() { }
+namespace CS {
+
+Component::Component(QString title):
+    title(title)
+{ }
+
+Component::~Component() { }
+
+} // end namespace CS

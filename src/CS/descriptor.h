@@ -10,8 +10,10 @@ namespace CS {
 class Descriptor : public Component
 {
 public:
+    using Component::Component;
     Descriptor();
 
+    /* accessors ***************************************************************/
     QString getDescription() const { return description; }
     void setDescription(const QString &newDescription) { description = newDescription; }
 

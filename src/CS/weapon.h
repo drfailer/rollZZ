@@ -9,15 +9,15 @@ namespace CS {
 class Weapon
 {
 public:
-    /* constructors *******************************************/
-    Weapon(const QString&, const QString&, Dice, Dice, int = 0, int = 0);
-    Weapon(Dice, Dice, int = 0, int = 0);
+    /* constructors ************************************************************/
+    Weapon(const QString&, const QString&, Dice, Dice, int = 0, int = 0, int = 0, int = 0);
+    Weapon(Dice, Dice, int = 0, int = 0, int = 0, int = 0);
 
-    /* roll ***************************************************/
-    int rollAttack() const { return attackDice.roll(); };
-    int rollDamage() const { return damageDice.roll(); };
+    /* roll ********************************************************************/
+    int rollAttack() const;
+    int rollDamage() const;
 
-    /* accessors **********************************************/
+    /* accessors ***************************************************************/
     QString getWeaponType() const { return weaponType; }
     void setWeaponType(const QString &newWeaponType) { weaponType = newWeaponType; }
     QString getDamageType() const { return damageType; }
@@ -26,6 +26,10 @@ public:
     void setAttackDice(const Dice &newAttackDice) { attackDice = newAttackDice; }
     Dice getDamageDice() const { return damageDice; }
     void setDamageDice(const Dice &newDamageDice) { damageDice = newDamageDice; }
+    int getAttackBonus() const { return attackBonus; }
+    void setAttackBonus(int newAttackBonus) { attackBonus = newAttackBonus; }
+    int getDamageBonus() const { return damageBonus; }
+    void setDamageBonus(int newDamageBonus) { damageBonus = newDamageBonus; }
     int getRange() const { return range; }
     void setRange(int newRange) { range = newRange; }
     int getWeight() const { return weight; }
@@ -36,6 +40,8 @@ private:
     QString damageType;
     Dice attackDice;
     Dice damageDice;
+    int attackBonus;
+    int damageBonus;
     int range;
     int weight;
 };

@@ -12,6 +12,8 @@ class Part
 public:
     Part(const QString& name);
 
+    /* accessors ***************************************************************/
+
 private:
     QString name;
     QList<Section> sections;
