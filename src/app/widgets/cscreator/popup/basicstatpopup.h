@@ -1,9 +1,9 @@
-#ifndef STATCREATIONPOPUP_H
-#define STATCREATIONPOPUP_H
+#ifndef BASICSTATPOPUP_H
+#define BASICSTATPOPUP_H
 
 #include "cscreatorpopup.h"
+#include "diceedit.h"
 
-#include <QComboBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -11,18 +11,21 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
-class StatCreationPopup : public CSCreatorPopup
+class BasicStatPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    explicit StatCreationPopup();
+    explicit BasicStatPopup();
     QString getName() const { return nameEdit.text(); }
     int getValue() const { return valueMaxEdit.value(); }
+
+protected:
+    BasicStatPopup(const QString& title);
 
 private:
     QLineEdit nameEdit;
     QSpinBox valueMaxEdit;
-    QComboBox diceEdit;
+    DiceEdit diceEditWgt;
 };
 
-#endif // STATCREATIONPOPUP_H
+#endif // BASICSTATPOPUP_H

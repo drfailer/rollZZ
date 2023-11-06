@@ -26,6 +26,9 @@ CSCreatorPopup::CSCreatorPopup(QString name):
     });
     mainLyt.setAlignment(Qt::AlignTop);
     bodyLyt.setAlignment(Qt::AlignTop|Qt::AlignLeft);
+
+    // style
+    setStyleSheet("QWidget { color: #F2F2F2; background-color: #1B1B1B; }");
 }
 
 void CSCreatorPopup::add(QWidget *wdgt)

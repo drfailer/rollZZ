@@ -60,11 +60,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
-        src/app/widgets/cscreator/popup/statcreationpopup.h src/app/widgets/cscreator/popup/statcreationpopup.cpp
+        src/app/widgets/cscreator/popup/basicstatpopup.h src/app/widgets/cscreator/popup/basicstatpopup.cpp
         src/app/widgets/cscreator/popup/cscreatorpopup.h src/app/widgets/cscreator/popup/cscreatorpopup.cpp
         src/app/widgets/cscreator/popup/sectionpopup.h src/app/widgets/cscreator/popup/sectionpopup.cpp
-        src/app/widgets/cscreator/popup/descriptorcreationpopup.h src/app/widgets/cscreator/popup/descriptorcreationpopup.cpp
-        src/app/widgets/cscreator/popup/equipmentcreationpopup.h src/app/widgets/cscreator/popup/equipmentcreationpopup.cpp
+        src/app/widgets/cscreator/popup/descriptorpopup.h src/app/widgets/cscreator/popup/descriptorpopup.cpp
+        src/app/widgets/cscreator/popup/equipmentpopup.h src/app/widgets/cscreator/popup/equipmentpopup.cpp
         src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
         src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
@@ -82,6 +82,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/CS/item.h src/CS/item.cpp
         src/CS/weapon.h src/CS/weapon.cpp
         src/CS/caracteristic.h src/CS/caracteristic.cpp
+        src/app/widgets/cscreator/popup/bonusstatpopup.h src/app/widgets/cscreator/popup/bonusstatpopup.cpp
+        src/app/widgets/cscreator/popup/liststatpopup.h src/app/widgets/cscreator/popup/liststatpopup.cpp
+        src/app/widgets/cscreator/popup/attackspopup.h src/app/widgets/cscreator/popup/attackspopup.cpp
+        src/app/widgets/cscreator/popup/diceedit.h src/app/widgets/cscreator/popup/diceedit.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

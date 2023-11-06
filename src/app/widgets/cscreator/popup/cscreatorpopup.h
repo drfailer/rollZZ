@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
+// NOTE: this class is very generic, it may be placed somewhere else (to be accessible everywhere)
 class CSCreatorPopup : public QWidget
 {
     Q_OBJECT

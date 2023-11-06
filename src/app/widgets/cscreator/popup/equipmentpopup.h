@@ -1,9 +1,11 @@
-#ifndef EQUIPMENTCREATIONPOPUP_H
-#define EQUIPMENTCREATIONPOPUP_H
+#ifndef EQUIPMENTPOPUP_H
+#define EQUIPMENTPOPUP_H
 
 #include "cscreatorpopup.h"
 
+#include <QComboBox>
 #include <QLineEdit>
+#include <QSpinBox>
 
 /* NOTE: I'm not sure if this thing will work like this, it's not intuitive.
  *
@@ -17,15 +19,17 @@
  * placeholder will be composed of a name, a quantity and a weight.
  */
 
-class EquipmentCreationPopup : public CSCreatorPopup
+class EquipmentPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    EquipmentCreationPopup();
+    EquipmentPopup();
     QString getName() const { return nameEdit.text(); }
 
 private:
     QLineEdit nameEdit;
+    QSpinBox maxItemsEdit;
+    QComboBox dataBaseEdit;
 };
 
-#endif // EQUIPMENTCREATIONPOPUP_H
+#endif // EQUIPMENTPOPUP_H
