@@ -14,10 +14,17 @@ enum ComponentTypes {
     BonusStat = 2,
     ListStat = 3,
     Descriptor = 4,
-    Attacks = 5,
+    Equipment = 5,
+    Attacks = 6,
 };
 
 class SectionPopup;
+class BasicStatPopup;
+class BonusStatPopup;
+class ListStatPopup;
+class DescriptorPopup;
+class EquipmentPopup;
+class AttacksPopup;
 
 class CSCreatorSection : public QFrame
 {
@@ -41,6 +48,12 @@ signals:
 private slots:
     void settingsPopup();
     void addElement(int element);
+    void addBasicStat();
+    void addBonusStat();
+    void addListStat();
+    void addDescriptor();
+    void addEquipment();
+    void addAttacks();
 
 private:
     QVBoxLayout mainLyt;
@@ -56,7 +69,14 @@ private:
     QComboBox addElementBtn;
     QList<QWidget*> content;
 
+    /* popups ******************************************************************/
     SectionPopup *sectionPopup = nullptr;
+    BasicStatPopup *basicStatPopup = nullptr;
+    BonusStatPopup *bonusStatPopup = nullptr;
+    ListStatPopup *listStatPopup = nullptr;
+    DescriptorPopup *descriptorPopup = nullptr;
+    EquipmentPopup *equipmentPopup = nullptr;
+    AttacksPopup *attacksPopup = nullptr;
 };
 
 #endif // CSCREATORSECTION_H

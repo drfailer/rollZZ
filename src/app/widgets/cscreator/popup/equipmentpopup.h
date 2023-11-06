@@ -3,7 +3,6 @@
 
 #include "cscreatorpopup.h"
 
-#include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
 
@@ -28,8 +27,7 @@ public:
 
 private:
     QLineEdit nameEdit;
-    QSpinBox maxItemsEdit;
-    QComboBox dataBaseEdit;
+    QSpinBox maxWeight;
 };
 
 #endif // EQUIPMENTPOPUP_H

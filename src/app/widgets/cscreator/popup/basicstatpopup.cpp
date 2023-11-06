@@ -7,7 +7,11 @@ BasicStatPopup::BasicStatPopup(const QString &title):
     valueMaxEdit(this),
     diceEditWgt(this)
 {
-
+    // TODO: create a form
+    valueMaxEdit.setValue(20);
+    add(&nameEdit);
+    add(&valueMaxEdit);
+    add(&diceEditWgt);
 }
 
 BasicStatPopup::BasicStatPopup():

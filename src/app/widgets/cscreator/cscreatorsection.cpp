@@ -1,6 +1,12 @@
 #include "cscreator.h"
 #include "cscreatorsection.h"
 #include "popup/sectionpopup.h"
+#include "popup/basicstatpopup.h"
+#include "popup/bonusstatpopup.h"
+#include "popup/liststatpopup.h"
+#include "popup/descriptorpopup.h"
+#include "popup/equipmentpopup.h"
+#include "popup/attackspopup.h"
 #include <QPalette>
 #include <iostream>
 
@@ -41,13 +47,14 @@ CSCreatorSection::CSCreatorSection(const QString& title, QWidget *parent):
     addElementBtn.addItem("bonus stat", BonusStat);
     addElementBtn.addItem("list stat", ListStat);
     addElementBtn.addItem("descriptor", Descriptor);
+    addElementBtn.addItem("equipment", Equipment);
     addElementBtn.addItem("attacks & spells", Attacks);
     addElementBtn.setFixedWidth(43);
-    bodyLyt.setAlignment(Qt::AlignLeft);
 
     // alignement
     btnsLyt.setAlignment(Qt::AlignRight);
     titleLyt.setAlignment(Qt::AlignLeft);
+    bodyLyt.setAlignment(Qt::AlignLeft);
 
     // add to the main layout
     mainLyt.addLayout(&headerLyt);
@@ -103,26 +110,55 @@ void CSCreatorSection::settingsPopup()
     });
 }
 
+/******************************************************************************/
+/* add elements                                                               */
+/******************************************************************************/
+
 void CSCreatorSection::addElement(int element)
 {
     switch (element) {
     case None:
         break;
     case BasicStat:
-        std::cout << "add basic stat" << std::endl;
+        addBasicStat();
         break;
     case BonusStat:
-        std::cout << "add bonus stat" << std::endl;
+        addBonusStat();
         break;
     case ListStat:
-        std::cout << "add list stat" << std::endl;
+        addListStat();
         break;
     case Descriptor:
-        std::cout << "add descriptor" << std::endl;
+        addDescriptor();
+        break;
+    case Equipment:
+        addEquipment();
         break;
     case Attacks:
-        std::cout << "add attacks & spells" << std::endl;
+        addAttacks();
         break;
     }
     addElementBtn.setCurrentIndex(None);
 }
+
+#define CreatePopup(fnName, popupVar, popupClass)                         \
+    void CSCreatorSection::fnName() {                                     \
+        if (popupVar == nullptr) {                                        \
+            popupVar = new popupClass();                                  \
+        }                                                                 \
+        popupVar->show();                                                 \
+        connect(popupVar, &popupClass::confirm, this, [&](bool confirm) { \
+            if (confirm) {                                                \
+                std::cout << "confirm " #popupClass << std::endl;         \
+            }                                                             \
+            delete popupVar;                                              \
+            popupVar = nullptr;                                           \
+        });                                                               \
+    }
+CreatePopup(addBasicStat, basicStatPopup, BasicStatPopup)
+CreatePopup(addBonusStat, bonusStatPopup, BonusStatPopup)
+CreatePopup(addListStat, listStatPopup, ListStatPopup)
+CreatePopup(addDescriptor, descriptorPopup, DescriptorPopup)
+CreatePopup(addEquipment, equipmentPopup, EquipmentPopup)
+CreatePopup(addAttacks, attacksPopup, AttacksPopup)
+#undef CreatePopup

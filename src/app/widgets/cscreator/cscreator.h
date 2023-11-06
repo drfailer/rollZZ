@@ -16,11 +16,8 @@ struct CSCreatorConfig {
     QPushButton *importBtn;
 };
 
-class SectionPopup;
-class DescriptorCreationPopup;
-class StatCreationPopup;
-class EquipmentCreationPopup;
 class TabPopup;
+class SectionPopup;
 
 class CSCreator : public QWidget
 {
@@ -36,12 +33,6 @@ public slots:
     void renameTabPopup(int index);
     void addSectionPopup();
     void move(bool up, QWidget *wgt);
-    // void addDescriptorPopup();
-    // void addDescriptor(bool);
-    // void addStatPopup();
-    // void addStat(bool);
-    // void addEquipmentPopup();
-    // void addEquipment(bool);
 
 private:
     int index = 0;
@@ -58,10 +49,8 @@ private:
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;
     SectionPopup *sectionPopup = nullptr;
-    DescriptorCreationPopup *descriptorCreationPopup = nullptr;
-    StatCreationPopup *statCreationPopup = nullptr;
-    EquipmentCreationPopup *equipmentCreationPopup = nullptr;
 
+    /* private methods *********************************************************/
     QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }
 };
 
