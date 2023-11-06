@@ -55,8 +55,10 @@ void CSCreator::move(bool up, QWidget *wgt)
     int index = currentTabLyt()->indexOf(wgt);
     int newIndex = up ? index - 1 : index + 1;
 
-    currentTabLyt()->removeWidget(wgt);
-    currentTabLyt()->insertWidget(newIndex, wgt);
+    if (newIndex >= 0 && newIndex < currentTabLyt()->count() - 1) {
+        currentTabLyt()->removeWidget(wgt);
+        currentTabLyt()->insertWidget(newIndex, wgt);
+    }
 }
 
 /******************************************************************************/

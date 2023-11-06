@@ -1,14 +1,25 @@
 #ifndef CSCREATORSECTION_H
 #define CSCREATORSECTION_H
 
+#include <QComboBox>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QWidget>
+#include <QFrame>
+
+enum ComponentTypes {
+    None = 0,
+    BasicStat = 1,
+    BonusStat = 2,
+    ListStat = 3,
+    Descriptor = 4,
+    Attacks = 5,
+};
 
 class SectionPopup;
 
-class CSCreatorSection : public QWidget
+class CSCreatorSection : public QFrame
 {
     Q_OBJECT
 public:
@@ -29,6 +40,7 @@ signals:
 
 private slots:
     void settingsPopup();
+    void addElement(int element);
 
 private:
     QVBoxLayout mainLyt;
@@ -41,7 +53,7 @@ private:
     QPushButton settingsBtn;
     QPushButton moveUpBtn;
     QPushButton moveDownBtn;
-    QPushButton addElementBtn;
+    QComboBox addElementBtn;
     QList<QWidget*> content;
 
     SectionPopup *sectionPopup = nullptr;

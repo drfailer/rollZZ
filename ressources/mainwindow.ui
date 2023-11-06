@@ -338,6 +338,9 @@ QPushButton:checked:hover {
                  <pointsize>-1</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
                <property name="text">
                 <string>Create Game</string>
                </property>
@@ -678,6 +681,11 @@ QPushButton:checked:hover {
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QWidget#sectionWgt {
+	backgroud-color: #000000;
+}</string>
                           </property>
                          </widget>
                         </item>
