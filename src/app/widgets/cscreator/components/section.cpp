@@ -13,37 +13,16 @@
 namespace CSCreator {
 
 Section::Section(const QString& title, QWidget *parent):
-    QFrame(parent),
-    mainLyt(this),
-    headerLyt(this),
-    bodyLyt(this),
-    title(title),
-    titleLyt(this),
-    btnsLyt(this),
-    removeBtn("X"),
-    settingsBtn("O"),
-    moveUpBtn("^"),
-    moveDownBtn("v"),
+    Component(title, parent),
     addElementBtn(this)
 {
-    headerLyt.addLayout(&titleLyt);
-    headerLyt.addLayout(&btnsLyt);
-
-    // title on the right
-    titleLyt.addWidget(&this->title);
     setStyleSheet("QLabel { font-size: 18px; }"
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #222222; }"
                   );
 
-    // buttons on the left
-    btnsLyt.addWidget(&settingsBtn);
-    btnsLyt.addWidget(&removeBtn);
-    btnsLyt.addWidget(&moveUpBtn);
-    btnsLyt.addWidget(&moveDownBtn);
-
     // body
-    bodyLyt.addWidget(&addElementBtn);
+    bodyAdd(&addElementBtn);
     addElementBtn.addItem("+", None);
     addElementBtn.addItem("basic stat", BasicStat);
     addElementBtn.addItem("bonus stat", BonusStat);
@@ -53,20 +32,8 @@ Section::Section(const QString& title, QWidget *parent):
     addElementBtn.addItem("attacks & spells", Attacks);
     addElementBtn.setFixedWidth(43);
 
-    // alignement
-    btnsLyt.setAlignment(Qt::AlignRight);
-    titleLyt.setAlignment(Qt::AlignLeft);
-    bodyLyt.setAlignment(Qt::AlignLeft);
-
-    // add to the main layout
-    mainLyt.addLayout(&headerLyt);
-    mainLyt.addLayout(&bodyLyt);
-
     // connect buttons
-    connect(&settingsBtn, &QPushButton::clicked, this, &Section::settingsPopup);
-    connect(&removeBtn, &QPushButton::clicked, this, [&]() { emit remove(); });
-    connect(&moveUpBtn, &QPushButton::clicked, this, [&]() { emit moveUp(); });
-    connect(&moveDownBtn, &QPushButton::clicked, this, [&]() { emit moveDown(); });
+    connectSettingFunction(this, [&]() { settingsPopup(); });
     connect(&addElementBtn, &QComboBox::activated, this, &Section::addElement);
 }
 
@@ -80,7 +47,7 @@ Section::~Section()
 void Section::add(QWidget *wgt)
 {
     content.push_back(wgt);
-    bodyLyt.addWidget(wgt);
+    bodyAdd(wgt);
 }
 
 void Section::move(bool up, QWidget *wgt)
@@ -88,8 +55,8 @@ void Section::move(bool up, QWidget *wgt)
     int index = content.indexOf(wgt);
     int newIndex = up ? index - 1 : index + 1;
 
-    bodyLyt.removeWidget(wgt);
-    bodyLyt.insertWidget(newIndex, wgt);
+    bodyRemove(wgt);
+    bodyInsert(newIndex, wgt);
 }
 
 /******************************************************************************/
@@ -99,12 +66,12 @@ void Section::move(bool up, QWidget *wgt)
 void Section::settingsPopup()
 {
     if (sectionPopup == nullptr) {
-        sectionPopup = new SectionPopup(title.text());
+        sectionPopup = new SectionPopup(getTitle());
     }
     sectionPopup->show();
     connect(sectionPopup, &SectionPopup::confirm, this, [&](bool confirm) {
         if (confirm) {
-            title.setText(sectionPopup->getName());
+            setTitle(sectionPopup->getName());
         }
         // remove the popup window
         delete sectionPopup;
