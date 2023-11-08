@@ -28,4 +28,5 @@ Dice Dice::operator=(const Dice &other)
 {
     faces = other.faces;
     diceNumber = other.diceNumber;
+    return *this;
 }

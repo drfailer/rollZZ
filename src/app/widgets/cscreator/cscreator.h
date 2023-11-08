@@ -8,10 +8,11 @@
 #include <functional>
 #include <iostream>
 
-class TabPopup;
-class SectionPopup;
 
 namespace CSCreator {
+
+class TabPopup;
+class SectionPopup;
 
 // the configuration corresponds to the elements on the page that has been created with the designer
 struct CSCreatorConfig {

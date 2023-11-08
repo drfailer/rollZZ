@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include <QSpinBox>
 
+namespace CSCreator {
+
 class AttacksPopup : public CSCreatorPopup
 {
     Q_OBJECT
@@ -18,5 +20,7 @@ private:
     QSpinBox maxItemsEdit;
     QComboBox dataBaseEdit;
 };
+
+} // end namespace CScreator
 
 #endif // ATTACKSPOPUP_H

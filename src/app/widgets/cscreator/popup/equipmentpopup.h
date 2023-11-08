@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include <QSpinBox>
 
+namespace CSCreator {
+
 /* NOTE: I'm not sure if this thing will work like this, it's not intuitive.
  *
  * TODO: This should allow to add a placeholder for equipment. When it's added
@@ -29,5 +31,7 @@ private:
     QLineEdit nameEdit;
     QSpinBox maxWeight;
 };
+
+} // end namespace CSCreator
 
 #endif // EQUIPMENTPOPUP_H

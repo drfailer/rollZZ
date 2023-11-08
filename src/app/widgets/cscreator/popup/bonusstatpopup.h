@@ -3,6 +3,8 @@
 
 #include "basicstatpopup.h"
 
+namespace CSCreator {
+
 class BonusStatPopup : public BasicStatPopup
 {
     Q_OBJECT
@@ -13,5 +15,7 @@ private:
     // TODO: it would be greate if we could make the bonus calculus configurable
     // TODO: need something else ?
 };
+
+} // end namespace CSCreator
 
 #endif // BONUSSTATPOPUP_H

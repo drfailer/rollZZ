@@ -1,5 +1,7 @@
 #include "sectionpopup.h"
 
+namespace CSCreator {
+
 SectionPopup::SectionPopup(const QString &defaultValue):
     CSCreatorPopup("SECTION"),
     nameEdit(defaultValue)
@@ -11,3 +13,5 @@ SectionPopup::SectionPopup():
     SectionPopup("name")
 {
 }
+
+} // end namespace CSCrator

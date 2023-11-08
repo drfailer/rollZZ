@@ -11,6 +11,8 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
+namespace CSCreator {
+
 class BasicStatPopup : public CSCreatorPopup
 {
     Q_OBJECT
@@ -27,5 +29,7 @@ private:
     QSpinBox valueMaxEdit;
     DiceEdit diceEditWgt;
 };
+
+} // end namespace CSCreator
 
 #endif // BASICSTATPOPUP_H

@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
+namespace CSCreator {
+
 // NOTE: this class is very generic, it may be placed somewhere else (to be accessible everywhere)
 class CSCreatorPopup : public QWidget
 {
@@ -25,5 +27,7 @@ private:
     QPushButton confirmBtn;
     QPushButton cancelBtn;
 };
+
+} // end namespace CSCreator
 
 #endif // CSCREATORPOPUP_H

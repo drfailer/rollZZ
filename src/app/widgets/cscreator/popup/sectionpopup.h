@@ -5,6 +5,8 @@
 
 #include <QLineEdit>
 
+namespace CSCreator {
+
 class SectionPopup : public CSCreatorPopup
 {
     Q_OBJECT
@@ -16,5 +18,7 @@ public:
 private:
     QLineEdit nameEdit;
 };
+
+} // end namespace CSCrator
 
 #endif // SECTIONPOPUP_H

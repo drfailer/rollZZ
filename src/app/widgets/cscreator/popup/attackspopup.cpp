@@ -1,5 +1,7 @@
 #include "attackspopup.h"
 
+namespace CSCreator {
+
 AttacksPopup::AttacksPopup():
     CSCreatorPopup("ATTACKS & SPELLS"),
     nameEdit("name"),
@@ -16,3 +18,5 @@ AttacksPopup::AttacksPopup():
     add(&maxItemsEdit);
     add(&dataBaseEdit);
 }
+
+} // end namespace CScreator

@@ -3,6 +3,8 @@
 
 #include "cscreatorpopup.h"
 
+namespace CSCreator {
+
 class ListStatPopup : public CSCreatorPopup
 {
     Q_OBJECT
@@ -14,5 +16,7 @@ private:
     //       the name and the BonusStat that corresponds to the added skill.
     QLabel todo;
 };
+
+} // end namespace CSCreator
 
 #endif // LISTSTATPOPUP_H

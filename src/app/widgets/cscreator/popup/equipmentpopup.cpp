@@ -1,5 +1,7 @@
 #include "equipmentpopup.h"
 
+namespace CSCreator {
+
 EquipmentPopup::EquipmentPopup():
     CSCreatorPopup("EQUIPMENT"),
     nameEdit("name"),
@@ -14,3 +16,5 @@ EquipmentPopup::EquipmentPopup():
     add(&nameEdit);
     add(&maxWeight);
 }
+
+} // end namespace CSCreator

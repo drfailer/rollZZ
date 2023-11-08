@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QWidget>
 
+namespace CSCreator {
+
 class TabPopup : public CSCreatorPopup
 {
     Q_OBJECT
@@ -16,5 +18,7 @@ public:
 private:
     QLineEdit nameEdit;
 };
+
+} // end namespace CSCreator
 
 #endif // TABPOPUP_H

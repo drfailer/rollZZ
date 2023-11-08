@@ -8,6 +8,16 @@
 #include <QWidget>
 #include <QFrame>
 
+namespace CSCreator {
+
+class SectionPopup;
+class BasicStatPopup;
+class BonusStatPopup;
+class ListStatPopup;
+class DescriptorPopup;
+class EquipmentPopup;
+class AttacksPopup;
+
 enum ComponentTypes {
     None = 0,
     BasicStat = 1,
@@ -17,14 +27,6 @@ enum ComponentTypes {
     Equipment = 5,
     Attacks = 6,
 };
-
-class SectionPopup;
-class BasicStatPopup;
-class BonusStatPopup;
-class ListStatPopup;
-class DescriptorPopup;
-class EquipmentPopup;
-class AttacksPopup;
 
 class Section : public QFrame
 {
@@ -78,5 +80,7 @@ private:
     EquipmentPopup *equipmentPopup = nullptr;
     AttacksPopup *attacksPopup = nullptr;
 };
+
+} // end namespace CSCrator
 
 #endif // CSCREATORSECTION_H

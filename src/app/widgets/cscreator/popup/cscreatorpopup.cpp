@@ -1,5 +1,7 @@
 #include "cscreatorpopup.h"
 
+namespace CSCreator {
+
 CSCreatorPopup::CSCreatorPopup(QString name):
     QWidget(nullptr),
     mainLyt(this),
@@ -35,3 +37,5 @@ void CSCreatorPopup::add(QWidget *wdgt)
 {
     bodyLyt.addWidget(wdgt);
 }
+
+} // end namespace CSCreator

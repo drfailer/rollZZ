@@ -1,11 +1,11 @@
 #include "cscreator.h"
 #include "components/section.h"
-#include <QTabWidget>
 #include "popup/sectionpopup.h"
 #include "popup/descriptorpopup.h"
 #include "popup/tabpopup.h"
 #include "popup/basicstatpopup.h"
 #include "popup/equipmentpopup.h"
+#include <QTabWidget>
 #include <iostream>
 #define ADD_FN(id) [&](bool add) { id(add); }
 

@@ -1,6 +1,8 @@
 #include "basicstatpopup.h"
 #include <iostream>
 
+namespace CSCreator {
+
 BasicStatPopup::BasicStatPopup(const QString &title):
     CSCreatorPopup(title),
     nameEdit("stat name"),
@@ -18,3 +20,5 @@ BasicStatPopup::BasicStatPopup():
     BasicStatPopup("STATISTIC")
 {
 }
+
+} // end namespace CSCreator

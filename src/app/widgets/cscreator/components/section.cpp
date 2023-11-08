@@ -10,6 +10,8 @@
 #include <QPalette>
 #include <iostream>
 
+namespace CSCreator {
+
 Section::Section(const QString& title, QWidget *parent):
     QFrame(parent),
     mainLyt(this),
@@ -162,3 +164,5 @@ CreatePopup(addDescriptor, descriptorPopup, DescriptorPopup)
 CreatePopup(addEquipment, equipmentPopup, EquipmentPopup)
 CreatePopup(addAttacks, attacksPopup, AttacksPopup)
 #undef CreatePopup
+
+} // end namespace CSCrator
