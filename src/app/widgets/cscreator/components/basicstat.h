@@ -1,19 +1,24 @@
 #ifndef BASICSTAT_H
 #define BASICSTAT_H
 
+#include "component.h"
+
 #include <QLabel>
 #include <QWidget>
+#include <QString>
+#include <dice.h>
 
 namespace CSCreator {
 
-class BasicStat : public QWidget
+class BasicStat : public Component
 {
     Q_OBJECT
 public:
-    explicit BasicStat(QWidget *parent = nullptr);
+    explicit BasicStat(int valueMax, Dice dice, const QString& title, QWidget *parent = nullptr);
 
 private:
-    QLabel name;
+    QLabel valueMaxLabel;
+    QLabel diceLabel;
 };
 
 } // end namespace CSCreator

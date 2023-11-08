@@ -12,6 +12,12 @@ public:
 
     Dice operator=(const Dice& other);
 
+    /* accessors ***************************************************************/
+    int getFaces() const { return faces; }
+    void setFaces(int newfaces) { faces = newfaces; }
+    int getDiceNumber() const { return diceNumber; }
+    void setDiceNumber(int newDiceNumber) { diceNumber = newDiceNumber; }
+
 private:
     int faces;
     int diceNumber;
