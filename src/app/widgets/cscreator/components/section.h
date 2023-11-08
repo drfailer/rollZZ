@@ -26,12 +26,12 @@ class DescriptorPopup;
 class EquipmentPopup;
 class AttacksPopup;
 
-class CSCreatorSection : public QFrame
+class Section : public QFrame
 {
     Q_OBJECT
 public:
-    explicit CSCreatorSection(const QString& title, QWidget *parent = nullptr);
-    ~CSCreatorSection();
+    explicit Section(const QString& title, QWidget *parent = nullptr);
+    ~Section();
     void setTitle(QString newTitle) { title.setText(newTitle); }
     void add(QWidget* wgt);
     void move(bool up, QWidget* wgt);

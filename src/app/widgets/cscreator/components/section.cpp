@@ -1,5 +1,5 @@
 #include "cscreator.h"
-#include "cscreatorsection.h"
+#include "components/section.h"
 #include "popup/sectionpopup.h"
 #include "popup/basicstatpopup.h"
 #include "popup/bonusstatpopup.h"
@@ -10,7 +10,7 @@
 #include <QPalette>
 #include <iostream>
 
-CSCreatorSection::CSCreatorSection(const QString& title, QWidget *parent):
+Section::Section(const QString& title, QWidget *parent):
     QFrame(parent),
     mainLyt(this),
     headerLyt(this),
@@ -61,27 +61,27 @@ CSCreatorSection::CSCreatorSection(const QString& title, QWidget *parent):
     mainLyt.addLayout(&bodyLyt);
 
     // connect buttons
-    connect(&settingsBtn, &QPushButton::clicked, this, &CSCreatorSection::settingsPopup);
+    connect(&settingsBtn, &QPushButton::clicked, this, &Section::settingsPopup);
     connect(&removeBtn, &QPushButton::clicked, this, [&]() { emit remove(); });
     connect(&moveUpBtn, &QPushButton::clicked, this, [&]() { emit moveUp(); });
     connect(&moveDownBtn, &QPushButton::clicked, this, [&]() { emit moveDown(); });
-    connect(&addElementBtn, &QComboBox::activated, this, &CSCreatorSection::addElement);
+    connect(&addElementBtn, &QComboBox::activated, this, &Section::addElement);
 }
 
-CSCreatorSection::~CSCreatorSection()
+Section::~Section()
 {
     for (auto wgt : content) {
         delete wgt;
     }
 }
 
-void CSCreatorSection::add(QWidget *wgt)
+void Section::add(QWidget *wgt)
 {
     content.push_back(wgt);
     bodyLyt.addWidget(wgt);
 }
 
-void CSCreatorSection::move(bool up, QWidget *wgt)
+void Section::move(bool up, QWidget *wgt)
 {
     int index = content.indexOf(wgt);
     int newIndex = up ? index - 1 : index + 1;
@@ -94,7 +94,7 @@ void CSCreatorSection::move(bool up, QWidget *wgt)
 /* settings button                                                            */
 /******************************************************************************/
 
-void CSCreatorSection::settingsPopup()
+void Section::settingsPopup()
 {
     if (sectionPopup == nullptr) {
         sectionPopup = new SectionPopup(title.text());
@@ -114,7 +114,7 @@ void CSCreatorSection::settingsPopup()
 /* add elements                                                               */
 /******************************************************************************/
 
-void CSCreatorSection::addElement(int element)
+void Section::addElement(int element)
 {
     switch (element) {
     case None:
@@ -142,7 +142,7 @@ void CSCreatorSection::addElement(int element)
 }
 
 #define CreatePopup(fnName, popupVar, popupClass)                         \
-    void CSCreatorSection::fnName() {                                     \
+    void Section::fnName() {                                              \
         if (popupVar == nullptr) {                                        \
             popupVar = new popupClass();                                  \
         }                                                                 \

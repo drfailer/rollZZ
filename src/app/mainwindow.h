@@ -24,6 +24,6 @@ public slots:
 private:
     Ui::MainWindow *ui;
     GameList *gameList;
-    CSCreator *csCreator;
+    CSCreator::CSCreator *csCreator;
 };
 #endif // MAINWINDOW_H

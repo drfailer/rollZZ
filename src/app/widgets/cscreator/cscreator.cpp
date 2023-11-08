@@ -1,5 +1,5 @@
 #include "cscreator.h"
-#include "cscreatorsection.h"
+#include "components/section.h"
 #include <QTabWidget>
 #include "popup/sectionpopup.h"
 #include "popup/descriptorpopup.h"
@@ -8,6 +8,9 @@
 #include "popup/equipmentpopup.h"
 #include <iostream>
 #define ADD_FN(id) [&](bool add) { id(add); }
+
+
+namespace CSCreator {
 
 CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     QWidget(parent),
@@ -124,13 +127,13 @@ void CSCreator::addSectionPopup()
     connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
         if (add) {
             // TODO: create a custom widget for this
-            CSCreatorSection *newSection = new CSCreatorSection(sectionPopup->getName(), this);
+            Section *newSection = new Section(sectionPopup->getName(), this);
             currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSection);
             index++;
             // connections
-            connect(newSection, &CSCreatorSection::remove, this, [&, wgt = newSection]() { currentTabLyt()->removeWidget(wgt); delete wgt; });
-            connect(newSection, &CSCreatorSection::moveUp, this, [&, wgt = newSection]() { move(true, wgt); });
-            connect(newSection, &CSCreatorSection::moveDown, this, [&, wgt = newSection]() { move(false, wgt); });
+            connect(newSection, &Section::remove, this, [&, wgt = newSection]() { currentTabLyt()->removeWidget(wgt); delete wgt; });
+            connect(newSection, &Section::moveUp, this, [&, wgt = newSection]() { move(true, wgt); });
+            connect(newSection, &Section::moveDown, this, [&, wgt = newSection]() { move(false, wgt); });
         }
         // remove the popup window
         delete sectionPopup;
@@ -218,3 +221,6 @@ void CSCreator::addSectionPopup()
     // delete equipmentCreationPopup;
     // equipmentCreationPopup = nullptr;
 // }
+
+
+} // end namespace CSCreator

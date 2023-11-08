@@ -38,13 +38,13 @@ MainWindow::MainWindow(QWidget *parent):
     /* Character sheets creation                                               */
     /***************************************************************************/
 
-    CSCreatorConfig csCreatorConfig = {
+    CSCreator::CSCreatorConfig csCreatorConfig = {
         .contentWgt = ui->CSCreatorContent,
         .newTabBtn = ui->CSCreatornewTabBtn,
         .saveBtn = ui->CSCreatorSaveBtn,
         .importBtn = ui->CSCreatorImportBtn,
     };
-    csCreator = new CSCreator(csCreatorConfig, ui->CSCreator);
+    csCreator = new CSCreator::CSCreator(csCreatorConfig, ui->CSCreator);
     connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });
 }
 

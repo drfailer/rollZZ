@@ -54,6 +54,14 @@ set(PROJECT_SOURCES
         ressources/mainwindow.ui
 )
 
+include_directories(
+    src/app/
+    src/app/widgets/
+    src/app/widgets/cscreator/
+    src/app/widgets/cscreator/popup/
+    src/app/widgets/cscreator/components/
+    )
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(rollZZ
         MANUAL_FINALIZATION
@@ -65,7 +73,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/sectionpopup.h src/app/widgets/cscreator/popup/sectionpopup.cpp
         src/app/widgets/cscreator/popup/descriptorpopup.h src/app/widgets/cscreator/popup/descriptorpopup.cpp
         src/app/widgets/cscreator/popup/equipmentpopup.h src/app/widgets/cscreator/popup/equipmentpopup.cpp
-        src/app/widgets/cscreator/cscreatorsection.h src/app/widgets/cscreator/cscreatorsection.cpp
+        src/app/widgets/cscreator/components/section.h src/app/widgets/cscreator/components/section.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
         src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
         src/CS/cs.h src/CS/cs.cpp
@@ -86,6 +94,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/liststatpopup.h src/app/widgets/cscreator/popup/liststatpopup.cpp
         src/app/widgets/cscreator/popup/attackspopup.h src/app/widgets/cscreator/popup/attackspopup.cpp
         src/app/widgets/cscreator/popup/diceedit.h src/app/widgets/cscreator/popup/diceedit.cpp
+        src/app/widgets/cscreator/components/basicstat.h src/app/widgets/cscreator/components/basicstat.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

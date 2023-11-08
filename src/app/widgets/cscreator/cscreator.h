@@ -8,6 +8,11 @@
 #include <functional>
 #include <iostream>
 
+class TabPopup;
+class SectionPopup;
+
+namespace CSCreator {
+
 // the configuration corresponds to the elements on the page that has been created with the designer
 struct CSCreatorConfig {
     QWidget *contentWgt;
@@ -15,9 +20,6 @@ struct CSCreatorConfig {
     QPushButton *saveBtn;
     QPushButton *importBtn;
 };
-
-class TabPopup;
-class SectionPopup;
 
 class CSCreator : public QWidget
 {
@@ -53,5 +55,7 @@ private:
     /* private methods *********************************************************/
     QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }
 };
+
+} // end namespace CSCreator
 
 #endif // CSCREATOR_H
