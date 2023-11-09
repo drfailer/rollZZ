@@ -97,6 +97,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/diceedit.h src/app/widgets/cscreator/popup/diceedit.cpp
         src/app/widgets/cscreator/components/basicstat.h src/app/widgets/cscreator/components/basicstat.cpp
         src/app/widgets/cscreator/components/component.h src/app/widgets/cscreator/components/component.cpp
+        src/app/widgets/cscreator/components/bonusstat.h src/app/widgets/cscreator/components/bonusstat.cpp
+        src/app/widgets/cscreator/components/liststat.h src/app/widgets/cscreator/components/liststat.cpp
+        src/app/widgets/cscreator/components/descriptor.h src/app/widgets/cscreator/components/descriptor.cpp
+        src/app/widgets/cscreator/components/equipment.h src/app/widgets/cscreator/components/equipment.cpp
+        src/app/widgets/cscreator/components/attacks.h src/app/widgets/cscreator/components/attacks.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

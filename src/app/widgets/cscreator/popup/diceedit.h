@@ -11,6 +11,10 @@ class DiceEdit : public QWidget
     Q_OBJECT
 public:
     explicit DiceEdit(QWidget *parent = nullptr);
+    int getFaces() const { return diceFaces.value(); }
+    int getNumber() const { return diceNumber.value(); }
+    void setFaces(int newFaces) { diceFaces.setValue(newFaces); }
+    void setNumber(int newDiceNumber) { diceNumber.setValue(newDiceNumber); }
 
 private:
     QHBoxLayout mainLyt;

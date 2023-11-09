@@ -21,4 +21,13 @@ BasicStatPopup::BasicStatPopup():
 {
 }
 
+BasicStatPopup::BasicStatPopup(const QString &name, int maxValue, Dice dice):
+    BasicStatPopup()
+{
+    valueMaxEdit.setValue(maxValue);
+    nameEdit.setText(name);
+    diceEditWgt.setFaces(dice.getFaces());
+    diceEditWgt.setNumber(dice.getDiceNumber());
+}
+
 } // end namespace CSCreator

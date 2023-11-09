@@ -10,6 +10,7 @@
 #include <QSpinBox>
 #include <QHBoxLayout>
 #include <QWidget>
+#include <dice.h>
 
 namespace CSCreator {
 
@@ -18,8 +19,10 @@ class BasicStatPopup : public CSCreatorPopup
     Q_OBJECT
 public:
     explicit BasicStatPopup();
+    explicit BasicStatPopup(const QString &name, int maxValue, Dice dice);
     QString getName() const { return nameEdit.text(); }
-    int getValue() const { return valueMaxEdit.value(); }
+    int getMaxValue() const { return valueMaxEdit.value(); }
+    Dice getDice() const { return Dice(diceEditWgt.getFaces(), diceEditWgt.getNumber()); }
 
 protected:
     BasicStatPopup(const QString& title);

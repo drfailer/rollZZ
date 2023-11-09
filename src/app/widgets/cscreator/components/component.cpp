@@ -30,7 +30,7 @@ Component::Component(const QString& title, QWidget *parent):
     // alignement
     btnsLyt.setAlignment(Qt::AlignRight);
     titleLyt.setAlignment(Qt::AlignLeft);
-    bodyLyt.setAlignment(Qt::AlignLeft);
+    // bodyLyt.setAlignment(Qt::AlignLeft);
 
     // add to the main layout
     mainLyt.addLayout(&headerLyt);

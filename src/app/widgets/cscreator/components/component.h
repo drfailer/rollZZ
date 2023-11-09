@@ -20,10 +20,15 @@ public:
     void bodyAdd(QWidget* wgt);
     void bodyRemove(QWidget* wgt);
     void bodyInsert(int index, QWidget *wgt);
+    int bodyCount() const { return bodyLyt.count(); };
+    int bodyIndexOf(QWidget* wgt) const { return bodyLyt.indexOf(wgt); }
 
     /* accessors ***************************************************************/
     QString getTitle() const { return title.text(); }
     void setTitle(const QString& newTitle) { title.setText(newTitle); }
+
+    /* setting function ********************************************************/
+    void connectSettingFunction(Component* wgt, std::function<void()> function);
 
 signals:
     void moveUp();
@@ -41,9 +46,6 @@ private: // NOTE: everything should not be protected
     QPushButton moveUpBtn;
     QPushButton moveDownBtn;
     QPushButton settingsBtn;
-
-protected:
-    void connectSettingFunction(Component* wgt, std::function<void()> function);
 };
 
 } // end namespace CSCreator

@@ -19,8 +19,15 @@ class ListStatPopup;
 class DescriptorPopup;
 class EquipmentPopup;
 class AttacksPopup;
+class Section;
+class BasicStat;
+class BonusStat;
+class ListStat;
+class Descriptor;
+class Equipment;
+class Attacks;
 
-enum ComponentTypes {
+enum class ComponentTypes {
     None = 0,
     BasicStat = 1,
     BonusStat = 2,
@@ -41,7 +48,7 @@ public:
 
 private slots:
     void settingsPopup();
-    void addElement(int element);
+    void addElement(ComponentTypes element);
     void addBasicStat();
     void addBonusStat();
     void addListStat();
@@ -61,6 +68,14 @@ private:
     DescriptorPopup *descriptorPopup = nullptr;
     EquipmentPopup *equipmentPopup = nullptr;
     AttacksPopup *attacksPopup = nullptr;
+
+    /* create elements *********************************************************/
+    BasicStat* createBasicStat();
+    BonusStat* createBonusStat();
+    ListStat* createListStat();
+    Descriptor* createDescriptor();
+    Equipment* createEquipment();
+    Attacks* createAttacks();
 };
 
 } // end namespace CSCrator
