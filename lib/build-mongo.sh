@@ -2,21 +2,17 @@
 
 set -euo pipefail
 
-PATH_TO_LIBBSON=$PWD/libbson/
+LIB_DIR=$PWD
+PATH_TO_LIBBSON=$PWD/mongo-c-driver/build/src/libbson/
 MONGO_CXX_INSTALL_DIR=$PWD/mongo-cxx/
 
 # build libbson
-cd ./libbson/
-if [ ! -f configure ]; then
-    ./autogen.sh
-fi
-if [ ! -f Makefile ]; then
-    ./configure
-fi
+cd ./mongo-c-driver/build
+cmake ..
 make
 
 # build mongocxx
-cd ../
+cd $LIB_DIR
 mkdir -p mongo-cxx/lib
 cd mongo-cxx-driver/build
 cmake ..                                                \
