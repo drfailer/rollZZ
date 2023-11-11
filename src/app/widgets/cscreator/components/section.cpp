@@ -117,36 +117,22 @@ void Section::addElement(ComponentTypes element)
     addElementBtn.setCurrentIndex(int(ComponentTypes::None));
 }
 
-BasicStat *Section::createBasicStat()
-{
-    BasicStat *newBasicStat = new BasicStat(basicStatPopup->getMaxValue(),
-                                            basicStatPopup->getDice(),
-                                            basicStatPopup->getName(),
-                                            this);
-    connect(newBasicStat, &Section::remove, this, [&, wgt = newBasicStat]() { bodyRemove(wgt); content.removeOne(wgt); delete wgt; });
-    connect(newBasicStat, &Section::moveUp, this, [&, wgt = newBasicStat]() { move(true, wgt); });
-    connect(newBasicStat, &Section::moveDown, this, [&, wgt = newBasicStat]() { move(false, wgt); });
-    return newBasicStat;
-}
-
-BonusStat *Section::createBonusStat()
-{
-    BonusStat *newBonusStat = new BonusStat(bonusStatPopup->getMaxValue(),
-                                            bonusStatPopup->getDice(),
-                                            bonusStatPopup->getName(),
-                                            this);
-    connect(newBonusStat, &Section::remove, this, [&, wgt = newBonusStat]() { bodyRemove(wgt); content.removeOne(wgt); delete wgt; });
-    connect(newBonusStat, &Section::moveUp, this, [&, wgt = newBonusStat]() { move(true, wgt); });
-    connect(newBonusStat, &Section::moveDown, this, [&, wgt = newBonusStat]() { move(false, wgt); });
-    return newBonusStat;
-}
+#define CreateFunction(popupVar, Component, ...)                                                           \
+    Component *Section::create##Component() {                                                              \
+        Component *newComponent = new Component(__VA_ARGS__);                                              \
+        connect(newComponent, &Section::remove, this, [&, wgt = newComponent]() {                          \
+            bodyRemove(wgt); content.removeOne(wgt); delete wgt;                                           \
+        });                                                                                                \
+        connect(newComponent, &Section::moveUp, this, [&, wgt = newComponent]() { move(true, wgt); });     \
+        connect(newComponent, &Section::moveDown, this, [&, wgt = newComponent]() { move(false, wgt); });  \
+        return newComponent;                                                                               \
+    }
+CreateFunction(basicStatPopup, BasicStat, basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
+CreateFunction(bonusStatPopup, BonusStat, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
+CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
+#undef CreateFunction
 
 ListStat *Section::createListStat()
-{
-    return nullptr;
-}
-
-Descriptor *Section::createDescriptor()
 {
     return nullptr;
 }

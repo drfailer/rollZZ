@@ -25,7 +25,7 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString
 }
 
 BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *parent):
-    BasicStat(valueMax, dice, name, "Bonus stat", parent)
+    BasicStat(valueMax, dice, name, "Basic stat", parent)
 {
 
 }

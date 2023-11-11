@@ -11,7 +11,7 @@ class DescriptorPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    DescriptorPopup();
+    DescriptorPopup(const QString& name = "name");
     QString getName() const { return nameEdit.text(); }
 
 private:

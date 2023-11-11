@@ -2,9 +2,9 @@
 
 namespace CSCreator {
 
-DescriptorPopup::DescriptorPopup():
+DescriptorPopup::DescriptorPopup(const QString& name):
     CSCreatorPopup("DESCRIPTOR"),
-    nameEdit("name")
+    nameEdit(name)
 {
     add(&nameEdit);
 }
