@@ -10,6 +10,7 @@ class BonusStatPopup : public BasicStatPopup
     Q_OBJECT
 public:
     BonusStatPopup();
+    BonusStatPopup(const QString &name, int maxValue, Dice dice);
 
 private:
     // TODO: it would be greate if we could make the bonus calculus configurable

@@ -121,7 +121,7 @@ BasicStat *Section::createBasicStat()
 {
     BasicStat *newBasicStat = new BasicStat(basicStatPopup->getMaxValue(),
                                             basicStatPopup->getDice(),
-                                            basicStatPopup->getName(),
+                                            "Basic stat: " + basicStatPopup->getName(),
                                             this);
     connect(newBasicStat, &Section::remove, this, [&, wgt = newBasicStat]() { bodyRemove(wgt); content.removeOne(wgt); delete wgt; });
     connect(newBasicStat, &Section::moveUp, this, [&, wgt = newBasicStat]() { move(true, wgt); });
@@ -131,7 +131,14 @@ BasicStat *Section::createBasicStat()
 
 BonusStat *Section::createBonusStat()
 {
-    return nullptr;
+    BonusStat *newBonusStat = new BonusStat(bonusStatPopup->getMaxValue(),
+                                            bonusStatPopup->getDice(),
+                                            "Bonus stat: " + bonusStatPopup->getName(),
+                                            this);
+    connect(newBonusStat, &Section::remove, this, [&, wgt = newBonusStat]() { bodyRemove(wgt); content.removeOne(wgt); delete wgt; });
+    connect(newBonusStat, &Section::moveUp, this, [&, wgt = newBonusStat]() { move(true, wgt); });
+    connect(newBonusStat, &Section::moveDown, this, [&, wgt = newBonusStat]() { move(false, wgt); });
+    return newBonusStat;
 }
 
 ListStat *Section::createListStat()

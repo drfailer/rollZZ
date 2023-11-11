@@ -1,15 +1,21 @@
 #ifndef BONUSSTAT_H
 #define BONUSSTAT_H
 
-#include "component.h"
+#include "basicstat.h"
 
 namespace CSCreator {
 
-class BonusStat : public Component
+class BonusStatPopup;
+
+class BonusStat : public BasicStat
 {
     Q_OBJECT
 public:
-    BonusStat();
+    BonusStat(int valueMax, Dice dice, const QString& title, QWidget *parent = nullptr);
+    void settingsPopup() override;
+
+private:
+    BonusStatPopup *bonusStatPopup;
 };
 
 } // end namespace CSCreator

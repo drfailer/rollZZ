@@ -19,7 +19,7 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& title, QWidget *par
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { settingsPopup(); });
+    connectSettingFunction(this, [&]() { this->settingsPopup(); });
 }
 
 void BasicStat::settingsPopup()
@@ -33,7 +33,7 @@ void BasicStat::settingsPopup()
             valueMax = basicStatPopup->getMaxValue();
             dice = basicStatPopup->getDice();
             updateLabels();
-            setTitle(basicStatPopup->getName());
+            setTitle("Basic stat: " + basicStatPopup->getName());
         }
         delete basicStatPopup;
         basicStatPopup = nullptr;
