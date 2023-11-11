@@ -3,8 +3,8 @@
 
 namespace CSCreator {
 
-BonusStat::BonusStat(int valueMax, Dice dice, const QString& title, QWidget *parent):
-    BasicStat(valueMax, dice, title, parent)
+BonusStat::BonusStat(int valueMax, Dice dice, const QString& name, QWidget *parent):
+    BasicStat(valueMax, dice, name, "Bonus stat", parent)
 {
 
 }
@@ -12,15 +12,15 @@ BonusStat::BonusStat(int valueMax, Dice dice, const QString& title, QWidget *par
 void BonusStat::settingsPopup()
 {
     if (bonusStatPopup == nullptr) {
-        bonusStatPopup = new BonusStatPopup(getTitle(), valueMax, dice);
+        bonusStatPopup = new BonusStatPopup(name, valueMax, dice);
     }
     bonusStatPopup->show();
     connect(bonusStatPopup, &BonusStatPopup::confirm, this, [&](bool confirm) {
         if (confirm) {
             valueMax = bonusStatPopup->getMaxValue();
             dice = bonusStatPopup->getDice();
+            name = bonusStatPopup->getName();
             updateLabels();
-            setTitle("Bonus stat: " + bonusStatPopup->getName());
         }
         delete bonusStatPopup;
         bonusStatPopup = nullptr;

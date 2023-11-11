@@ -21,8 +21,8 @@ BasicStatPopup::BasicStatPopup():
 {
 }
 
-BasicStatPopup::BasicStatPopup(const QString &name, int maxValue, Dice dice):
-    BasicStatPopup()
+BasicStatPopup::BasicStatPopup(const QString &name, int maxValue, Dice dice, const QString& title):
+    BasicStatPopup(title)
 {
     valueMaxEdit.setValue(maxValue);
     nameEdit.setText(name);

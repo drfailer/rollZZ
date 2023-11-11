@@ -16,9 +16,11 @@ class BasicStat : public Component
 {
     Q_OBJECT
 public:
-    explicit BasicStat(int valueMax, Dice dice, const QString& title, QWidget *parent = nullptr);
+    BasicStat(int valueMax, Dice dice, const QString& name, const QString& title, QWidget *parent = nullptr);
+    BasicStat(int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
     virtual void settingsPopup();
     virtual ~BasicStat() {}
+    QString getName() const { return nameLabel.text(); }
 
 private:
     BasicStatPopup *basicStatPopup = nullptr;
@@ -26,6 +28,8 @@ private:
 protected:
     QLabel valueMaxLabel;
     QLabel diceLabel;
+    QLabel nameLabel;
+    QString name;
     int valueMax;
     Dice dice; // NOTE: it would be better to find an alternative to this
 

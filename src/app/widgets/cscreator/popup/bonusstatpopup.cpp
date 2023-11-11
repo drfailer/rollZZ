@@ -9,7 +9,7 @@ BonusStatPopup::BonusStatPopup():
 }
 
 BonusStatPopup::BonusStatPopup(const QString &name, int maxValue, Dice dice):
-    BasicStatPopup(name, maxValue, dice)
+    BasicStatPopup(name, maxValue, dice, "BONUS STAT")
 {
 
 }

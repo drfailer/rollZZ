@@ -11,7 +11,7 @@ class BonusStat : public BasicStat
 {
     Q_OBJECT
 public:
-    BonusStat(int valueMax, Dice dice, const QString& title, QWidget *parent = nullptr);
+    BonusStat(int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
     void settingsPopup() override;
 
 private:

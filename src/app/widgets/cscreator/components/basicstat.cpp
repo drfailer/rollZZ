@@ -5,13 +5,15 @@
 
 namespace CSCreator {
 
-BasicStat::BasicStat(int valueMax, Dice dice, const QString& title, QWidget *parent):
+BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
     Component(title, parent),
+    name(name),
     valueMax(valueMax),
     dice(dice)
 {
     updateLabels();
 
+    bodyAdd(&nameLabel);
     bodyAdd(&valueMaxLabel);
     bodyAdd(&diceLabel);
 
@@ -22,18 +24,24 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& title, QWidget *par
     connectSettingFunction(this, [&]() { this->settingsPopup(); });
 }
 
+BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *parent):
+    BasicStat(valueMax, dice, name, "Bonus stat", parent)
+{
+
+}
+
 void BasicStat::settingsPopup()
 {
     if (basicStatPopup == nullptr) {
-        basicStatPopup = new BasicStatPopup(getTitle(), valueMax, dice);
+        basicStatPopup = new BasicStatPopup(name, valueMax, dice);
     }
     basicStatPopup->show();
     connect(basicStatPopup, &BasicStatPopup::confirm, this, [&](bool confirm) {
         if (confirm) {
             valueMax = basicStatPopup->getMaxValue();
             dice = basicStatPopup->getDice();
+            name = basicStatPopup->getName();
             updateLabels();
-            setTitle("Basic stat: " + basicStatPopup->getName());
         }
         delete basicStatPopup;
         basicStatPopup = nullptr;
@@ -42,14 +50,9 @@ void BasicStat::settingsPopup()
 
 void BasicStat::updateLabels()
 {
-    QString valueMaxStr;
-    QString diceStr;
-
-    valueMaxStr = "max value: " + QString::number(valueMax);
-    valueMaxLabel.setText(valueMaxStr);
-
-    diceStr = "dice: " + QString::number(dice.getDiceNumber()) + "d" + QString::number(dice.getFaces());
-    diceLabel.setText(diceStr);
+    valueMaxLabel.setText("max value: " + QString::number(valueMax));
+    diceLabel.setText("dice: " + QString::number(dice.getDiceNumber()) + "d" + QString::number(dice.getFaces()));
+    nameLabel.setText("name: " + name);
 }
 
 } // end namespace CSCreator
