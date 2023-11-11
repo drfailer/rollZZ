@@ -1,30 +1,24 @@
 #ifndef BONUSSTAT_H
 #define BONUSSTAT_H
 
-#include "component.h"
+#include "basicstat.h"
 #include "dice.h"
 
 namespace CS {
 
-class BonusStat : public Component
+class BonusStat : public BasicStat
 {
 public:
-    BonusStat(QString title, int statValue, int bonusValue, Dice dice = Dice(20));
-    BonusStat(int statValue, int bonusValue, Dice dice = Dice(20));
+    BonusStat(const QString& title, int bonusValue = 0, int value = 8, int valueMax = 20, Dice dice = Dice());
+    BonusStat(int bonusValue = 0, int value = 8, Dice dice = Dice());
     int roll() const;
 
     /* accessors ***************************************************************/
-    int getStatValue() const { return statValue; }
-    void setStatValue(int newStatValue) { statValue = newStatValue; }
     int getBonusValue() const { return bonusValue; }
     void setBonusValue(int newBonusValue) { bonusValue = newBonusValue; }
-    Dice getDice() const { return dice; }
-    void setDice(const Dice &newDice) { dice = newDice; }
 
 private:
-    int statValue;
     int bonusValue;
-    Dice dice;
 };
 
 } // end namespace CS

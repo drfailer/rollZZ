@@ -2,7 +2,7 @@
 
 namespace CS {
 
-BasicStat::BasicStat(QString title, int value, int valueMax, Dice dice):
+BasicStat::BasicStat(const QString& title, int value, int valueMax, Dice dice):
     Component(title),
     value(value),
     valueMax(valueMax),

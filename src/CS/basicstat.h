@@ -9,7 +9,7 @@ namespace CS {
 class BasicStat : public Component
 {
 public:
-    BasicStat(QString title, int value, int valueMax = 20, Dice dice = Dice(20));
+    BasicStat(const QString& title, int value = 8, int valueMax = 20, Dice dice = Dice(20));
     BasicStat(int value, int valueMax = 20, Dice dice = Dice(20));
     int roll() const { return dice.roll(); }
 

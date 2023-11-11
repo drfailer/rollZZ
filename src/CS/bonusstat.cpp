@@ -2,20 +2,14 @@
 
 namespace CS {
 
-BonusStat::BonusStat(QString title, int statValue, int bonusValue, Dice dice):
-    Component(title),
-    statValue(statValue),
-    bonusValue(bonusValue),
-    dice(dice)
-{ }
-
-BonusStat::BonusStat(int statValue, int bonusValue, Dice dice):
-    BonusStat("bonus stat", statValue, bonusValue, dice)
+BonusStat::BonusStat(const QString& title, int bonusValue, int value, int valueMax, Dice dice):
+    BasicStat(title, value, valueMax, dice),
+    bonusValue(bonusValue)
 { }
 
 int BonusStat::roll() const
 {
-    int diceResult = dice.roll();
+    int diceResult = BasicStat::roll();
 
     // critical miss configurable ?
     if (diceResult == 1) {
