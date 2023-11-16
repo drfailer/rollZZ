@@ -35,12 +35,6 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
     connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
     connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
-
-    // connect for bnts
-    // connect(addCategoryBtn, &QPushButton::clicked, this, &CSCreator::addCategoryPopup);
-    // connect(addDescritorBtn, &QPushButton::clicked, this, &CSCreator::addDescriptorPopup);
-    // connect(addStatBtn, &QPushButton::clicked, this, &CSCreator::addStatPopup);
-    // connect(addEquipmentBtn, &QPushButton::clicked, this, &CSCreator::addEquipmentPopup);
 }
 
 CSCreator::~CSCreator()
@@ -140,87 +134,5 @@ void CSCreator::addSectionPopup()
         sectionPopup = nullptr;
     });
 }
-
-/******************************************************************************/
-/* add descriptor                                                             */
-/******************************************************************************/
-
-// void CSCreator::addDescriptorPopup()
-// {
-    // if (descriptorCreationPopup == nullptr) {
-        // descriptorCreationPopup = new DescriptorCreationPopup();
-    // }
-    // descriptorCreationPopup->show();
-    // connect(descriptorCreationPopup, &DescriptorCreationPopup::confirm, this, &CSCreator::addDescriptor);
-// }
-
-// void CSCreator::addDescriptor(bool add)
-// {
-    // if (add) {
-        // // TODO: create a custom widget for this
-        // QPushButton *button = new QPushButton(descriptorCreationPopup->getName());
-        // // add the button to the grid
-        // sheetContent->addWidget(button);
-        // index++;
-    // }
-    // // remove the popup window
-    // delete descriptorCreationPopup;
-    // descriptorCreationPopup = nullptr;
-// }
-
-/******************************************************************************/
-/* add statistic                                                              */
-/******************************************************************************/
-
-// void CSCreator::addStatPopup()
-// {
-    // if (statCreationPopup == nullptr) {
-        // statCreationPopup = new StatCreationPopup();
-    // }
-    // statCreationPopup->show();
-    // connect(statCreationPopup, &StatCreationPopup::confirm, this, &CSCreator::addStat);
-// }
-
-// void CSCreator::addStat(bool add)
-// {
-    // if (add) {
-        // // TODO: create a custom widget for this
-        // QPushButton *button = new QPushButton(statCreationPopup->getName());
-        // // add the button to the grid
-        // sheetContent->addWidget(button);
-        // index++;
-    // }
-    // // remove the popup window
-    // delete statCreationPopup;
-    // statCreationPopup = nullptr;
-// }
-
-/******************************************************************************/
-/* add equipment                                                              */
-/******************************************************************************/
-
-// void CSCreator::addEquipmentPopup()
-// {
-    // if (equipmentCreationPopup == nullptr) {
-        // equipmentCreationPopup = new EquipmentCreationPopup();
-    // }
-    // equipmentCreationPopup->show();
-    // connect(equipmentCreationPopup, &EquipmentCreationPopup::confirm, this, &CSCreator::addEquipment);
-// }
-
-// void CSCreator::addEquipment(bool add)
-// {
-    // if (add) {
-        // // TODO: create a custom widget for this
-        // QPushButton *button = new QPushButton(equipmentCreationPopup->getName());
-        // // add the button to the grid
-        // sheetContent->addWidget(button);
-        // index++;
-    // }
-    // // remove the popup window
-    // delete equipmentCreationPopup;
-    // equipmentCreationPopup = nullptr;
-// }
-
 
 } // end namespace CSCreator

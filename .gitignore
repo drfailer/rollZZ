@@ -76,3 +76,4 @@ CMakeLists.txt.user*
 *.exe
 
 lib/mongo-cxx
+src/.gdb_history
