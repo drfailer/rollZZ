@@ -12,25 +12,36 @@
 
 namespace CSCreator {
 
+class Skill;
+
 class ListStatPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    ListStatPopup();
+    ListStatPopup(const QString& name = "name");
     ~ListStatPopup();
 
+    QString getName() const { return nameEdit.text(); }
+    QList<Skill*> getSkills() const { return skills; }
+    void addSkill(const QString& name, const QString& BonusStatName);
+
 private:
-    // TODO: add a widget with a QLineEdit and a QComboBox and a + button to add
-    //       the name and the BonusStat that corresponds to the added skill.
     QLineEdit nameEdit;
     QWidget skillListWgt;
     QVBoxLayout skillListLyt;
     QPushButton addSkillBtn;
+    QList<Skill*> skills;
 
-    void removeSkill(QWidget *wgt);
-    void moveSkill(bool up, QWidget *wgt);
+    void removeSkill(Skill *wgt);
+    void moveSkill(bool up, Skill *wgt);
     void addSkill();
 };
+
+/******************************************************************************/
+/*                                   skill                                    */
+/******************************************************************************/
+
+// TODO: move in another file
 
 // subclass for skills:  | name | bunus v |        | X v ^ |
 class Skill: public QWidget {
@@ -39,14 +50,17 @@ public:
     QString getName() const { return nameEdit.text(); }
     int getBonusStat() const { return bonusEdit.currentIndex(); }
 
-    Skill(QWidget * parent = nullptr):
+    Skill(const QString& name = "name", const QString& bonusStatName = "bonus", QWidget * parent = nullptr):
         QWidget(parent),
         mainLyt(this),
-        nameEdit("name"),
+        nameEdit(name),
         upBtn("^"),
         downBtn("v"),
         removeBtn("X")
     {
+        // todo:
+        (void) bonusStatName;
+
         mainLyt.addLayout(&configLyt);
         mainLyt.addLayout(&buttonsLyt);
 
