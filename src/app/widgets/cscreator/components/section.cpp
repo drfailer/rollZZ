@@ -134,7 +134,17 @@ CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
 
 ListStat *Section::createListStat()
 {
-    return nullptr;
+    ListStat *newListStat = new ListStat(listStatPopup->getName(), this);
+    connect(newListStat, &Section::remove, this, [&, wgt = newListStat]() {
+        bodyRemove(wgt); content.removeOne(wgt); delete wgt;
+    });
+    connect(newListStat, &Section::moveUp, this, [&, wgt = newListStat]() { move(true, wgt); });
+    connect(newListStat, &Section::moveDown, this, [&, wgt = newListStat]() { move(false, wgt); });
+    // add skills
+    for (Skill* skill : listStatPopup->getSkills()) {
+        newListStat->addSkill(skill->getName(), QString::number(skill->getBonusStat()));
+    }
+    return newListStat;
 }
 
 Equipment *Section::createEquipment()

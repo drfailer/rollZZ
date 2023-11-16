@@ -20,7 +20,7 @@ public:
     void bodyAdd(QWidget* wgt);
     void bodyRemove(QWidget* wgt);
     void bodyInsert(int index, QWidget *wgt);
-    int bodyCount() const { return bodyLyt.count(); };
+    int bodyCount() const { return bodyLyt.count(); }
     int bodyIndexOf(QWidget* wgt) const { return bodyLyt.indexOf(wgt); }
 
     /* accessors ***************************************************************/
