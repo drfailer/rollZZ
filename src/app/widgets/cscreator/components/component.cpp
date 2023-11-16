@@ -5,11 +5,7 @@ namespace CSCreator {
 Component::Component(const QString& title, QWidget *parent):
     QFrame(parent),
     mainLyt(this),
-    headerLyt(this),
-    bodyLyt(this),
     title(title),
-    titleLyt(this),
-    btnsLyt(this),
     removeBtn("X"),
     moveUpBtn("^"),
     moveDownBtn("v"),

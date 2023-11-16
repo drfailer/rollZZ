@@ -13,7 +13,7 @@ class CSCreatorPopup : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CSCreatorPopup(QString name);
+    CSCreatorPopup(const QString& name);
     void add(QWidget *wdgt);
 
 signals:

@@ -2,12 +2,10 @@
 
 namespace CSCreator {
 
-CSCreatorPopup::CSCreatorPopup(QString name):
+CSCreatorPopup::CSCreatorPopup(const QString& name):
     QWidget(nullptr),
     mainLyt(this),
     title(name),
-    bodyLyt(this),
-    btnLyt(this),
     confirmBtn("confirm"),
     cancelBtn("cancel")
 {
