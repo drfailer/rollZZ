@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
       //MongoDB::requestAll("dice");
       Dice d1 = toObject(MongoDB::requestOne("dice"));
       std::cout << "faces: " << d1.getFaces() << " & diceNumber:" << d1.getDiceNumber() << std::endl;
-  } catch (std::exception) {
+  } catch (std::exception&) {
       std::cout << "mé !!! ça marche pas mongo :(" << std::endl;
   }
 
