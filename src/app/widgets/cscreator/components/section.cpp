@@ -130,6 +130,7 @@ void Section::addElement(ComponentTypes element)
 CreateFunction(basicStatPopup, BasicStat, basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
 CreateFunction(bonusStatPopup, BonusStat, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
 CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
+CreateFunction(equipmentPopup, Equipment, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
 #undef CreateFunction
 
 ListStat *Section::createListStat()
@@ -145,11 +146,6 @@ ListStat *Section::createListStat()
         newListStat->addSkill(skill);
     }
     return newListStat;
-}
-
-Equipment *Section::createEquipment()
-{
-    return nullptr;
 }
 
 Attacks *Section::createAttacks()

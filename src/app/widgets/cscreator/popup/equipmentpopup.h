@@ -4,6 +4,7 @@
 #include "cscreatorpopup.h"
 
 #include <QLineEdit>
+#include <QRadioButton>
 #include <QSpinBox>
 
 namespace CSCreator {
@@ -24,12 +25,15 @@ class EquipmentPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    EquipmentPopup();
-    QString getName() const { return nameEdit.text(); }
+    EquipmentPopup(bool useWeight = true, int maxWeight = 0, int maxItems = 0);
+    bool getUseWeight() const { return useWeightRBtn.isChecked(); }
+    int getMaxWeight() const { return maxWeightBox.value(); }
+    int getMaxItems() const { return maxItemsBox.value(); }
 
 private:
-    QLineEdit nameEdit;
-    QSpinBox maxWeight;
+    QRadioButton useWeightRBtn;
+    QSpinBox maxWeightBox;
+    QSpinBox maxItemsBox;
 };
 
 } // end namespace CSCreator

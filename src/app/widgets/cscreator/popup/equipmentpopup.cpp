@@ -2,19 +2,26 @@
 
 namespace CSCreator {
 
-EquipmentPopup::EquipmentPopup():
+EquipmentPopup::EquipmentPopup(bool useWeight, int maxWeight, int maxItems):
     CSCreatorPopup("EQUIPMENT"),
-    nameEdit("name"),
-    maxWeight(this)
+    useWeightRBtn("use weight", this),
+    maxWeightBox(this),
+    maxItemsBox(this)
 {
-    maxWeight.setMinimum(0);
+    maxWeightBox.setMinimum(0);
+    maxItemsBox.setMinimum(0);
+
+    useWeightRBtn.setChecked(useWeight);
+    maxWeightBox.setValue(maxWeight);
+    maxItemsBox.setValue(maxItems);
 
     // TODO: we may wan't to configure the fields that are use (ex: we may want not to use weight).
     // TODO: add a list of weaponType / damageType => make a combobox in the sheet editor ?
     // NOTE: this ^ require to modify the CS tree.
 
-    add(&nameEdit);
-    add(&maxWeight);
+    add(&useWeightRBtn);
+    add(&maxWeightBox);
+    add(&maxItemsBox);
 }
 
 } // end namespace CSCreator
