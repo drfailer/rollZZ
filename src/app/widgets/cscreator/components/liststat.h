@@ -6,6 +6,7 @@
 namespace CSCreator {
 
 class ListStatPopup;
+class SkillWgt;
 
 class ListStat : public Component
 {
@@ -16,7 +17,7 @@ public:
     ~ListStat();
 
     void clearSkills();
-    void addSkill(const QString& skillName, const QString& abilityBonuName);
+    void addSkill(SkillWgt* skill);
     void settingsPopup();
 
 private:
@@ -25,12 +26,14 @@ private:
     QVBoxLayout skillsLyt;
     QString name;
 
-    // todo: find a better name
-    struct SkillStruct {
+    struct Skill {
         QString name;
-        QString bonusStatName;
+        QString statName;
     };
-    QList<SkillStruct> skills;
+
+    // todo: find a better name
+    QList<Skill> skills;
+    QList<QLabel*> skillsLabels;
 
     ListStatPopup* listStatPopup = nullptr;
 };

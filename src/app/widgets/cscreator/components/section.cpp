@@ -141,8 +141,8 @@ ListStat *Section::createListStat()
     connect(newListStat, &Section::moveUp, this, [&, wgt = newListStat]() { move(true, wgt); });
     connect(newListStat, &Section::moveDown, this, [&, wgt = newListStat]() { move(false, wgt); });
     // add skills
-    for (Skill* skill : listStatPopup->getSkills()) {
-        newListStat->addSkill(skill->getName(), QString::number(skill->getBonusStat()));
+    for (SkillWgt* skill : listStatPopup->getSkills()) {
+        newListStat->addSkill(skill);
     }
     return newListStat;
 }

@@ -2,6 +2,7 @@
 #define LISTSTATPOPUP_H
 
 #include "cscreatorpopup.h"
+#include "tools/listelement.h"
 #include <QWidget>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -12,7 +13,7 @@
 
 namespace CSCreator {
 
-class Skill;
+class SkillWgt;
 
 class ListStatPopup : public CSCreatorPopup
 {
@@ -22,18 +23,18 @@ public:
     ~ListStatPopup();
 
     QString getName() const { return nameEdit.text(); }
-    QList<Skill*> getSkills() const { return skills; }
-    void addSkill(const QString& name, const QString& BonusStatName);
+    QList<SkillWgt*> getSkills() const { return skills; }
+    void addSkill(const QString &name, const QString &bonusStatName);
 
 private:
     QLineEdit nameEdit;
     QWidget skillListWgt;
     QVBoxLayout skillListLyt;
     QPushButton addSkillBtn;
-    QList<Skill*> skills;
+    QList<SkillWgt*> skills;
 
-    void removeSkill(Skill *wgt);
-    void moveSkill(bool up, Skill *wgt);
+    void removeSkill(SkillWgt *wgt);
+    void moveSkill(bool up, SkillWgt *wgt);
     void addSkill();
 };
 
@@ -44,62 +45,25 @@ private:
 // TODO: move in another file
 
 // subclass for skills:  | name | bunus v |        | X v ^ |
-class Skill: public QWidget {
+class SkillWgt: public Tools::ListElement {
     Q_OBJECT
 public:
     QString getName() const { return nameEdit.text(); }
     int getBonusStat() const { return bonusEdit.currentIndex(); }
 
-    Skill(const QString& name = "name", const QString& bonusStatName = "bonus", QWidget * parent = nullptr):
-        QWidget(parent),
-        mainLyt(this),
-        nameEdit(name),
-        upBtn("^"),
-        downBtn("v"),
-        removeBtn("X")
+    SkillWgt(const QString& name = "name", const QString& bonusStatName = "bonus", QWidget * parent = nullptr):
+        Tools::ListElement(parent),
+        nameEdit(name)
     {
-        // todo:
-        (void) bonusStatName;
-
-        mainLyt.addLayout(&configLyt);
-        mainLyt.addLayout(&buttonsLyt);
-
+        (void) bonusStatName; // not used yet
         // left side: | name | bonus v |
-        configLyt.addWidget(&nameEdit);
-        configLyt.addWidget(&bonusEdit);
-
-        // right side: | X | ^ | v |
-        buttonsLyt.addWidget(&removeBtn);
-        buttonsLyt.addWidget(&upBtn);
-        buttonsLyt.addWidget(&downBtn);
-
-        configLyt.setAlignment(Qt::AlignLeft);
-        buttonsLyt.setAlignment(Qt::AlignRight);
-
-        connect(&upBtn, &QPushButton::clicked, this, [&]() { emit moveUp(); });
-        connect(&downBtn, &QPushButton::clicked, this, [&]() { emit moveDown(); });
-        connect(&removeBtn, &QPushButton::clicked, this, [&]() { emit remove(); });
+        addContent(&nameEdit);
+        addContent(&bonusEdit);
     }
 
-signals:
-    // NOTE(RC): there is a big problem here, this should be refactored
-    // in order not to have that much code duplication (the same system
-    // is used with the components inside sections).
-    void moveUp();
-    void moveDown();
-    void remove();
-
 private:
-    QHBoxLayout mainLyt;
-    //---------------------
-    QHBoxLayout configLyt;
     QLineEdit nameEdit;
     QComboBox bonusEdit;
-    //---------------------
-    QHBoxLayout buttonsLyt;
-    QPushButton upBtn;
-    QPushButton downBtn;
-    QPushButton removeBtn;
 };
 
 } // end namespace CSCreator

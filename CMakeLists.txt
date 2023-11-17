@@ -102,6 +102,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/components/descriptor.h src/app/widgets/cscreator/components/descriptor.cpp
         src/app/widgets/cscreator/components/equipment.h src/app/widgets/cscreator/components/equipment.cpp
         src/app/widgets/cscreator/components/attacks.h src/app/widgets/cscreator/components/attacks.cpp
+        src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

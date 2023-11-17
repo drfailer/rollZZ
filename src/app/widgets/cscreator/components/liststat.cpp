@@ -1,5 +1,6 @@
 #include "liststat.h"
 
+#include <iostream>
 #include <liststatpopup.h>
 
 namespace  CSCreator {
@@ -28,22 +29,32 @@ ListStat::ListStat():
 
 ListStat::~ListStat()
 {
+    std::cout << "begin list stat destructor" << std::endl;
     clearSkills();
+    std::cout << "end list stat destructor" << std::endl;
 }
 
 void ListStat::clearSkills()
 {
-    for (auto wgt : skillsLyt.children()) {
-        // TODO: find a way to remove the widget in skillsLyt
+    // remove the skills
+    skills.clear();
+    // remove label in the list
+    for (QWidget* wgt : skillsLabels) {
+        skillsLyt.removeWidget(wgt);
         delete wgt;
     }
-    skills.clear();
+    skillsLabels.clear();
 }
 
-void ListStat::addSkill(const QString& skillName, const QString& abilityBonuName)
+void ListStat::addSkill(SkillWgt* skill)
 {
-    skillsLyt.addWidget(new QLabel(skillName + " (" + abilityBonuName + ")"));
-    skills.push_back(SkillStruct{ skillName, abilityBonuName });
+    QLabel *newLabel = new QLabel(skill->getName()
+                                  + " ("
+                                  + QString::number(skill->getBonusStat())
+                                  + ")");
+    skillsLyt.addWidget(newLabel);
+    skillsLabels.push_back(newLabel);
+    skills.push_back((Skill) { skill->getName(), QString::number(skill->getBonusStat()) });
 }
 
 void ListStat::settingsPopup()
@@ -51,8 +62,8 @@ void ListStat::settingsPopup()
     if (listStatPopup == nullptr) {
         listStatPopup = new ListStatPopup(name);
         // todo: ajouter liste skills
-        for (SkillStruct skill : skills) {
-            listStatPopup->addSkill(skill.name, skill.bonusStatName);
+        for (const Skill& skill : skills) {
+            listStatPopup->addSkill(skill.name, skill.statName);
         }
     }
     listStatPopup->show();
@@ -61,8 +72,8 @@ void ListStat::settingsPopup()
             name = listStatPopup->getName();
             nameLabel.setText("name: " + name);
             clearSkills();
-            for (Skill* skill : listStatPopup->getSkills()) {
-                addSkill(skill->getName(), QString::number(skill->getBonusStat()));
+            for (SkillWgt* skill : listStatPopup->getSkills()) {
+                addSkill(skill);
             }
         }
         delete listStatPopup;
