@@ -1,3 +1,4 @@
+#include "bsoncxx/builder/stream/single_context.hpp"
 #include "mainwindow.h"
 
 #include <QApplication>
@@ -11,12 +12,10 @@ class Test2;
 
 //opdef(Test)
 //opdef(Test2)
-opstreamdef(Test)
+/* opstreamdef(Test) */
 //opstreamdef(Test2)
 
-    std::ostream& operator<<(std::ostream& os, int* i) {os << "[" << i[0] << "]"; return os;}
-
-class Test
+class Test : public Serialisable
 {
 public:
   Test(): genStringifierList(x, y) { }
@@ -32,7 +31,7 @@ public:
   genStringifier(int, int)
 };
 
-class Test2
+class Test2 : public Serialisable
 {
 public:
   Test2(): genStringifierList(a, b, t, tab) { }
@@ -53,7 +52,7 @@ public:
 
 //op(Test)
 //op(Test2)
-opstream(Test)
+/* opstream(Test) */
 //opstream(Test2)
 
 /******************************************************************************/
