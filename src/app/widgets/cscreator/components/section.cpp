@@ -131,6 +131,7 @@ CreateFunction(basicStatPopup, BasicStat, basicStatPopup->getMaxValue(), basicSt
 CreateFunction(bonusStatPopup, BonusStat, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
 CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
 CreateFunction(equipmentPopup, Equipment, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
+CreateFunction(attacksPopup, Attacks, attacksPopup->getName(), attacksPopup->getMaxItems(), this)
 #undef CreateFunction
 
 ListStat *Section::createListStat()
@@ -146,11 +147,6 @@ ListStat *Section::createListStat()
         newListStat->addSkill(skill);
     }
     return newListStat;
-}
-
-Attacks *Section::createAttacks()
-{
-    return nullptr;
 }
 
 #define CreatePopup(fnName, popupVar, popupClass, createElement)          \

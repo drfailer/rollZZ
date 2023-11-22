@@ -2,21 +2,19 @@
 
 namespace CSCreator {
 
-AttacksPopup::AttacksPopup():
+AttacksPopup::AttacksPopup(const QString name, int maxItems):
     CSCreatorPopup("ATTACKS & SPELLS"),
-    nameEdit("name"),
-    maxItemsEdit(this),
-    dataBaseEdit(this)
+    nameEdit(name),
+    maxItemsEdit(this)
 {
     maxItemsEdit.setMinimum(0);
-    maxItemsEdit.setValue(3);
+    maxItemsEdit.setValue(maxItems);
 
     // database selector for weapons
-    dataBaseEdit.addItem("choose a database...", 0);
+    // dataBaseEdit.addItem("choose a database...", 0);
 
     add(&nameEdit);
     add(&maxItemsEdit);
-    add(&dataBaseEdit);
 }
 
 } // end namespace CScreator
