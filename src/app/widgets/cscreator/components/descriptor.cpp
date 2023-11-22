@@ -16,12 +16,6 @@ Descriptor::Descriptor(const QString &name, QWidget* parent):
     connectSettingFunction(this, [&]() { settingsPopup(); });
 }
 
-Descriptor::Descriptor():
-    Component("Descriptor")
-{
-
-}
-
 void Descriptor::settingsPopup()
 {
     if (descriptorPopup == nullptr) {

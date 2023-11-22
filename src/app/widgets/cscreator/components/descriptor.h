@@ -11,8 +11,7 @@ class Descriptor : public Component
 {
     Q_OBJECT
 public:
-    Descriptor(const QString& name, QWidget* parent);
-    Descriptor();
+    Descriptor(const QString& name = "name", QWidget* parent = nullptr);
     void settingsPopup();
 
 private:
