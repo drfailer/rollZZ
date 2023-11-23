@@ -8,6 +8,8 @@
 #include <QString>
 #include <functional>
 
+#include <iostream>
+
 namespace CSCreator {
 
 class Component : public QFrame
@@ -15,6 +17,7 @@ class Component : public QFrame
     Q_OBJECT
 public:
     explicit Component(const QString& title, QWidget *parent = nullptr);
+    virtual ~Component() {}
 
     /* methods ****************************************************************/
     void bodyAdd(QWidget* wgt);
