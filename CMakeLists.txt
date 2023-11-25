@@ -55,6 +55,7 @@ set(PROJECT_SOURCES
 )
 
 include_directories(
+    src/
     src/CS/
     src/app/
     src/app/widgets/

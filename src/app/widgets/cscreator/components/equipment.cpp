@@ -5,20 +5,29 @@
 
 namespace CSCreator {
 
-Equipment::Equipment(bool useWeight, int maxWeight, int maxItems, QWidget *parent):
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+Equipment::Equipment(CS::Equipment *equipment, bool useWeight, int maxWeight, int maxItems, QWidget *parent):
     Component("Equipment", parent),
     useWeightLabel("use weight: " + QString(useWeight? "true":"false"), this),
     maxWeightLabel("max weight: " + QString::number(maxWeight), this),
     maxItemsLabel("max items: " + QString::number(maxItems), this),
     useWeight(useWeight),
     maxWeight(maxWeight),
-    maxItems(maxItems)
+    maxItems(maxItems),
+    equipment(equipment)
 {
     bodyAdd(&useWeightLabel);
     bodyAdd(&maxWeightLabel);
     bodyAdd(&maxItemsLabel);
     connectSettings();
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 genSettingsPopup(Equipment, equipmentPopup, EquipmentPopup, {
     useWeight = equipmentPopup->getUseWeight();

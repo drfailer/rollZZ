@@ -1,6 +1,7 @@
 #ifndef CSCREATOR_ATTACKS_H
 #define CSCREATOR_ATTACKS_H
 
+#include "CS/attacks.h"
 #include "component.h"
 
 namespace CSCreator {
@@ -11,7 +12,7 @@ class Attacks : public Component
 {
     Q_OBJECT
 public:
-    Attacks(const QString name = "name", int maxItems = 3, QWidget *parent = nullptr);
+    Attacks(CS::Attacks *attack, const QString name = "name", int maxItems = 3, QWidget *parent = nullptr);
     void settingsPopup() override;
 
 private:
@@ -21,6 +22,8 @@ private:
     QLabel maxItemsLabel;
 
     AttacksPopup *attacksPopup = nullptr;
+
+    CS::Attacks *attack;
 };
 
 } // end namespace CSCreator

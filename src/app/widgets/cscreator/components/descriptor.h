@@ -2,6 +2,7 @@
 #define CSCREATOR_DESCRIPTOR_H
 
 #include "component.h"
+#include "CS/descriptor.h"
 
 namespace CSCreator {
 
@@ -11,7 +12,7 @@ class Descriptor : public Component
 {
     Q_OBJECT
 public:
-    Descriptor(const QString& name = "name", QWidget* parent = nullptr);
+    Descriptor(CS::Descriptor *descriptor, const QString& name = "name", QWidget* parent = nullptr);
     void settingsPopup() override;
 
 private:
@@ -19,6 +20,7 @@ private:
     QString name;
 
     DescriptorPopup *descriptorPopup = nullptr;
+    CS::Descriptor *descriptor;
 };
 
 } // end namespace CSCreator

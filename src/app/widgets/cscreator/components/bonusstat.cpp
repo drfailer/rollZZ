@@ -4,11 +4,20 @@
 
 namespace CSCreator {
 
-BonusStat::BonusStat(int valueMax, Dice dice, const QString& name, QWidget *parent):
-    BasicStat(valueMax, dice, name, "Bonus stat", parent)
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+BonusStat::BonusStat(CS::BonusStat *bonuStat, int valueMax, Dice dice, const QString& name, QWidget *parent):
+    BasicStat(nullptr, valueMax, dice, name, "Bonus stat", parent),
+    bonusStat(bonuStat)
 {
 
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 genSettingsPopup(BonusStat, bonusStatPopup, BonusStatPopup, {
     valueMax = bonusStatPopup->getMaxValue();

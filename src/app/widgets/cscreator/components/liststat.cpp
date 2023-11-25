@@ -5,12 +5,17 @@
 
 namespace  CSCreator {
 
-ListStat::ListStat(const QString &name, QWidget *parent):
+/******************************************************************************/
+/*                         constructors & destructors                         */
+/******************************************************************************/
+
+ListStat::ListStat(CS::ListStat *listStat, const QString &name, QWidget *parent):
     Component("Skills List", parent),
     nameLabel("name: " + name),
     skillsWgt(this),
     skillsLyt(&skillsWgt),
-    name(name)
+    name(name),
+    listStat(listStat)
 {
     bodyAdd(&nameLabel);
     bodyAdd(&skillsWgt);
@@ -21,18 +26,16 @@ ListStat::ListStat(const QString &name, QWidget *parent):
     connectSettings();
 }
 
-ListStat::ListStat():
-    Component("Skills List")
-{
-
-}
-
 ListStat::~ListStat()
 {
     std::cout << "begin list stat destructor" << std::endl;
     clearSkills();
     std::cout << "end list stat destructor" << std::endl;
 }
+
+/******************************************************************************/
+/*                                 functions                                  */
+/******************************************************************************/
 
 void ListStat::clearSkills()
 {
@@ -56,6 +59,10 @@ void ListStat::addSkill(SkillWgt* skill)
     skillsLabels.push_back(newLabel);
     skills.push_back((Skill) { skill->getName(), QString::number(skill->getBonusStat()) });
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 void ListStat::settingsPopup()
 {

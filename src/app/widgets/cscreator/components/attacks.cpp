@@ -5,17 +5,26 @@
 
 namespace CSCreator {
 
-Attacks::Attacks(const QString name, int maxItems, QWidget* parent):
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+Attacks::Attacks(CS::Attacks *attack, const QString name, int maxItems, QWidget* parent):
     Component("Attack", parent),
     name(name),
     maxItems(maxItems),
     nameLabel("name: " + name),
-    maxItemsLabel("max items: " + QString::number(maxItems))
+    maxItemsLabel("max items: " + QString::number(maxItems)),
+    attack(attack)
 {
     bodyAdd(&nameLabel);
     bodyAdd(&maxItemsLabel);
     connectSettings();
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 genSettingsPopup(Attacks, attacksPopup, AttacksPopup, {
     name = attacksPopup->getName();

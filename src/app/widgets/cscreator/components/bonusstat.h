@@ -2,6 +2,7 @@
 #define CSCREATOR_BONUSSTAT_H
 
 #include "basicstat.h"
+#include "CS/bonusstat.h"
 
 namespace CSCreator {
 
@@ -11,11 +12,12 @@ class BonusStat : public BasicStat
 {
     Q_OBJECT
 public:
-    BonusStat(int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
+    BonusStat(CS::BonusStat *bonuStat, int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
     void settingsPopup() override;
 
 private:
     BonusStatPopup *bonusStatPopup;
+    CS::BonusStat *bonusStat;
 };
 
 } // end namespace CSCreator

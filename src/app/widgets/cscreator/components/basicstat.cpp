@@ -5,11 +5,16 @@
 
 namespace CSCreator {
 
-BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
     Component(title, parent),
     name(name),
     valueMax(valueMax),
-    dice(dice)
+    dice(dice),
+    basicStat(basicStat)
 {
     updateLabels();
 
@@ -24,11 +29,15 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString
     connectSettings();
 }
 
-BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *parent):
-    BasicStat(valueMax, dice, name, "Basic stat", parent)
+BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString &name, QWidget *parent):
+    BasicStat(basicStat, valueMax, dice, name, "Basic stat", parent)
 {
 
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 genSettingsPopup(BasicStat, basicStatPopup, BasicStatPopup, {
     valueMax = basicStatPopup->getMaxValue();
