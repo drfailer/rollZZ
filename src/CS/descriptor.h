@@ -1,5 +1,5 @@
-#ifndef DESCRIPTOR_H
-#define DESCRIPTOR_H
+#ifndef CS_DESCRIPTOR_H
+#define CS_DESCRIPTOR_H
 
 #include "component.h"
 

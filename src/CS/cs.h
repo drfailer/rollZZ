@@ -1,5 +1,5 @@
-#ifndef CS_H
-#define CS_H
+#ifndef CS_CS_H
+#define CS_CS_H
 
 #include "part.h"
 
@@ -7,6 +7,7 @@
 
 
 namespace CS {
+
 class CS
 {
 public:
@@ -19,6 +20,7 @@ public:
 private:
     QList<Part> parts;
 };
+
 }
 
 #endif // CS_H

@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef CS_ITEM_H
+#define CS_ITEM_H
 
 #include <QString>
 

@@ -1,5 +1,5 @@
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#ifndef CS_EQUIPMENT_H
+#define CS_EQUIPMENT_H
 
 #include "component.h"
 #include "item.h"

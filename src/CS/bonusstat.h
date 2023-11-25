@@ -1,5 +1,5 @@
-#ifndef BONUSSTAT_H
-#define BONUSSTAT_H
+#ifndef CS_BONUSSTAT_H
+#define CS_BONUSSTAT_H
 
 #include "basicstat.h"
 #include "dice.h"

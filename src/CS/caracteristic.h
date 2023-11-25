@@ -1,5 +1,5 @@
-#ifndef CARACTERISTIC_H
-#define CARACTERISTIC_H
+#ifndef CS_CARACTERISTIC_H
+#define CS_CARACTERISTIC_H
 
 #include "dice.h"
 

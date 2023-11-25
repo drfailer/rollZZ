@@ -1,5 +1,5 @@
-#ifndef LISTSTAT_H
-#define LISTSTAT_H
+#ifndef CS_LISTSTAT_H
+#define CS_LISTSTAT_H
 
 #include "caracteristic.h"
 #include "component.h"

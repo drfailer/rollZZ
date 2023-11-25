@@ -1,5 +1,5 @@
-#ifndef DICE_H
-#define DICE_H
+#ifndef CS_DICE_H
+#define CS_DICE_H
 
 // TODO: move this class elsewhere
 class Dice

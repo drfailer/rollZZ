@@ -1,5 +1,5 @@
-#ifndef BASICSTAT_H
-#define BASICSTAT_H
+#ifndef CS_BASICSTAT_H
+#define CS_BASICSTAT_H
 
 #include "component.h"
 #include "dice.h"
