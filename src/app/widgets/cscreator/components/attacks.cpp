@@ -1,37 +1,36 @@
 #include "attacks.h"
 
+#include "component.h"
 #include "popup/attackspopup.h"
 
 namespace CSCreator {
 
-Attacks::Attacks(const QString name, int maxItems, QWidget* parent):
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+Attacks::Attacks(CS::Attacks *attack, const QString name, int maxItems, QWidget* parent):
     Component("Attack", parent),
     name(name),
     maxItems(maxItems),
     nameLabel("name: " + name),
-    maxItemsLabel("max items: " + QString::number(maxItems))
+    maxItemsLabel("max items: " + QString::number(maxItems)),
+    attack(attack)
 {
     bodyAdd(&nameLabel);
     bodyAdd(&maxItemsLabel);
-    connectSettingFunction(this, [&]() { settingsPopup(); });
+    connectSettings();
 }
 
-void Attacks::settingsPopup()
-{
-    if (attacksPopup == nullptr) {
-        attacksPopup = new AttacksPopup(name, maxItems);
-    }
-    attacksPopup->show();
-    connect(attacksPopup, &AttacksPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            name = attacksPopup->getName();
-            maxItems = attacksPopup->getMaxItems();
-            nameLabel.setText("name: " + name);
-            maxItemsLabel.setText("max items: " + QString::number(maxItems));
-        }
-        delete attacksPopup;
-        attacksPopup = nullptr;
-    });
-}
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
+
+genSettingsPopup(Attacks, attacksPopup, AttacksPopup, {
+    name = attacksPopup->getName();
+    maxItems = attacksPopup->getMaxItems();
+    nameLabel.setText("name: " + name);
+    maxItemsLabel.setText("max items: " + QString::number(maxItems));
+}, name, maxItems)
 
 } // end namespace CSCreator

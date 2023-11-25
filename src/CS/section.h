@@ -1,5 +1,5 @@
-#ifndef SECTION_H
-#define SECTION_H
+#ifndef CS_SECTION_H
+#define CS_SECTION_H
 
 #include <QList>
 #include <QString>

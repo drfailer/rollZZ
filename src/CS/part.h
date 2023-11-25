@@ -1,5 +1,5 @@
-#ifndef PART_H
-#define PART_H
+#ifndef CS_PART_H
+#define CS_PART_H
 
 #include "section.h"
 

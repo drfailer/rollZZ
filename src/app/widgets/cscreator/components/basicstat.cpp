@@ -5,11 +5,16 @@
 
 namespace CSCreator {
 
-BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
     Component(title, parent),
     name(name),
     valueMax(valueMax),
-    dice(dice)
+    dice(dice),
+    basicStat(basicStat)
 {
     updateLabels();
 
@@ -21,32 +26,25 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { this->settingsPopup(); });
+    connectSettings();
 }
 
-BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *parent):
-    BasicStat(valueMax, dice, name, "Basic stat", parent)
+BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString &name, QWidget *parent):
+    BasicStat(basicStat, valueMax, dice, name, "Basic stat", parent)
 {
 
 }
 
-void BasicStat::settingsPopup()
-{
-    if (basicStatPopup == nullptr) {
-        basicStatPopup = new BasicStatPopup(name, valueMax, dice);
-    }
-    basicStatPopup->show();
-    connect(basicStatPopup, &BasicStatPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            valueMax = basicStatPopup->getMaxValue();
-            dice = basicStatPopup->getDice();
-            name = basicStatPopup->getName();
-            updateLabels();
-        }
-        delete basicStatPopup;
-        basicStatPopup = nullptr;
-    });
-}
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
+
+genSettingsPopup(BasicStat, basicStatPopup, BasicStatPopup, {
+    valueMax = basicStatPopup->getMaxValue();
+    dice = basicStatPopup->getDice();
+    name = basicStatPopup->getName();
+    updateLabels();
+}, name, valueMax, dice)
 
 void BasicStat::updateLabels()
 {

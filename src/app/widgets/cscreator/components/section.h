@@ -1,5 +1,5 @@
-#ifndef CSCREATORSECTION_H
-#define CSCREATORSECTION_H
+#ifndef CSCREATOR_SECTION_H
+#define CSCREATOR_SECTION_H
 
 #include "component.h"
 
@@ -47,7 +47,7 @@ public:
     void move(bool up, QWidget* wgt);
 
 private slots:
-    void settingsPopup();
+    void settingsPopup() override;
     void addElement(ComponentTypes element);
     void addBasicStat();
     void addBonusStat();

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef CS_COMPONENT_H
+#define CS_COMPONENT_H
 
 #include <QString>
 

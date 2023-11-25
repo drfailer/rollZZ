@@ -1,7 +1,8 @@
-#ifndef LISTSTAT_H
-#define LISTSTAT_H
+#ifndef CSCREATOR_LISTSTAT_H
+#define CSCREATOR_LISTSTAT_H
 
 #include "component.h"
+#include "CS/liststat.h"
 
 namespace CSCreator {
 
@@ -12,13 +13,12 @@ class ListStat : public Component
 {
     Q_OBJECT
 public:
-    ListStat(const QString& name, QWidget* parent = nullptr);
-    ListStat();
+    ListStat(CS::ListStat *listStat, const QString& name = "name", QWidget* parent = nullptr);
     ~ListStat();
 
     void clearSkills();
     void addSkill(SkillWgt* skill);
-    void settingsPopup();
+    void settingsPopup() override;
 
 private:
     QLabel nameLabel;
@@ -36,6 +36,8 @@ private:
     QList<QLabel*> skillsLabels;
 
     ListStatPopup* listStatPopup = nullptr;
+
+    CS::ListStat *listStat;
 };
 
 } // end namespace CSCreator

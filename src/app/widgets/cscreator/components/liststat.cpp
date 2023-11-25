@@ -5,12 +5,17 @@
 
 namespace  CSCreator {
 
-ListStat::ListStat(const QString &name, QWidget *parent):
+/******************************************************************************/
+/*                         constructors & destructors                         */
+/******************************************************************************/
+
+ListStat::ListStat(CS::ListStat *listStat, const QString &name, QWidget *parent):
     Component("Skills List", parent),
     nameLabel("name: " + name),
     skillsWgt(this),
     skillsLyt(&skillsWgt),
-    name(name)
+    name(name),
+    listStat(listStat)
 {
     bodyAdd(&nameLabel);
     bodyAdd(&skillsWgt);
@@ -18,13 +23,7 @@ ListStat::ListStat(const QString &name, QWidget *parent):
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { settingsPopup(); });
-}
-
-ListStat::ListStat():
-    Component("Skills List")
-{
-
+    connectSettings();
 }
 
 ListStat::~ListStat()
@@ -33,6 +32,10 @@ ListStat::~ListStat()
     clearSkills();
     std::cout << "end list stat destructor" << std::endl;
 }
+
+/******************************************************************************/
+/*                                 functions                                  */
+/******************************************************************************/
 
 void ListStat::clearSkills()
 {
@@ -56,6 +59,10 @@ void ListStat::addSkill(SkillWgt* skill)
     skillsLabels.push_back(newLabel);
     skills.push_back((Skill) { skill->getName(), QString::number(skill->getBonusStat()) });
 }
+
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
 
 void ListStat::settingsPopup()
 {

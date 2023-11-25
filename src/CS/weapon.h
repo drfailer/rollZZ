@@ -1,5 +1,5 @@
-#ifndef WEAPON_H
-#define WEAPON_H
+#ifndef CS_WEAPON_H
+#define CS_WEAPON_H
 
 #include "dice.h"
 

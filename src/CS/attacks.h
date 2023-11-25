@@ -1,5 +1,5 @@
-#ifndef ATTACKS_H
-#define ATTACKS_H
+#ifndef CS_ATTACKS_H
+#define CS_ATTACKS_H
 
 #include "component.h"
 #include "weapon.h"
