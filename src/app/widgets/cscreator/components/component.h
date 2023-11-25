@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef CSCREATOR_COMPONENT_H
+#define CSCREATOR_COMPONENT_H
 
 #include <QFrame>
 #include <QLabel>

@@ -1,5 +1,5 @@
-#ifndef CSCREATORSECTION_H
-#define CSCREATORSECTION_H
+#ifndef CSCREATOR_SECTION_H
+#define CSCREATOR_SECTION_H
 
 #include "component.h"
 

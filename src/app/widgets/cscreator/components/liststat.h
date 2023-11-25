@@ -1,5 +1,5 @@
-#ifndef LISTSTAT_H
-#define LISTSTAT_H
+#ifndef CSCREATOR_LISTSTAT_H
+#define CSCREATOR_LISTSTAT_H
 
 #include "component.h"
 

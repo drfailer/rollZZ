@@ -1,5 +1,5 @@
-#ifndef ATTACKS_H
-#define ATTACKS_H
+#ifndef CSCREATOR_ATTACKS_H
+#define CSCREATOR_ATTACKS_H
 
 #include "component.h"
 

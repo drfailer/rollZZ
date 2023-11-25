@@ -1,5 +1,5 @@
-#ifndef BONUSSTAT_H
-#define BONUSSTAT_H
+#ifndef CSCREATOR_BONUSSTAT_H
+#define CSCREATOR_BONUSSTAT_H
 
 #include "basicstat.h"
 

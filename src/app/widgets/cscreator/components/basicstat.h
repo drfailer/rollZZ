@@ -1,5 +1,5 @@
-#ifndef BASICSTAT_H
-#define BASICSTAT_H
+#ifndef CSCREATOR_BASICSTAT_H
+#define CSCREATOR_BASICSTAT_H
 
 #include "component.h"
 
