@@ -1,6 +1,7 @@
 #include "attacks.h"
 #include "basicstat.h"
 #include "bonusstat.h"
+#include "component.h"
 #include "descriptor.h"
 #include "equipment.h"
 #include "liststat.h"
@@ -38,7 +39,7 @@ Section::Section(const QString& title, QWidget *parent):
     addElementBtn.setFixedWidth(43);
 
     // connect buttons
-    connectSettingFunction(this, [&]() { settingsPopup(); });
+    connectSettings();
     connect(&addElementBtn, &QComboBox::activated, this, [&](int element) { addElement(ComponentTypes(element)); });
 }
 
@@ -70,21 +71,8 @@ void Section::move(bool up, QWidget *wgt)
 /* settings button                                                            */
 /******************************************************************************/
 
-void Section::settingsPopup()
-{
-    if (sectionPopup == nullptr) {
-        sectionPopup = new SectionPopup(getTitle());
-    }
-    sectionPopup->show();
-    connect(sectionPopup, &SectionPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            setTitle(sectionPopup->getName());
-        }
-        // remove the popup window
-        delete sectionPopup;
-        sectionPopup = nullptr;
-    });
-}
+genSettingsPopup(Section, sectionPopup, SectionPopup,
+        setTitle(sectionPopup->getName()), getTitle())
 
 /******************************************************************************/
 /* add elements                                                               */

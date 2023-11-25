@@ -21,7 +21,7 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString& name, const QString
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { this->settingsPopup(); });
+    connectSettings();
 }
 
 BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *parent):
@@ -30,23 +30,12 @@ BasicStat::BasicStat(int valueMax, Dice dice, const QString &name, QWidget *pare
 
 }
 
-void BasicStat::settingsPopup()
-{
-    if (basicStatPopup == nullptr) {
-        basicStatPopup = new BasicStatPopup(name, valueMax, dice);
-    }
-    basicStatPopup->show();
-    connect(basicStatPopup, &BasicStatPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            valueMax = basicStatPopup->getMaxValue();
-            dice = basicStatPopup->getDice();
-            name = basicStatPopup->getName();
-            updateLabels();
-        }
-        delete basicStatPopup;
-        basicStatPopup = nullptr;
-    });
-}
+genSettingsPopup(BasicStat, basicStatPopup, BasicStatPopup, {
+    valueMax = basicStatPopup->getMaxValue();
+    dice = basicStatPopup->getDice();
+    name = basicStatPopup->getName();
+    updateLabels();
+}, name, valueMax, dice)
 
 void BasicStat::updateLabels()
 {

@@ -12,7 +12,7 @@ class Attacks : public Component
     Q_OBJECT
 public:
     Attacks(const QString name = "name", int maxItems = 3, QWidget *parent = nullptr);
-    void settingsPopup();
+    void settingsPopup() override;
 
 private:
     QString name;

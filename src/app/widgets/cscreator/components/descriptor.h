@@ -12,7 +12,7 @@ class Descriptor : public Component
     Q_OBJECT
 public:
     Descriptor(const QString& name = "name", QWidget* parent = nullptr);
-    void settingsPopup();
+    void settingsPopup() override;
 
 private:
     QLabel nameLabel;

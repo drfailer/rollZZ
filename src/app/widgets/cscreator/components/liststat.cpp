@@ -18,7 +18,7 @@ ListStat::ListStat(const QString &name, QWidget *parent):
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { settingsPopup(); });
+    connectSettings();
 }
 
 ListStat::ListStat():

@@ -11,7 +11,7 @@ class Equipment : public Component
 {
 public:
     Equipment(bool useWeight = true, int maxWeight = 0, int maxItems = 0, QWidget* parent = nullptr);
-    void settingsPopup();
+    void settingsPopup() override;
 
 private:
     EquipmentPopup *equipmentPopup = nullptr;

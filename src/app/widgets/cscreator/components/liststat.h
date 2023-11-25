@@ -18,7 +18,7 @@ public:
 
     void clearSkills();
     void addSkill(SkillWgt* skill);
-    void settingsPopup();
+    void settingsPopup() override;
 
 private:
     QLabel nameLabel;

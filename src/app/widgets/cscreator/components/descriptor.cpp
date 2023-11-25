@@ -13,23 +13,12 @@ Descriptor::Descriptor(const QString &name, QWidget* parent):
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-    connectSettingFunction(this, [&]() { settingsPopup(); });
+    connectSettings();
 }
 
-void Descriptor::settingsPopup()
-{
-    if (descriptorPopup == nullptr) {
-        descriptorPopup = new DescriptorPopup(name);
-    }
-    descriptorPopup->show();
-    connect(descriptorPopup, &DescriptorPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            name = descriptorPopup->getName();
-            nameLabel.setText("name: " + name);
-        }
-        delete descriptorPopup;
-        descriptorPopup = nullptr;
-    });
-}
+genSettingsPopup(Descriptor, descriptorPopup, DescriptorPopup, {
+    name = descriptorPopup->getName();
+    nameLabel.setText("name: " + name);
+}, name)
 
 } // end namespace CSCreator

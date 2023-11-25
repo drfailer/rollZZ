@@ -53,9 +53,9 @@ void Component::bodyInsert(int index, QWidget *wgt)
     bodyLyt.insertWidget(index, wgt);
 }
 
-void Component::connectSettingFunction(Component *wgt, std::function<void()> function)
+void Component::connectSettings()
 {
-    connect(&settingsBtn, &QPushButton::clicked, wgt, function); // mother class
+    connect(&settingsBtn, &QPushButton::clicked, this, &Component::settingsPopup); // mother class
 }
 
 } // end namespace CSCreator
