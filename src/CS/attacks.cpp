@@ -1,16 +1,21 @@
 #include "attacks.h"
 
-CS::Attacks::Attacks(int maxNbWeapons):
-    maxNbWeapons(maxNbWeapons)
+namespace CS {
+
+Attacks::Attacks(int maxWeaponNb, const QString title):
+    Component(title),
+    maxWeaponNb(maxWeaponNb)
 {
 
 }
 
-void CS::Attacks::addWeapon(Weapon weapon)
+void Attacks::addWeapon(Weapon weapon)
 {
-    if (weapons.count() < maxNbWeapons) {
+    if (weapons.count() < maxWeaponNb) {
         weapons.push_back(weapon);
     } else {
         // exceptions ?
     }
+}
+
 }

@@ -8,7 +8,7 @@ namespace CS {
 class Component
 {
 public:
-    Component(QString title = "title");
+    Component(const QString& title = "title");
     virtual ~Component() = 0;
 
     /* accessors ***************************************************************/

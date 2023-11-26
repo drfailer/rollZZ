@@ -2,7 +2,7 @@
 
 namespace CS {
 
-Component::Component(QString title):
+Component::Component(const QString& title):
     title(title)
 { }
 
