@@ -1,5 +1,5 @@
-#ifndef STRINGIFY_HPP
-#define STRINGIFY_HPP
+#ifndef STRINGIFIER_H
+#define STRINGIFIER_H
 
 #include <bsoncxx/builder/concatenate.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
@@ -77,30 +77,6 @@ private:
 /******************************************************************************/
 
 namespace stream = bsoncxx::builder::stream;
-/* namespace document = bsoncxx::document; */
-
-/* using bsoncxx::builder::basic::kvp; */
-
-#define genToBSONValue()                                                       \
-  stream::document toBSONValue() const override { return strf_.toBSONValue(); }
-/* #define opstream(__CLASS__)                                                    \ */
-/*   stream::document &operator<<(stream::document &os, const __CLASS__ &c) {     \ */
-/*     os << bsoncxx::builder::concatenate(c.toBSONValue().view());               \ */
-/*     return os;                                                                 \ */
-/*   } */
-/* #define opstreamdef(__CLASS__)                                                 \ */
-/*   stream::document &operator<<(stream::document &os, const __CLASS__ &c); */
-
-inline stream::document &operator<<(stream::document &os, int *i) {
-  os << "[" << i[0] << "]";
-  return os;
-}
-
-class Serialisable {
-public:
-    virtual ~Serialisable() {};
-    virtual stream::document toBSONValue() const = 0;
-};
 
 template <class T>
 using type_base_t = typename std::remove_reference<typename std::remove_const<T>::type>::type;
@@ -111,9 +87,9 @@ using meme_type_t = std::is_same< type_base_t<T1>,type_base_t<T2> >;
 template<class Base, class Derived>
 using based_of_t = std::is_base_of<type_base_t<Base>, type_base_t<Derived>>;
 
-template <typename... Types> class Stringify {
+template <typename... Types> class Stringifier {
 public:
-    Stringify(Types &...args, std::string idsStr) : ptrs(args...) {
+    Stringifier(Types &...args, std::string idsStr) : ptrs(args...) {
         // get ids
         std::cout << idsStr << std::endl;
         size_t start = 0;
@@ -126,39 +102,29 @@ public:
             start = end;
         }
     }
-    ~Stringify() = default;
+    ~Stringifier() = default;
 
-    void toBSONValue_(stream::document &doc, int i, int *tab) const {
+    template<typename T, std::enable_if_t<std::is_fundamental<T>::value>* = nullptr>
+    void toBSONValue_(stream::document &doc, int i, const T &v) const {
+        doc << ids[i] << v;
+    }
+
+    template<typename T>
+    void toBSONValue_(stream::document &doc, int i, T *tab) const {
         doc << ids[i] << tab[0];
     }
-    template <typename... T>
-    void toBSONValue_(stream::document &doc, int i, const Serialisable &head, T &...ags) const {
-        doc << ids[i] << bsoncxx::builder::concatenate(head.toBSONValue().view());
-        toBSONValue_(doc, i + 1, ags...);
-    }
 
-    void toBSONValue_(stream::document &doc, int i, const Serialisable &head) const {
-        doc << ids[i] << bsoncxx::builder::concatenate(head.toBSONValue().view());
-    }
-
-    template <typename H, typename... T,
-             class = typename std::enable_if<!based_of_t<Serialisable, H>::value>::type>
-    void toBSONValue_(stream::document &doc, int i, const H &head, T &...ags) const {
-        doc << ids[i] << head;
-        toBSONValue_(doc, i + 1, ags...);
-    }
-
-    template <typename H,
-             class = typename std::enable_if<!based_of_t<Serialisable, H>::value>::type>
-    void toBSONValue_(stream::document &doc, int i, const H &head) const {
-        doc << ids[i] << head;
+    template<typename T, decltype(std::declval<T>().toBSONValue())* = nullptr>
+    void toBSONValue_(stream::document &doc, int i, const T &v) const {
+        doc << ids[i] << bsoncxx::builder::concatenate(v.toBSONValue().view());
     }
 
     template <typename T, size_t... Is>
     void extrTuple(stream::document &doc, const T &t,
             std::index_sequence<Is...>) const {
         std::cout << "extr Tuple start" << std::endl;
-        toBSONValue_(doc, 0, std::get<Is>(t)...);
+        (toBSONValue_(doc, Is, std::get<Is>(t)), ...);
+        //toBSONValue_(doc, 0, std::get<Is>(t)...);
         std::cout << "extr Tuple end" << std::endl;
     }
 
@@ -173,4 +139,4 @@ private:
     std::vector<std::string> ids;
 };
 
-#endif // STRINGIFY_HPP
+#endif // STRINGIFIER_H

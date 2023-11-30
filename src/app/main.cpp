@@ -5,41 +5,30 @@
 #include <QDebug>
 #include <QFile>
 #include "mongodb/mongodb.hpp"
-#include "mongodb/Stringify.hpp"
+#include "mongodb/Stringifiable.hpp"
 
 class Test;
 class Test2;
 
-//opdef(Test)
-//opdef(Test2)
-/* opstreamdef(Test) */
-//opstreamdef(Test2)
-
-class Test : public Serialisable
+class Test : public Stringifiable<int,int>
 {
 public:
-  Test(): genStringifierList(x, y) { }
-  Test(int _x, int _y): x(_x), y(_y), genStringifierList(x, y) { }
+  Test(): stringifiable(x, y) { }
+  Test(int _x, int _y): x(_x), y(_y), stringifiable(x, y) { }
   ~Test() = default;
 
-  //genToString()
-  genToBSONValue()
 
   private:
   int x;
   int y;
-  genStringifier(int, int)
 };
 
-class Test2 : public Serialisable
+class Test2 : public  Stringifiable<int,int,Test,int*>
 {
 public:
-  Test2(): genStringifierList(a, b, t, tab) { }
-  Test2(int _a, int _b,Test _t,int* _tab): a(_a), b(_b),t(_t),tab(_tab), genStringifierList(a, b, t, tab) { }
+  Test2(): stringifiable(a, b, t, tab) { }
+  Test2(int _a, int _b,Test _t,int* _tab): a(_a), b(_b),t(_t),tab(_tab), stringifiable(a, b, t, tab) { }
   ~Test2() = default;
-
-  //genToString()
-  genToBSONValue()
 
   private:
     int a;
@@ -47,7 +36,6 @@ public:
     Test t;
     int* tab;
 
-  genStringifier(int, int, Test, int*)
 };
 
 //op(Test)
@@ -76,10 +64,10 @@ int main(int argc, char *argv[])
       std::cout << "faces: " << d1.getFaces() << " & diceNumber:" << d1.getDiceNumber() << std::endl << std::endl;
 
       Test test(1, 2);
-      //Test2 test2(3,4,test, new int[10]);
+      Test2 test2(3,4,test, new int[10]);
       std::cout << "Start Stringify" << std::endl;
       //bsoncxx::document::value doc = bsoncxx::from_json(test2.toString());
-      stream::document doc = test.toBSONValue();
+      stream::document doc = test2.toBSONValue();
       std::cout << "End Stringify" << std::endl;
       std::cout <<  bsoncxx::to_json(doc.extract()) << std::endl;
 

@@ -103,7 +103,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/components/equipment.h src/app/widgets/cscreator/components/equipment.cpp
         src/app/widgets/cscreator/components/attacks.h src/app/widgets/cscreator/components/attacks.cpp
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
-        src/app/mongodb/Stringify.hpp
+        src/app/mongodb/Stringifier.hpp
+        src/app/mongodb/Stringifiable.hpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
