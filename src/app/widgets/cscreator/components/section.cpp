@@ -119,7 +119,7 @@ CreateFunction(basicStatPopup, BasicStat, nullptr, basicStatPopup->getMaxValue()
 CreateFunction(bonusStatPopup, BonusStat, nullptr, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
 CreateFunction(descriptorPopup, Descriptor, nullptr, descriptorPopup->getName(), this)
 CreateFunction(equipmentPopup, Equipment, nullptr, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
-CreateFunction(attacksPopup, Attacks, nullptr, attacksPopup->getName(), attacksPopup->getMaxItems(), this)
+CreateFunction(attacksPopup, Attacks, new CS::Attacks(), attacksPopup->getName(), attacksPopup->getMaxItems(), this)
 #undef CreateFunction
 
 ListStat *Section::createListStat()

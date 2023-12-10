@@ -1,12 +1,11 @@
 #ifndef CSCREATOR_H
 #define CSCREATOR_H
 
+#include "cs.h"
 #include <QPushButton>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTabWidget>
-#include <functional>
-#include <iostream>
 
 
 namespace CSCreator {
@@ -26,6 +25,7 @@ class CSCreator : public QWidget
 {
     Q_OBJECT
 public:
+    CS::CS* getCSTree() const { return CSTree; }
     explicit CSCreator(CSCreatorConfig config, QWidget *parent = nullptr);
     ~CSCreator();
     QWidget* createTab();
@@ -52,6 +52,9 @@ private:
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;
     SectionPopup *sectionPopup = nullptr;
+
+    /* cs tree *****************************************************************/
+    CS::CS* CSTree;
 
     /* private methods *********************************************************/
     QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }

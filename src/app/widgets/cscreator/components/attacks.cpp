@@ -6,19 +6,20 @@
 namespace CSCreator {
 
 /******************************************************************************/
-/*                                constructors                                */
+/*                          constructor & destructor                          */
 /******************************************************************************/
 
-Attacks::Attacks(CS::Attacks *attack, const QString name, int maxItems, QWidget* parent):
+Attacks::Attacks(CS::Attacks *attacks, const QString& title, int maxWeaponNb, QWidget* parent):
     Component("Attack", parent),
-    name(name),
-    maxItems(maxItems),
-    nameLabel("name: " + name),
-    maxItemsLabel("max items: " + QString::number(maxItems)),
-    attack(attack)
+    attacks(attacks)
 {
+    update(title, maxWeaponNb);
     bodyAdd(&nameLabel);
     bodyAdd(&maxItemsLabel);
+    setStyleSheet("QLabel { font-size: 18px; }"
+                  "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
+                  "QFrame { background-color: #202020; }"
+                  );
     connectSettings();
 }
 
@@ -27,10 +28,14 @@ Attacks::Attacks(CS::Attacks *attack, const QString name, int maxItems, QWidget*
 /******************************************************************************/
 
 genSettingsPopup(Attacks, attacksPopup, AttacksPopup, {
-    name = attacksPopup->getName();
-    maxItems = attacksPopup->getMaxItems();
-    nameLabel.setText("name: " + name);
-    maxItemsLabel.setText("max items: " + QString::number(maxItems));
-}, name, maxItems)
+    update(attacksPopup->getName(), attacksPopup->getMaxItems());
+}, attacks->getTitle(), attacks->getMaxWeaponNb())
+
+void Attacks::update(const QString& title, int maxWeaponNb) {
+    attacks->setTitle(title);
+    attacks->setMaxWeaponNb(maxWeaponNb);
+    nameLabel.setText("name: " + title);
+    maxItemsLabel.setText("max weapon number: " + QString::number(maxWeaponNb));
+}
 
 } // end namespace CSCreator

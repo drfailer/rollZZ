@@ -20,7 +20,7 @@ private:
     QString name;
 
     DescriptorPopup *descriptorPopup = nullptr;
-    CS::Descriptor *descriptor;
+    CS::Descriptor *descriptor = nullptr;
 };
 
 } // end namespace CSCreator

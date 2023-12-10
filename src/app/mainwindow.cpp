@@ -23,7 +23,10 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->mainIconButton, &QPushButton::clicked, this, [&]() { goToPage(ui->mainPage); });
     connect(ui->createGameButton, &QPushButton::clicked, this, [&]() { goToPage(ui->createGamePage); });
     connect(ui->joinGameButton, &QPushButton::clicked, this, [&]() { goToPage(ui->joinGamePage); });
-    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() { goToPage(ui->CSPage); });
+    connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() {
+        ui->CSPages->setCurrentIndex(0);
+        goToPage(ui->CSPage);
+    });
     connect(ui->settingsButton, &QPushButton::clicked, this, [&]() { goToPage(ui->settingsPage); });
 
     /***************************************************************************/

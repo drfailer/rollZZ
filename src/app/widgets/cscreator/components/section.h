@@ -60,7 +60,7 @@ private:
     QComboBox addElementBtn;
     QList<QWidget*> content;
 
-    /* popups ******************************************************************/
+    /* popups *****************************************************************/
     SectionPopup *sectionPopup = nullptr;
     BasicStatPopup *basicStatPopup = nullptr;
     BonusStatPopup *bonusStatPopup = nullptr;
@@ -69,7 +69,7 @@ private:
     EquipmentPopup *equipmentPopup = nullptr;
     AttacksPopup *attacksPopup = nullptr;
 
-    /* create elements *********************************************************/
+    /* create elements ********************************************************/
     BasicStat* createBasicStat();
     BonusStat* createBonusStat();
     ListStat* createListStat();

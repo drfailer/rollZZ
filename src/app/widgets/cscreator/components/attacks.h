@@ -12,18 +12,15 @@ class Attacks : public Component
 {
     Q_OBJECT
 public:
-    Attacks(CS::Attacks *attack, const QString name = "name", int maxItems = 3, QWidget *parent = nullptr);
+    Attacks(CS::Attacks *attack, const QString& name = "name", int maxWeaponNb = 3, QWidget *parent = nullptr);
     void settingsPopup() override;
+    void update(const QString& title, int maxWeaponNb);
 
 private:
-    QString name;
-    int maxItems;
     QLabel nameLabel;
     QLabel maxItemsLabel;
-
     AttacksPopup *attacksPopup = nullptr;
-
-    CS::Attacks *attack;
+    CS::Attacks *attacks = nullptr;
 };
 
 } // end namespace CSCreator
