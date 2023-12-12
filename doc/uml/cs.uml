@@ -1,43 +1,49 @@
 @startuml
+/' options ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 /' skinparam linetype ortho '/
 skinparam groupInheritance 2
 hide empty attributes
 hide empty methods
 
-class Root {
+/' CS '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
+class CS {
     -parts: QList<Part>
 }
 
-Part -u-* Root
+/' Part '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
+Part -u-* CS
 class Part {
     -name: string
     -sections: QList<Section>
 }
 
+/' Section ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 Section -u-* Part
 class Section {
     -title: string
     -components: QList<Component>
 }
 
+/' Component ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 Component -u-* Section
 abstract class Component {
     -title: string
 }
 
 Component <|-- BasicStat
-Component <|-- BonusStat
 Component <|-- ListStat
 Component <|-- Equipment
 Component <|-- Attacks
 Component <|-- Descriptor
 
+/' Dice '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 class Dice {
     -faces: int
     -number: int
     +roll(): int
 }
 
+/' Basic stat '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 BasicStat *-- Dice
 class BasicStat {
     -value: int
@@ -46,15 +52,16 @@ class BasicStat {
     +roll(): int
 }
 
-BonusStat *-- Dice
+/' Bonus stat '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
+BasicStat <|-- BonusStat
 class BonusStat {
     -statValue: int
     -bonusValue: int
     -bonusCalculusStrategy(int): int
-    -dice: Dice
     +roll(): int
 }
 
+/' List of skills '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 class ListStat {
     -stats: QList<Caracteristic>
 }
@@ -74,6 +81,7 @@ note left of Caracteristic::checked
     proficiency stats
 end note
 
+/' Attacks ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 class Attacks {
     -maxItems: int
     -weapons: QList<Weapon>
@@ -99,6 +107,7 @@ note right of Weapon::damageType
     the RPG we play.
 end note
 
+/' Equipment ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 class Equipment {
     -items: QList<Item>
 }
@@ -111,6 +120,7 @@ class Item {
     -weight: int
 }
 
+/' Descriptor '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
 class Descriptor {
     -description: string
 }
