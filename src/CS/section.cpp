@@ -11,7 +11,7 @@ Section::Section(const QString& title):
 
 Section::~Section()
 {
-    for (auto comp : components) {
+    for (Component* comp : components) {
         delete comp;
     }
     components.clear();

@@ -12,13 +12,14 @@ class CS
 {
 public:
     CS() = default;
+    ~CS();
 
     /* methods **********************************************/
-    void addPart(Part part) { parts.push_back(part); }
+    void addPart(Part* part) { parts.push_back(part); }
     // TODO: add a way to move parts
 
 private:
-    QList<Part> parts;
+    QList<Part*> parts;
 };
 
 }
