@@ -17,10 +17,11 @@ public:
 
 private:
     QLabel nameLabel;
-    QString name;
 
     DescriptorPopup *descriptorPopup = nullptr;
     CS::Descriptor *descriptor = nullptr;
+
+    void update(const QString& name);
 };
 
 } // end namespace CSCreator

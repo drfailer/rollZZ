@@ -9,10 +9,9 @@ namespace CSCreator {
 
 Descriptor::Descriptor(CS::Descriptor *descriptor, const QString &name, QWidget* parent):
     Component("Descriptor", parent),
-    nameLabel("name: " + name),
-    name(name),
     descriptor(descriptor)
 {
+    update(name);
     bodyAdd(&nameLabel);
     setStyleSheet("QLabel { font-size: 18px; }"
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
@@ -26,8 +25,12 @@ Descriptor::Descriptor(CS::Descriptor *descriptor, const QString &name, QWidget*
 /******************************************************************************/
 
 genSettingsPopup(Descriptor, descriptorPopup, DescriptorPopup, {
-    name = descriptorPopup->getName();
+    update(descriptorPopup->getName());
+}, descriptor->getTitle())
+
+void Descriptor::update(const QString& name) {
+    descriptor->setTitle(name);
     nameLabel.setText("name: " + name);
-}, name)
+}
 
 } // end namespace CSCreator
