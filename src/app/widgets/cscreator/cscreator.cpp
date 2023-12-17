@@ -44,6 +44,7 @@ CSCreator::~CSCreator()
     }
     delete contentLyt;
     delete tabWgt;
+    delete CSTree;
 }
 
 void CSCreator::move(bool up, QWidget *wgt)

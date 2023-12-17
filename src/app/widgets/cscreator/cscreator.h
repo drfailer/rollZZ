@@ -43,6 +43,7 @@ private:
     int index = 0;
 
     /* elements on the page ****************************************************/
+    // TODO: there is no need of pointers here
     QWidget *contentWgt;
     QVBoxLayout *contentLyt;
     QTabWidget *tabWgt;
