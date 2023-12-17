@@ -25,7 +25,7 @@ private:
     int maxWeight;
     int maxItems;
 
-    CS::Equipment *equipment;
+    CS::Equipment *equipment = nullptr;
 };
 
 } // end namespace CSCreator

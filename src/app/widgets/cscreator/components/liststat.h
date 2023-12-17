@@ -36,8 +36,7 @@ private:
     QList<QLabel*> skillsLabels;
 
     ListStatPopup* listStatPopup = nullptr;
-
-    CS::ListStat *listStat;
+    CS::ListStat *listStat = nullptr;
 };
 
 } // end namespace CSCreator
