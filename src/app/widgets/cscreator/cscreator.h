@@ -2,10 +2,12 @@
 #define CSCREATOR_H
 
 #include "cs.h"
+#include "part.h"
 #include <QPushButton>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTabWidget>
+#include <QMap>
 
 
 namespace CSCreator {
@@ -48,6 +50,7 @@ private:
     QPushButton *saveBtn;
     QPushButton *importBtn;
     QList<QWidget*> tabs;
+    QMap<QWidget*, CS::Part*> parts;
 
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;

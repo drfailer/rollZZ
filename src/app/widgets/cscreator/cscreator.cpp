@@ -1,10 +1,9 @@
 #include "cscreator.h"
 #include "components/section.h"
 #include "popup/sectionpopup.h"
-#include "popup/descriptorpopup.h"
 #include "popup/tabpopup.h"
-#include "popup/basicstatpopup.h"
-#include "popup/equipmentpopup.h"
+#include "section.h"
+#include <CS/part.h>
 #include <QTabWidget>
 #include <iostream>
 #define ADD_FN(id) [&](bool add) { id(add); }
@@ -73,6 +72,7 @@ QWidget* CSCreator::createTab()
     newTabLyt->setAlignment(Qt::AlignTop);
     connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
     tabs.push_back(newTabWgt);
+    parts.insert(newTabWgt, new CS::Part());
     return newTabWgt;
 }
 
@@ -84,7 +84,9 @@ void CSCreator::addTabPopup()
     tabPopup->show();
     connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
         if (add) {
-            tabWgt->addTab(createTab(), tabPopup->getName());
+            QWidget* newTab = createTab();
+            tabWgt->addTab(newTab, tabPopup->getName());
+            parts[newTab]->setName(tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
@@ -101,12 +103,15 @@ void CSCreator::renameTabPopup(int index)
     connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) {
         if (rename) {
             tabWgt->setTabText(index, tabPopup->getName());
+            parts[tabWgt->widget(index)]->setName(tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
         tabPopup = nullptr;
     });
 }
+
+// TODO: removeTab
 
 /******************************************************************************/
 /* add Category                                                               */
@@ -121,13 +126,23 @@ void CSCreator::addSectionPopup()
     connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
         if (add) {
             // TODO: create a custom widget for this
-            Section *newSection = new Section(sectionPopup->getName(), this);
-            currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSection);
+            CS::Section* newSection = new CS::Section(sectionPopup->getName());
+            Section *newSectionWgt = new Section(newSection, sectionPopup->getName(), this);
+            currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSectionWgt);
+            parts[tabWgt->widget(tabWgt->currentIndex())]->addSection(newSection);
             index++;
             // connections
-            connect(newSection, &Section::remove, this, [&, wgt = newSection]() { currentTabLyt()->removeWidget(wgt); delete wgt; });
-            connect(newSection, &Section::moveUp, this, [&, wgt = newSection]() { move(true, wgt); });
-            connect(newSection, &Section::moveDown, this, [&, wgt = newSection]() { move(false, wgt); });
+            connect(newSectionWgt, &Section::remove, this, [&, newSection, wgt = newSectionWgt]() {
+                        parts[tabWgt->widget(tabWgt->currentIndex())]->removeSection(newSection);
+                        currentTabLyt()->removeWidget(wgt);
+                        delete wgt;
+                    });
+            connect(newSectionWgt, &Section::moveUp, this, [&, wgt = newSectionWgt]() {
+                        move(true, wgt);
+                    });
+            connect(newSectionWgt, &Section::moveDown, this, [&, wgt = newSectionWgt]() {
+                        move(false, wgt);
+                    });
         }
         // remove the popup window
         delete sectionPopup;

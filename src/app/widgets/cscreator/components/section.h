@@ -2,6 +2,7 @@
 #define CSCREATOR_SECTION_H
 
 #include "component.h"
+#include "CS/section.h"
 
 #include <QComboBox>
 #include <QHBoxLayout>
@@ -41,7 +42,7 @@ class Section : public Component
 {
     Q_OBJECT
 public:
-    explicit Section(const QString& title, QWidget *parent = nullptr);
+    explicit Section(CS::Section* section, const QString& title, QWidget *parent = nullptr);
     ~Section();
     void add(QWidget* wgt);
     void move(bool up, QWidget* wgt);
@@ -59,6 +60,7 @@ private slots:
 private:
     QComboBox addElementBtn;
     QList<QWidget*> content;
+    CS::Section *section;
 
     /* popups *****************************************************************/
     SectionPopup *sectionPopup = nullptr;

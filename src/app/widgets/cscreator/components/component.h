@@ -6,9 +6,6 @@
 #include <QPushButton>
 #include <QString>
 #include <QVBoxLayout>
-#include <functional>
-
-#include <iostream>
 
 namespace CSCreator {
 

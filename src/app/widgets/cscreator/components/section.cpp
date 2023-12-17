@@ -13,13 +13,15 @@
 #include "popup/descriptorpopup.h"
 #include "popup/equipmentpopup.h"
 #include "popup/attackspopup.h"
+#include "section.h"
 #include <QPalette>
 
 namespace CSCreator {
 
-Section::Section(const QString& title, QWidget *parent):
+Section::Section(CS::Section* section, const QString& title, QWidget *parent):
     Component(title, parent),
-    addElementBtn(this)
+    addElementBtn(this),
+    section(section)
 {
     setStyleSheet("QLabel { font-size: 18px; }"
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
@@ -70,8 +72,10 @@ void Section::move(bool up, QWidget *wgt)
 /* settings button                                                            */
 /******************************************************************************/
 
-genSettingsPopup(Section, sectionPopup, SectionPopup,
-        setTitle(sectionPopup->getName()), getTitle())
+genSettingsPopup(Section, sectionPopup, SectionPopup, {
+    setTitle(sectionPopup->getName());
+    section->setTitle(sectionPopup->getName());
+}, getTitle())
 
 /******************************************************************************/
 /* add elements                                                               */
@@ -104,21 +108,23 @@ void Section::addElement(ComponentTypes element)
     addElementBtn.setCurrentIndex(int(ComponentTypes::None));
 }
 
-#define CreateFunction(popupVar, Component, ...)                                                           \
-    Component *Section::create##Component() {                                                              \
-        Component *newComponent = new Component(__VA_ARGS__);                                              \
-        connect(newComponent, &Section::remove, this, [&, wgt = newComponent]() {                          \
-            bodyRemove(wgt); content.removeOne(wgt); delete wgt;                                           \
-        });                                                                                                \
-        connect(newComponent, &Section::moveUp, this, [&, wgt = newComponent]() { move(true, wgt); });     \
-        connect(newComponent, &Section::moveDown, this, [&, wgt = newComponent]() { move(false, wgt); });  \
-        return newComponent;                                                                               \
+#define CreateFunction(popupVar, Component, ...)                                                                 \
+    Component *Section::create##Component() {                                                                    \
+        CS::Component* newComponent = new CS::Component();                                                       \
+        Component *newComponentWgt = new Component(newComponent, __VA_ARGS__);                                   \
+        section->addComponent(newComponent);                                                                     \
+        connect(newComponentWgt, &Section::remove, this, [&, wgt = newComponentWgt]() {                          \
+                bodyRemove(wgt); content.removeOne(wgt); delete wgt;                                             \
+                });                                                                                              \
+        connect(newComponentWgt, &Section::moveUp, this, [&, wgt = newComponentWgt]() { move(true, wgt); });     \
+        connect(newComponentWgt, &Section::moveDown, this, [&, wgt = newComponentWgt]() { move(false, wgt); });  \
+        return newComponentWgt;                                                                                  \
     }
-CreateFunction(basicStatPopup, BasicStat, new CS::BasicStat(), basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
-CreateFunction(bonusStatPopup, BonusStat, new CS::BonusStat(), bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
-CreateFunction(descriptorPopup, Descriptor, new CS::Descriptor(), descriptorPopup->getName(), this)
-CreateFunction(equipmentPopup, Equipment, new CS::Equipment(), equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
-CreateFunction(attacksPopup, Attacks, new CS::Attacks(), attacksPopup->getName(), attacksPopup->getMaxItems(), this)
+CreateFunction(basicStatPopup, BasicStat, basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
+CreateFunction(bonusStatPopup, BonusStat, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
+CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
+CreateFunction(equipmentPopup, Equipment, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
+CreateFunction(attacksPopup, Attacks, attacksPopup->getName(), attacksPopup->getMaxItems(), this)
 #undef CreateFunction
 
 ListStat *Section::createListStat()
