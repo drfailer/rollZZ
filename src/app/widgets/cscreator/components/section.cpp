@@ -115,8 +115,8 @@ void Section::addElement(ComponentTypes element)
         connect(newComponent, &Section::moveDown, this, [&, wgt = newComponent]() { move(false, wgt); });  \
         return newComponent;                                                                               \
     }
-CreateFunction(basicStatPopup, BasicStat, nullptr, basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
-CreateFunction(bonusStatPopup, BonusStat, nullptr, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
+CreateFunction(basicStatPopup, BasicStat, new CS::BasicStat(), basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
+CreateFunction(bonusStatPopup, BonusStat, new CS::BonusStat(), bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
 CreateFunction(descriptorPopup, Descriptor, nullptr, descriptorPopup->getName(), this)
 CreateFunction(equipmentPopup, Equipment, nullptr, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
 CreateFunction(attacksPopup, Attacks, new CS::Attacks(), attacksPopup->getName(), attacksPopup->getMaxItems(), this)

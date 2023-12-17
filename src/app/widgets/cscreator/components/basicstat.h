@@ -30,13 +30,10 @@ protected:
     QLabel valueMaxLabel;
     QLabel diceLabel;
     QLabel nameLabel;
-    QString name;
-    int valueMax;
-    Dice dice; // NOTE: it would be better to find an alternative to this
 
-    CS::BasicStat *basicStat;
+    CS::BasicStat *basicStat = nullptr;
 
-    void updateLabels();
+    virtual void update(int valueMax, Dice dice, const QString& name);
 };
 
 } // end namespace CSCreator

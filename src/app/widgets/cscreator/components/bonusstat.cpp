@@ -8,9 +8,9 @@ namespace CSCreator {
 /*                                constructors                                */
 /******************************************************************************/
 
-BonusStat::BonusStat(CS::BonusStat *bonuStat, int valueMax, Dice dice, const QString& name, QWidget *parent):
-    BasicStat(nullptr, valueMax, dice, name, "Bonus stat", parent),
-    bonusStat(bonuStat)
+BonusStat::BonusStat(CS::BonusStat *bonuStat_in, int valueMax, Dice dice, const QString& name, QWidget *parent):
+    BasicStat(static_cast<CS::BasicStat*>(bonuStat_in), valueMax, dice, name, "Bonus stat", parent),
+    bonusStat(bonuStat_in)
 {
 
 }
@@ -20,10 +20,7 @@ BonusStat::BonusStat(CS::BonusStat *bonuStat, int valueMax, Dice dice, const QSt
 /******************************************************************************/
 
 genSettingsPopup(BonusStat, bonusStatPopup, BonusStatPopup, {
-    valueMax = bonusStatPopup->getMaxValue();
-    dice = bonusStatPopup->getDice();
-    name = bonusStatPopup->getName();
-    updateLabels();
-}, name, valueMax, dice);
+    update(bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName());
+}, bonusStat->getTitle(), bonusStat->getValueMax(), bonusStat->getDice());
 
 } // end namespace CSCreator

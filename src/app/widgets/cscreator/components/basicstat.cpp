@@ -1,7 +1,6 @@
 #include "basicstat.h"
 #include "basicstatpopup.h"
 #include <QStringBuilder>
-#include <iostream>
 
 namespace CSCreator {
 
@@ -11,12 +10,9 @@ namespace CSCreator {
 
 BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
     Component(title, parent),
-    name(name),
-    valueMax(valueMax),
-    dice(dice),
     basicStat(basicStat)
 {
-    updateLabels();
+    update(valueMax, dice, name);
 
     bodyAdd(&nameLabel);
     bodyAdd(&valueMaxLabel);
@@ -40,14 +36,13 @@ BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QS
 /******************************************************************************/
 
 genSettingsPopup(BasicStat, basicStatPopup, BasicStatPopup, {
-    valueMax = basicStatPopup->getMaxValue();
-    dice = basicStatPopup->getDice();
-    name = basicStatPopup->getName();
-    updateLabels();
-}, name, valueMax, dice)
+    update(basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName());
+}, basicStat->getTitle(), basicStat->getValueMax(), basicStat->getDice())
 
-void BasicStat::updateLabels()
-{
+void BasicStat::update(int valueMax, Dice dice, const QString& name) {
+    basicStat->setValueMax(valueMax);
+    basicStat->setTitle(name);
+    basicStat->setDice(dice);
     valueMaxLabel.setText("max value: " + QString::number(valueMax));
     diceLabel.setText("dice: " + QString::number(dice.getDiceNumber()) + "d" + QString::number(dice.getFaces()));
     nameLabel.setText("name: " + name);

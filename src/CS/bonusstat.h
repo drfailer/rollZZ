@@ -9,8 +9,7 @@ namespace CS {
 class BonusStat : public BasicStat
 {
 public:
-    BonusStat(const QString& title, int bonusValue = 0, int value = 8, int valueMax = 20, Dice dice = Dice());
-    BonusStat(int bonusValue = 0, int value = 8, Dice dice = Dice());
+    BonusStat(const QString& title = "name", int bonusValue = 0, int value = 8, int valueMax = 20, Dice dice = Dice());
     int roll() const;
 
     /* accessors ***************************************************************/

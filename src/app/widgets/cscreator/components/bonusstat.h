@@ -12,12 +12,12 @@ class BonusStat : public BasicStat
 {
     Q_OBJECT
 public:
-    BonusStat(CS::BonusStat *bonuStat, int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
+    BonusStat(CS::BonusStat *bonuStat, int valueMax = 20, Dice dice = Dice(), const QString& name = "name", QWidget *parent = nullptr);
     void settingsPopup() override;
 
 private:
-    BonusStatPopup *bonusStatPopup;
-    CS::BonusStat *bonusStat;
+    BonusStatPopup *bonusStatPopup = nullptr;
+    CS::BonusStat *bonusStat = nullptr;
 };
 
 } // end namespace CSCreator

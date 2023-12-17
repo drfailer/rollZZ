@@ -2,8 +2,8 @@
 
 namespace CS {
 
-BasicStat::BasicStat(const QString& title, int value, int valueMax, Dice dice):
-    Component(title),
+BasicStat::BasicStat(const QString& name, int value, int valueMax, Dice dice):
+    Component(name),
     value(value),
     valueMax(valueMax),
     dice(dice)
