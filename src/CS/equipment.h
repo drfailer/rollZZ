@@ -12,14 +12,23 @@ class Equipment : public Component
 
 public:
     using Component::Component;
-    Equipment();
+    Equipment(bool useWeight = true, int maxWeight = 60, int maxItems = 100);
 
     /* accessors ***************************************************************/
-    void addItem(Item item) { items.push_back(item); }
-    void removeItem(int index) { items.remove(index); }
+    void addItem(Item item);
+    void removeItem(int index);
+    void setMaxItems(int maxItems) { this->maxItems = maxItems; }
+    int getMaxItems() const { return maxItems; }
+    void setMaxWeight(int maxWeight) { this->maxWeight = maxWeight; }
+    int getMaxWeight() const { return maxWeight; }
+    void setUseWeight(bool useWeight) { this->useWeight = useWeight; }
+    bool getUseWeight() const { return useWeight; }
 
 private:
     QList<Item> items;
+    bool useWeight;
+    int maxWeight;
+    int maxItems;
 };
 }
 
