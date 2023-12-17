@@ -11,14 +11,9 @@ namespace CSCreator {
 
 Equipment::Equipment(CS::Equipment *equipment, bool useWeight, int maxWeight, int maxItems, QWidget *parent):
     Component("Equipment", parent),
-    useWeightLabel("use weight: " + QString(useWeight? "true":"false"), this),
-    maxWeightLabel("max weight: " + QString::number(maxWeight), this),
-    maxItemsLabel("max items: " + QString::number(maxItems), this),
-    useWeight(useWeight),
-    maxWeight(maxWeight),
-    maxItems(maxItems),
     equipment(equipment)
 {
+    update(useWeight, maxWeight, maxItems);
     bodyAdd(&useWeightLabel);
     bodyAdd(&maxWeightLabel);
     bodyAdd(&maxItemsLabel);
@@ -30,12 +25,16 @@ Equipment::Equipment(CS::Equipment *equipment, bool useWeight, int maxWeight, in
 /******************************************************************************/
 
 genSettingsPopup(Equipment, equipmentPopup, EquipmentPopup, {
-    useWeight = equipmentPopup->getUseWeight();
-    maxWeight = equipmentPopup->getMaxWeight();
-    maxItems = equipmentPopup->getMaxItems();
+    update(equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems());
+}, equipment->getUseWeight(), equipment->getMaxWeight(), equipment->getMaxItems());
+
+void Equipment::update(bool useWeight, int maxWeight, int maxItems) {
+    equipment->setUseWeight(useWeight);
+    equipment->setMaxWeight(maxWeight);
+    equipment->setMaxItems(maxItems);
     useWeightLabel.setText("use weight: " + QString(useWeight? "true":"false"));
     maxWeightLabel.setText("max weight: " + QString::number(maxWeight));
     maxItemsLabel.setText("max items: " + QString::number(maxItems));
-}, useWeight, maxWeight, maxItems);
+}
 
 } // end namespace CSCreator

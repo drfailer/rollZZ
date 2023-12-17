@@ -14,7 +14,6 @@
 #include "popup/equipmentpopup.h"
 #include "popup/attackspopup.h"
 #include <QPalette>
-#include <iostream>
 
 namespace CSCreator {
 
@@ -118,7 +117,7 @@ void Section::addElement(ComponentTypes element)
 CreateFunction(basicStatPopup, BasicStat, new CS::BasicStat(), basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
 CreateFunction(bonusStatPopup, BonusStat, new CS::BonusStat(), bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
 CreateFunction(descriptorPopup, Descriptor, new CS::Descriptor(), descriptorPopup->getName(), this)
-CreateFunction(equipmentPopup, Equipment, nullptr, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
+CreateFunction(equipmentPopup, Equipment, new CS::Equipment(), equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
 CreateFunction(attacksPopup, Attacks, new CS::Attacks(), attacksPopup->getName(), attacksPopup->getMaxItems(), this)
 #undef CreateFunction
 

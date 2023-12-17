@@ -21,11 +21,10 @@ private:
     QLabel useWeightLabel;
     QLabel maxWeightLabel;
     QLabel maxItemsLabel;
-    bool useWeight;
-    int maxWeight;
-    int maxItems;
 
     CS::Equipment *equipment = nullptr;
+
+    void update(bool useWeight, int maxWeight, int maxItems);
 };
 
 } // end namespace CSCreator
