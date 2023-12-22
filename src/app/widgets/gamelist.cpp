@@ -24,7 +24,4 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
 
 GameList::~GameList()
 {
-    for (auto *widget : layout.children()) {
-        delete widget;
-    }
 }
