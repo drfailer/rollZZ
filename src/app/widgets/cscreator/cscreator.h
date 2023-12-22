@@ -28,7 +28,7 @@ class CSCreator : public QWidget
     Q_OBJECT
 public:
     CS::CS* getCSTree() const { return CSTree; }
-    explicit CSCreator(CSCreatorConfig config, QWidget *parent = nullptr);
+    explicit CSCreator(CSCreatorConfig config, CS::CS *CSTree = nullptr, QWidget *parent = nullptr);
     ~CSCreator();
     QWidget* createTab();
 
@@ -58,7 +58,7 @@ private:
     SectionPopup *sectionPopup = nullptr;
 
     /* cs tree *****************************************************************/
-    CS::CS* CSTree;
+    CS::CS* CSTree = nullptr;
 
     /* private methods *********************************************************/
     QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }

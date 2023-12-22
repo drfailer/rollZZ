@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include "cs.h"
 #include "widgets/cscreator/cscreator.h"
 #include "widgets/gamelist.h"
 
@@ -25,5 +26,6 @@ private:
     Ui::MainWindow *ui;
     GameList *gameList;
     CSCreator::CSCreator *csCreator;
+    CS::CS CSTree;
 };
 #endif // MAINWINDOW_H

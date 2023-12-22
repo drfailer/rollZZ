@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent):
         .saveBtn = ui->CSCreatorSaveBtn,
         .importBtn = ui->CSCreatorImportBtn,
     };
-    csCreator = new CSCreator::CSCreator(csCreatorConfig, ui->CSCreator);
+    csCreator = new CSCreator::CSCreator(csCreatorConfig, &CSTree, ui->CSCreator);
     connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });
 }
 

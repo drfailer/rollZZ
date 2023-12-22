@@ -11,14 +11,15 @@
 
 namespace CSCreator {
 
-CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
+CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     QWidget(parent),
     contentWgt(config.contentWgt),
     contentLyt(new QVBoxLayout(this)),
     tabWgt(new QTabWidget(this)),
     newTabBtn(config.newTabBtn),
     saveBtn(config.saveBtn),
-    importBtn(config.importBtn)
+    importBtn(config.importBtn),
+    CSTree(CSTree)
 {
     // add the tabWgt in the page
     contentWgt->setLayout(contentLyt);
@@ -36,19 +37,10 @@ CSCreator::CSCreator(CSCreatorConfig config, QWidget *parent):
     connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
 }
 
-CSCreator::~CSCreator()
-{
-    // I don't know if it works like this
-    for (auto wgt : tabWgt->children()) {
-        delete wgt;
-    }
-    delete contentLyt;
-    delete tabWgt;
-    delete CSTree;
+CSCreator::~CSCreator() {
 }
 
-void CSCreator::move(bool up, QWidget *wgt)
-{
+void CSCreator::move(bool up, QWidget *wgt) {
     int index = currentTabLyt()->indexOf(wgt);
     int newIndex = up ? index - 1 : index + 1;
 
@@ -62,23 +54,23 @@ void CSCreator::move(bool up, QWidget *wgt)
 /* Tabs                                                                       */
 /******************************************************************************/
 
-QWidget* CSCreator::createTab()
-{
+QWidget* CSCreator::createTab() {
     QWidget *newTabWgt = new QWidget(tabWgt);
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
     QPushButton *newSectionBtn = new QPushButton("new section");
+    CS::Part *newPart = new CS::Part();
 
     newTabLyt->addWidget(newSectionBtn);
     newTabWgt->setLayout(newTabLyt);
     newTabLyt->setAlignment(Qt::AlignTop);
     connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
     tabs.push_back(newTabWgt);
-    parts.insert(newTabWgt, new CS::Part());
+    parts.insert(newTabWgt, newPart);
+    CSTree->addPart(newPart);
     return newTabWgt;
 }
 
-void CSCreator::addTabPopup()
-{
+void CSCreator::addTabPopup() {
     if (tabPopup == nullptr) {
         tabPopup = new TabPopup("NEW TAB");
     }
@@ -95,8 +87,7 @@ void CSCreator::addTabPopup()
     });
 }
 
-void CSCreator::renameTabPopup(int index)
-{
+void CSCreator::renameTabPopup(int index) {
     if (tabPopup == nullptr) {
         tabPopup = new TabPopup("RENAME TAB", tabWgt->tabText(index));
     }
@@ -118,8 +109,7 @@ void CSCreator::renameTabPopup(int index)
 /* add Category                                                               */
 /******************************************************************************/
 
-void CSCreator::addSectionPopup()
-{
+void CSCreator::addSectionPopup() {
     if (sectionPopup == nullptr) {
         sectionPopup = new SectionPopup();
     }
