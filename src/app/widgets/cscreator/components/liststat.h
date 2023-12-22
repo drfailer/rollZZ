@@ -31,8 +31,7 @@ private:
         QString statName;
     };
 
-    // todo: find a better name
-    QList<Skill> skills;
+    // TODO: find a better name
     QList<QLabel*> skillsLabels;
 
     ListStatPopup* listStatPopup = nullptr;

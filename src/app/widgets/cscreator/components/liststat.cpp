@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <liststatpopup.h>
+#include "CS/liststat.h"
 
 namespace  CSCreator {
 
@@ -39,8 +40,7 @@ ListStat::~ListStat()
 
 void ListStat::clearSkills()
 {
-    // remove the skills
-    skills.clear();
+    listStat->clearStats();
     // remove label in the list
     for (QWidget* wgt : skillsLabels) {
         skillsLyt.removeWidget(wgt);
@@ -57,7 +57,7 @@ void ListStat::addSkill(SkillWgt* skill)
                                   + ")");
     skillsLyt.addWidget(newLabel);
     skillsLabels.push_back(newLabel);
-    skills.push_back((Skill) { skill->getName(), QString::number(skill->getBonusStat()) });
+    listStat->addStat(CS::Caracteristic(skill->getName(), QString::number(skill->getBonusStat())));
 }
 
 /******************************************************************************/
@@ -68,9 +68,8 @@ void ListStat::settingsPopup()
 {
     if (listStatPopup == nullptr) {
         listStatPopup = new ListStatPopup(name);
-        // todo: ajouter liste skills
-        for (const Skill& skill : skills) {
-            listStatPopup->addSkill(skill.name, skill.statName);
+        for (const CS::Caracteristic& caracteristic : *listStat) {
+            listStatPopup->addSkill(caracteristic.getName(), "");
         }
     }
     listStatPopup->show();

@@ -129,17 +129,19 @@ CreateFunction(attacksPopup, Attacks, attacksPopup->getName(), attacksPopup->get
 
 ListStat *Section::createListStat()
 {
-    ListStat *newListStat = new ListStat(nullptr, listStatPopup->getName(), this);
-    connect(newListStat, &Section::remove, this, [&, wgt = newListStat]() {
+    CS::ListStat *newListStat = new CS::ListStat();
+    ListStat *newListStatWgt = new ListStat(newListStat, listStatPopup->getName(), this);
+    section->addComponent(newListStat);
+    connect(newListStatWgt, &Section::remove, this, [&, wgt = newListStatWgt]() {
         bodyRemove(wgt); content.removeOne(wgt); delete wgt;
     });
-    connect(newListStat, &Section::moveUp, this, [&, wgt = newListStat]() { move(true, wgt); });
-    connect(newListStat, &Section::moveDown, this, [&, wgt = newListStat]() { move(false, wgt); });
+    connect(newListStatWgt, &Section::moveUp, this, [&, wgt = newListStatWgt]() { move(true, wgt); });
+    connect(newListStatWgt, &Section::moveDown, this, [&, wgt = newListStatWgt]() { move(false, wgt); });
     // add skills
     for (SkillWgt* skill : listStatPopup->getSkills()) {
-        newListStat->addSkill(skill);
+        newListStatWgt->addSkill(skill);
     }
-    return newListStat;
+    return newListStatWgt;
 }
 
 #define CreatePopup(Component, popupVar, popupClass)                           \
