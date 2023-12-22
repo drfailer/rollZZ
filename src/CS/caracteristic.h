@@ -10,7 +10,7 @@ namespace CS {
 class Caracteristic
 {
 public:
-    Caracteristic(const QString& name, int bonus = 0, Dice dice = Dice(20), int checked = false);
+    Caracteristic(const QString& name, const QString& statName, Dice dice = Dice(), int checked = false);
     int roll() const;
 
     /* accessors ***************************************************************/
@@ -25,6 +25,7 @@ public:
 
 private:
     QString name;
+    QString linkedStatName;
     int bonus;
     int checked;
     Dice dice;

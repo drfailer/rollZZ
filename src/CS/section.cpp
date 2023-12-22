@@ -9,16 +9,14 @@ Section::Section(const QString& title):
 
 }
 
-Section::~Section()
-{
+Section::~Section() {
     for (Component* comp : components) {
         delete comp;
     }
     components.clear();
 }
 
-void Section::addComponent(Component *component)
-{
+void Section::addComponent(Component *component) {
     components.push_back(component);
 }
 

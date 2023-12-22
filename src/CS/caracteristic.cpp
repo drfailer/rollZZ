@@ -2,9 +2,9 @@
 
 namespace CS {
 
-Caracteristic::Caracteristic(const QString& name, int bonus, Dice dice, int checked):
+Caracteristic::Caracteristic(const QString& name, const QString& statName, Dice dice, int checked):
     name(name),
-    bonus(bonus),
+    linkedStatName(statName),
     checked(checked),
     dice(dice)
 { }
