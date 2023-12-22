@@ -77,3 +77,4 @@ CMakeLists.txt.user*
 
 lib/mongo-cxx
 src/.gdb_history
+.tmux-config
