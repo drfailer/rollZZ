@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent):
     gameList = new GameList({ "Meilleur MJ", "MJ bauf mais ça passe encore"}, ui->gamesList);
     // gameList = new GameList({}, ui->gamesList);
 
+    // TODO: create a class for this v
+
     /***************************************************************************/
     /* Character sheets creation                                               */
     /***************************************************************************/
@@ -49,6 +51,31 @@ MainWindow::MainWindow(QWidget *parent):
     };
     csCreator = new CSCreator::CSCreator(csCreatorConfig, &CSTree, ui->CSCreator);
     connect(ui->createTemplate, &QPushButton::clicked, this, [&](){ ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSCreator)); });
+
+    /***************************************************************************/
+    /* Character sheets edition                                                */
+    /***************************************************************************/
+    // WARN: the CSTree should be different here, but for now we keep it like
+    // this for the test
+
+    // this is for testing the display of the cseditor:
+    QHBoxLayout* CSListLyt = new QHBoxLayout();
+    QPushButton* testCSBtn = new QPushButton();
+    ui->CSList->setLayout(CSListLyt);
+    CSListLyt->addWidget(testCSBtn);
+    connect(testCSBtn, &QPushButton::clicked, this, [&](){
+                if (csEditor != nullptr) {
+                    delete csEditor;
+                    csEditor = nullptr;
+                }
+                CSEditor::CSEditorConfig csEditorConfig = {
+                    .contentWgt = ui->CSEditorContent,
+                    .saveBtn = ui->CSEditorSaveBtn,
+                    .importBtn = ui->CSEditorImportBtn,
+                };
+                csEditor = new CSEditor::CSEditor(csEditorConfig, &CSTree, ui->CSEditor);
+                ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSEditor));
+            });
 }
 
 MainWindow::~MainWindow()
