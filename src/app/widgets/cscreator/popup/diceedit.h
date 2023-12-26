@@ -1,5 +1,5 @@
-#ifndef DICEEDIT_H
-#define DICEEDIT_H
+#ifndef CSEDITOR_DICEEDIT_H
+#define CSEDITOR_DICEEDIT_H
 
 #include <QHBoxLayout>
 #include <QLabel>

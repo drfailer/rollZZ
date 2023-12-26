@@ -1,5 +1,5 @@
-#ifndef BASICSTATPOPUP_H
-#define BASICSTATPOPUP_H
+#ifndef CSEDITOR_BASICSTATPOPUP_H
+#define CSEDITOR_BASICSTATPOPUP_H
 
 #include "cscreatorpopup.h"
 #include "diceedit.h"

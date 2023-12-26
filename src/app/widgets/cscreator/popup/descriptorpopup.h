@@ -1,5 +1,5 @@
-#ifndef DESCRIPTORPOPUP_H
-#define DESCRIPTORPOPUP_H
+#ifndef CSEDITOR_DESCRIPTORPOPUP_H
+#define CSEDITOR_DESCRIPTORPOPUP_H
 
 #include "cscreatorpopup.h"
 

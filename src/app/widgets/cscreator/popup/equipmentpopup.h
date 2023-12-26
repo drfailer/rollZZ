@@ -1,5 +1,5 @@
-#ifndef EQUIPMENTPOPUP_H
-#define EQUIPMENTPOPUP_H
+#ifndef CSEDITOR_EQUIPMENTPOPUP_H
+#define CSEDITOR_EQUIPMENTPOPUP_H
 
 #include "cscreatorpopup.h"
 

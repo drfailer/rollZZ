@@ -1,5 +1,5 @@
-#ifndef LISTSTATPOPUP_H
-#define LISTSTATPOPUP_H
+#ifndef CSEDITOR_LISTSTATPOPUP_H
+#define CSEDITOR_LISTSTATPOPUP_H
 
 #include "cscreatorpopup.h"
 #include "tools/listelement.h"

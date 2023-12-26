@@ -1,5 +1,5 @@
-#ifndef ATTACKSPOPUP_H
-#define ATTACKSPOPUP_H
+#ifndef CSEDITOR_ATTACKSPOPUP_H
+#define CSEDITOR_ATTACKSPOPUP_H
 
 #include "cscreatorpopup.h"
 

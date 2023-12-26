@@ -1,5 +1,5 @@
-#ifndef SECTIONPOPUP_H
-#define SECTIONPOPUP_H
+#ifndef CSEDITOR_SECTIONPOPUP_H
+#define CSEDITOR_SECTIONPOPUP_H
 
 #include "cscreatorpopup.h"
 

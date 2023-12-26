@@ -1,5 +1,5 @@
-#ifndef TABPOPUP_H
-#define TABPOPUP_H
+#ifndef CSEDITOR_TABPOPUP_H
+#define CSEDITOR_TABPOPUP_H
 
 #include "cscreatorpopup.h"
 #include <QLineEdit>

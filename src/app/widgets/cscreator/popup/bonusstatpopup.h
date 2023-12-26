@@ -1,5 +1,5 @@
-#ifndef BONUSSTATPOPUP_H
-#define BONUSSTATPOPUP_H
+#ifndef CSEDITOR_BONUSSTATPOPUP_H
+#define CSEDITOR_BONUSSTATPOPUP_H
 
 #include "basicstatpopup.h"
 

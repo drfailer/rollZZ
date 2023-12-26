@@ -1,5 +1,5 @@
-#ifndef CSCREATORPOPUP_H
-#define CSCREATORPOPUP_H
+#ifndef CSEDITOR_CSCREATORPOPUP_H
+#define CSEDITOR_CSCREATORPOPUP_H
 
 #include <QLabel>
 #include <QPushButton>
