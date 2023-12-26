@@ -15,6 +15,7 @@ public:
     ~Section();
     /* methods *****************************************************************/
     void addComponent(Component*);
+    const QList<Component*>& getComponents() const { return components; }
     // TODO: move components
 
     /* accessors ***************************************************************/

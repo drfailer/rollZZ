@@ -14,15 +14,15 @@ public:
     Attacks(int maxWeaponNb = 3, const QString title = "attacks & spells");
 
     /* accessors ***************************************************************/
-    void addWeapon(Weapon weapon);
-    Weapon& at(int index) { return weapons[index]; }
+    void addWeapon(Weapon* weapon);
+    Weapon* at(int index) { return weapons[index]; }
 
     void setMaxWeaponNb(int maxWeaponNb) { this->maxWeaponNb = maxWeaponNb; }
     int getMaxWeaponNb() const { return maxWeaponNb; }
 
 private:
     int maxWeaponNb;
-    QList<Weapon> weapons;
+    QList<Weapon*> weapons;
 };
 
 } // end namespace CS

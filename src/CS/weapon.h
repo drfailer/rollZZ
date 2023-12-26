@@ -10,7 +10,11 @@ class Weapon
 {
 public:
     /* constructors ************************************************************/
-    Weapon(const QString&, const QString&, Dice, Dice, int = 0, int = 0, int = 0, int = 0);
+    Weapon(const QString& name = "name",
+           const QString& damageType = "none",
+           Dice attackDice = Dice(),
+           Dice damageDice = Dice(6, 1),
+           int = 0, int = 0, int = 0, int = 0);
     Weapon(Dice, Dice, int = 0, int = 0, int = 0, int = 0);
 
     /* roll ********************************************************************/

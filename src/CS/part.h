@@ -19,6 +19,7 @@ public:
     void addSection(CS::Section* section);
     void removeSection(CS::Section* section);
     void removeSection(int index);
+    const QList<Section*>& getSections() const { return sections; }
 
 private:
     QString name;

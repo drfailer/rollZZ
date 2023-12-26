@@ -9,7 +9,7 @@ Attacks::Attacks(int maxWeaponNb, const QString title):
 
 }
 
-void Attacks::addWeapon(Weapon weapon)
+void Attacks::addWeapon(Weapon* weapon)
 {
     if (weapons.count() < maxWeaponNb) {
         weapons.push_back(weapon);

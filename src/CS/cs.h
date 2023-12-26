@@ -16,6 +16,7 @@ public:
 
     /* methods **********************************************/
     void addPart(Part* part) { parts.push_back(part); }
+    const QList<Part*>& getParts() const { return parts; }
     // TODO: add a way to move parts
 
 private:
