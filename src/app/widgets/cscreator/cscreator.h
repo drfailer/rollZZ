@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTabWidget>
+#include <QScrollArea>
 #include <QMap>
 
 
@@ -52,6 +53,9 @@ private:
     QPushButton *importBtn;
     QList<QWidget*> tabs;
     QMap<QWidget*, CS::Part*> parts;
+    QMap<QWidget*, QScrollArea*> scrollAreas; // NOTE: this is not the best
+                                              // solution, it would be nice to
+                                              // manage scroll areas differently
 
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;

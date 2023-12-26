@@ -38,7 +38,14 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
 }
 
 CSCreator::~CSCreator() {
+    for (auto elt : scrollAreas) {
+        delete elt;
+    }
 }
+
+/******************************************************************************/
+/*                               move elements                                */
+/******************************************************************************/
 
 void CSCreator::move(bool up, QWidget *wgt) {
     int index = currentTabLyt()->indexOf(wgt);
@@ -59,6 +66,7 @@ QWidget* CSCreator::createTab() {
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
     QPushButton *newSectionBtn = new QPushButton("new section");
     CS::Part *newPart = new CS::Part();
+    QScrollArea* newScrollArea = new QScrollArea();
 
     newTabLyt->addWidget(newSectionBtn);
     newTabWgt->setLayout(newTabLyt);
@@ -66,7 +74,11 @@ QWidget* CSCreator::createTab() {
     connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
     tabs.push_back(newTabWgt);
     parts.insert(newTabWgt, newPart);
+    scrollAreas.insert(newTabWgt, newScrollArea);
+    newScrollArea->setWidgetResizable(true);
+    newScrollArea->setWidget(newTabWgt);
     CSTree->addPart(newPart);
+
     return newTabWgt;
 }
 
@@ -116,15 +128,16 @@ void CSCreator::addSectionPopup() {
     sectionPopup->show();
     connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
         if (add) {
-            // TODO: create a custom widget for this
             CS::Section* newSection = new CS::Section(sectionPopup->getName());
             Section *newSectionWgt = new Section(newSection, sectionPopup->getName(), this);
             currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSectionWgt);
             parts[tabWgt->widget(tabWgt->currentIndex())]->addSection(newSection);
+            scrollAreas[tabWgt->widget(tabWgt->currentIndex())]->setWidget(tabWgt->widget(tabWgt->currentIndex()));
             index++;
             // connections
             connect(newSectionWgt, &Section::remove, this, [&, newSection, wgt = newSectionWgt]() {
                         parts[tabWgt->widget(tabWgt->currentIndex())]->removeSection(newSection);
+                        scrollAreas[tabWgt->widget(tabWgt->currentIndex())]->setWidget(tabWgt->widget(tabWgt->currentIndex()));
                         currentTabLyt()->removeWidget(wgt);
                         delete wgt;
                     });
@@ -133,6 +146,10 @@ void CSCreator::addSectionPopup() {
                     });
             connect(newSectionWgt, &Section::moveDown, this, [&, wgt = newSectionWgt]() {
                         move(false, wgt);
+                    });
+            connect(newSectionWgt, &Section::changed, this, [&]() {
+                        scrollAreas[tabWgt->widget(tabWgt->currentIndex())]
+                            ->setWidget(tabWgt->widget(tabWgt->currentIndex()));
                     });
         }
         // remove the popup window

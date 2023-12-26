@@ -106,6 +106,7 @@ void Section::addElement(ComponentTypes element)
         break;
     }
     addElementBtn.setCurrentIndex(int(ComponentTypes::None));
+    emit changed();
 }
 
 #define CreateFunction(popupVar, Component, ...)                                                                 \

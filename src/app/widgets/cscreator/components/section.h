@@ -47,6 +47,9 @@ public:
     void add(QWidget* wgt);
     void move(bool up, QWidget* wgt);
 
+signals:
+    void changed();
+
 private slots:
     void settingsPopup() override;
     void addElement(ComponentTypes element);
