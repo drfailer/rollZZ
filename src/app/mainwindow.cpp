@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     // this is for testing the display of the cseditor:
     QHBoxLayout* CSListLyt = new QHBoxLayout();
-    QPushButton* testCSBtn = new QPushButton();
+    QPushButton* testCSBtn = new QPushButton("test sheet");
     ui->CSList->setLayout(CSListLyt);
     CSListLyt->addWidget(testCSBtn);
     connect(testCSBtn, &QPushButton::clicked, this, [&](){
@@ -82,6 +82,7 @@ MainWindow::~MainWindow()
 {
     delete gameList;
     delete csCreator;
+    delete csEditor;
 }
 
 void MainWindow::goToPage(QWidget *w)
