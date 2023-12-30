@@ -10,29 +10,28 @@
 
 namespace CSEditor {
 
-class Component : public QFrame
-{
-  Q_OBJECT
-public:
-    Component(const QString& title, QWidget *parent = nullptr);
+class Component : public QFrame {
+    Q_OBJECT
+  public:
+    Component(const QString &title, QWidget *parent = nullptr);
     virtual ~Component() {}
 
-    /* methods ******************************************************************/
+    /* methods ****************************************************************/
     void bodyAdd(QWidget *wgt);
     void bodyRemove(QWidget *wgt);
     void bodyInsert(int index, QWidget *wgt);
-    int  bodyCount() const { return bodyLyt.count(); }
-    int  bodyIndexOf(QWidget *wgt) const { return bodyLyt.indexOf(wgt); }
+    int bodyCount() const { return bodyLyt.count(); }
+    int bodyIndexOf(QWidget *wgt) const { return bodyLyt.indexOf(wgt); }
 
-    /* accessors ****************************************************************/
+    /* accessors **************************************************************/
     QString getTitle() const { return title.text(); }
-    void    setTitle(const QString &newTitle) { title.setText(newTitle); }
+    void setTitle(const QString &newTitle) { title.setText(newTitle); }
 
-private:
+  private:
     QVBoxLayout mainLyt;
     QHBoxLayout headerLyt;
     QVBoxLayout bodyLyt;
-    QLineEdit   title;
+    QLabel title;
     QHBoxLayout titleLyt;
 };
 

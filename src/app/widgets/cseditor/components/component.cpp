@@ -2,11 +2,8 @@
 
 namespace CSEditor {
 
-Component::Component(const QString& title, QWidget *parent):
-    QFrame(parent),
-    mainLyt(this),
-    title(title)
-{
+Component::Component(const QString &title, QWidget *parent)
+    : QFrame(parent), mainLyt(this), title(title) {
     headerLyt.addLayout(&titleLyt);
 
     // title on the right
@@ -19,20 +16,16 @@ Component::Component(const QString& title, QWidget *parent):
     // add to the main layout
     mainLyt.addLayout(&headerLyt);
     mainLyt.addLayout(&bodyLyt);
+
+    // remove content margins
+    setContentsMargins(0, 0, 0, 0);
 }
 
-void Component::bodyAdd(QWidget *wgt)
-{
-    bodyLyt.addWidget(wgt);
-}
+void Component::bodyAdd(QWidget *wgt) { bodyLyt.addWidget(wgt); }
 
-void Component::bodyRemove(QWidget *wgt)
-{
-    bodyLyt.removeWidget(wgt);
-}
+void Component::bodyRemove(QWidget *wgt) { bodyLyt.removeWidget(wgt); }
 
-void Component::bodyInsert(int index, QWidget *wgt)
-{
+void Component::bodyInsert(int index, QWidget *wgt) {
     bodyLyt.insertWidget(index, wgt);
 }
 
