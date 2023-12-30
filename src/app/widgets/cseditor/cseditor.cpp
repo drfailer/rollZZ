@@ -16,11 +16,10 @@ CSEditor::CSEditor(const CSEditorConfig& config, CS::CS *CSTree, QWidget *parent
     importBtn(config.importBtn),
     CSTree(CSTree)
 {
-    std::cout << "cseditor constructor" << std::endl;
     // add the tabWgt in the page
     contentWgt->setLayout(contentLyt);
     contentLyt->addWidget(tabWgt);
-    tabWgt->setMovable(true);
+    tabWgt->setMovable(false);
     tabWgt->setTabPosition(QTabWidget::South);
 
     // add parts
@@ -31,11 +30,14 @@ CSEditor::CSEditor(const CSEditorConfig& config, CS::CS *CSTree, QWidget *parent
     // the other buttons
     connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
     connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+
+    setContentsMargins(0, 0, 0, 0);
 }
 
 CSEditor::~CSEditor() {
-    contentWgt->setLayout(nullptr);
+    // remove all widgets (the page is reloaded each time it's open)
     delete contentLyt;
+    contentLyt = nullptr;
 }
 
 QWidget* CSEditor::createTab(CS::Part* part) {
