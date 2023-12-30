@@ -21,7 +21,6 @@ private:
     // TODO: add a button to add weapons
     // TODO: create a widget for weapons (damage, ...)
     QList<Weapon*> weapons;
-    QPushButton *addWeaponBtn;
 
     /* methods ****************************************************************/
     void addWeapon();

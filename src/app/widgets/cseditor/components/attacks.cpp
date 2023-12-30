@@ -12,16 +12,18 @@ namespace CSEditor {
 
 Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
     Component(attacks->getTitle(), parent),
-    attacks(attacks),
-    addWeaponBtn(new QPushButton("add weapon"))
+    attacks(attacks)
 {
+    // add weapons
+    for (int i = 0; i < attacks->getMaxWeaponNb(); ++i) {
+        addWeapon();
+    }
+
+    // set style
     setStyleSheet("QLabel { font-size: 18px; }"
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
-
-    bodyAdd(addWeaponBtn);
-    connect(addWeaponBtn, &QPushButton::clicked, this, &Attacks::addWeapon);
 }
 
 void Attacks::addWeapon() {
