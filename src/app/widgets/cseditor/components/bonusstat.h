@@ -15,6 +15,7 @@ public:
     BonusStat(CS::BonusStat *bonuStat, QWidget *parent = nullptr);
 
 private:
+    QSpinBox bonusEdit;
     CS::BonusStat *bonusStat = nullptr;
 };
 

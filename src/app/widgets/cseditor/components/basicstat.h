@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <dice.h>
 #include <QSpinBox>
+#include <QBoxLayout>
 
 namespace CSEditor {
 
