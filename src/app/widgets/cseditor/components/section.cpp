@@ -22,10 +22,10 @@ Section::Section(CS::Section* section, QWidget *parent):
 
     // body
     for (CS::Component* component : section->getComponents()) {
-        if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
-            bodyAdd(new BasicStat(basicStat, this));
-        } else if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
+        if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
             bodyAdd(new BonusStat(bonusStat, this));
+        } else if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
+            bodyAdd(new BasicStat(basicStat, this));
         } else if (CS::ListStat* listStat = dynamic_cast<CS::ListStat*>(component)) {
             bodyAdd(new ListStat(listStat, this));
         } else if (CS::Descriptor* descriptor = dynamic_cast<CS::Descriptor*>(component)) {
