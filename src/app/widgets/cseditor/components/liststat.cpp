@@ -1,6 +1,7 @@
 #include "cseditor/components/liststat.h"
 
 #include "CS/liststat.h"
+#include "cseditor/components/caracteristic.h"
 
 namespace  CSEditor {
 
@@ -18,7 +19,9 @@ ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
                   );
 
     // TODO: add skill edit for each skill
-    /* bodyAdd(&newSkillEdit); */
+    for (int i = 0; i < listStat->count(); ++i) {
+        bodyAdd(new Caracteristic(&listStat->at(i), this));
+    }
 }
 
 ListStat::~ListStat()
