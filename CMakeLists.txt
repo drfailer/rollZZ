@@ -56,6 +56,8 @@ set(PROJECT_SOURCES
 
 include_directories(
     src/
+    src/tools/widgets/
+    src/tools/
     src/CS/
     src/app/
     src/app/widgets/
@@ -95,7 +97,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/bonusstatpopup.h src/app/widgets/cscreator/popup/bonusstatpopup.cpp
         src/app/widgets/cscreator/popup/liststatpopup.h src/app/widgets/cscreator/popup/liststatpopup.cpp
         src/app/widgets/cscreator/popup/attackspopup.h src/app/widgets/cscreator/popup/attackspopup.cpp
-        src/app/widgets/cscreator/popup/diceedit.h src/app/widgets/cscreator/popup/diceedit.cpp
         src/app/widgets/cscreator/components/basicstat.h src/app/widgets/cscreator/components/basicstat.cpp
         src/app/widgets/cscreator/components/component.h src/app/widgets/cscreator/components/component.cpp
         src/app/widgets/cscreator/components/bonusstat.h src/app/widgets/cscreator/components/bonusstat.cpp
@@ -114,6 +115,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cseditor/components/section.cpp src/app/widgets/cseditor/components/section.h
         src/app/widgets/cseditor/components/weapon.cpp src/app/widgets/cseditor/components/weapon.h
         src/app/widgets/cseditor/cseditor.cpp src/app/widgets/cseditor/cseditor.h
+        src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
