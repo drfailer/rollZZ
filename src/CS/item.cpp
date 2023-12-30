@@ -1,4 +1,6 @@
-#include "item.h"
+#include "CS/item.h"
+
+namespace CS {
 
 Item::Item(QString name, QString description, int quantity, int weight):
     name(name),
@@ -7,3 +9,5 @@ Item::Item(QString name, QString description, int quantity, int weight):
     weight(weight)
 {
 }
+
+} // namespace CS

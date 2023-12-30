@@ -4,10 +4,12 @@
 #include <QString>
 
 // TODO: move this class elsewhere
+namespace CS {
+
 class Item
 {
 public:
-    Item(QString name, QString description, int quantity = 0, int weight = 0);
+    Item(QString name = "", QString description = "", int quantity = 0, int weight = 0);
 
     /* accessors ***************************************************************/
     QString getName() const { return name; }
@@ -25,5 +27,7 @@ private:
     int quantity;
     int weight;
 };
+
+} // namespace CS
 
 #endif // ITEM_H
