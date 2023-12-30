@@ -27,12 +27,15 @@ class Equipment : public Component {
     bool getUseWeight() const { return useWeight; }
     Item *at(int index) { return items[index]; }
     int count() const { return items.count(); }
+    void setWeight(int weight) { this->weight = weight; }
+    int getWeight() const { return weight; }
 
   private:
     QList<Item *> items;
     bool useWeight;
     int maxWeight;
     int maxItems;
+    int weight = 0;
 };
 
 } // namespace CS
