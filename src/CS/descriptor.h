@@ -5,6 +5,8 @@
 
 #include <QString>
 
+// TODO: add descriptor types (line edit, big, ...)
+
 namespace CS {
 
 class Descriptor : public Component

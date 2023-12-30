@@ -24,6 +24,8 @@ Descriptor::Descriptor(CS::Descriptor *descriptor, const QString &name, QWidget*
 /*                                  settings                                  */
 /******************************************************************************/
 
+// TODO: descriptor types
+
 genSettingsPopup(Descriptor, descriptorPopup, DescriptorPopup, {
     update(descriptorPopup->getName());
 }, descriptor->getTitle())
