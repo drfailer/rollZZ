@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <QBoxLayout>
-#include <qspinbox.h>
+#include <QRadioButton>
+#include <QSpinBox>
 #include "CS/caracteristic.h"
 
 namespace CSEditor {
@@ -17,6 +18,7 @@ class Caracteristic : public QWidget {
   private:
     CS::Caracteristic* caracteristic;
     QHBoxLayout layout;
+    QRadioButton check;
     QSpinBox bonusEdit;
 };
 
