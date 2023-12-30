@@ -111,6 +111,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cseditor/components/component.cpp src/app/widgets/cseditor/components/component.h
         src/app/widgets/cseditor/components/descriptor.cpp src/app/widgets/cseditor/components/descriptor.h
         src/app/widgets/cseditor/components/equipment.cpp src/app/widgets/cseditor/components/equipment.h
+        src/app/widgets/cseditor/components/item.cpp src/app/widgets/cseditor/components/item.h
         src/app/widgets/cseditor/components/liststat.cpp src/app/widgets/cseditor/components/liststat.h
         src/app/widgets/cseditor/components/caracteristic.cpp src/app/widgets/cseditor/components/caracteristic.h
         src/app/widgets/cseditor/components/section.cpp src/app/widgets/cseditor/components/section.h
