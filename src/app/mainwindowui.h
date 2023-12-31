@@ -1,4 +1,0 @@
-#ifndef MAINWINDOWUI_H
-#define MAINWINDOWUI_H
-
-#endif // MAINWINDOWUI_H
