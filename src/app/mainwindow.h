@@ -1,10 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QPushButton>
 #include "widgets/cscreator/cscreator.h"
 #include "widgets/gamelist.h"
+#include "widgets/map/mapwidget.h"
+#include "mainwindowui.h"
+#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,5 +27,6 @@ private:
     Ui::MainWindow *ui;
     GameList *gameList;
     CSCreator::CSCreator *csCreator;
+    MapWidget* mapWidget;
 };
 #endif // MAINWINDOW_H

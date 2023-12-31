@@ -12,7 +12,7 @@ CSCreatorPopup::CSCreatorPopup(const QString& name):
     mainLyt.addWidget(&title);
     // body
     mainLyt.addLayout(&bodyLyt);
-    // cancle / confirm
+    // cancel / confirm
     btnLyt.addWidget(&cancelBtn);
     btnLyt.addWidget(&confirmBtn);
     mainLyt.addLayout(&btnLyt);

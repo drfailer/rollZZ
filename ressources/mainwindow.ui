@@ -204,6 +204,7 @@ QPushButton:checked:hover {
             <property name="font">
              <font>
               <pointsize>-1</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -295,7 +296,7 @@ QPushButton:checked:hover {
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item alignment="Qt::AlignTop">
+          <item>
            <widget class="QWidget" name="menus" native="true">
             <property name="minimumSize">
              <size>
@@ -480,7 +481,7 @@ QPushButton:checked:hover {
 }</string>
                </property>
                <property name="currentIndex">
-                <number>3</number>
+                <number>5</number>
                </property>
                <widget class="QWidget" name="mainPage">
                 <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -663,7 +664,7 @@ QPushButton:checked:hover {
                       <widget class="QWidget" name="CSCreationPageWidget" native="true">
                        <layout class="QVBoxLayout" name="verticalLayout_15">
                         <item alignment="Qt::AlignLeft|Qt::AlignTop">
-                         <widget class="QLabel" name="CSCreatotTitle">
+                         <widget class="QLabel" name="CSCreatorTitle">
                           <property name="font">
                            <font>
                             <pointsize>20</pointsize>

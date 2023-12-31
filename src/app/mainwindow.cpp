@@ -30,9 +30,9 @@ MainWindow::MainWindow(QWidget *parent):
     /* Games acces page                                                        */
     /***************************************************************************/
 
-    // TODO: use the games of a real player (needs palyer class)
-    gameList = new GameList({ "Meilleur MJ", "MJ bauf mais ça passe encore"}, ui->gamesList);
-    // gameList = new GameList({}, ui->gamesList);
+    // TODO: use the games of a real player (needs player class)
+    gameList = new GameList({ new map::Game("Meilleur MJ"), new map::Game("MJ bauf mais ça passe encore")},ui->gamesList,
+                            [&](const map::Game* gametoLaunch){mapWidget = new MapWidget(ui->playerBoardPage); goToPage(ui->playerBoardPage);});
 
     /***************************************************************************/
     /* Character sheets creation                                               */
@@ -53,6 +53,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete gameList;
     delete csCreator;
+    delete mapWidget;
 }
 
 void MainWindow::goToPage(QWidget *w)

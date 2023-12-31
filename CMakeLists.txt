@@ -55,9 +55,11 @@ set(PROJECT_SOURCES
 )
 
 include_directories(
+    src/map/
     src/CS/
     src/app/
     src/app/widgets/
+    src/app/widgets/map
     src/app/widgets/cscreator/
     src/app/widgets/cscreator/popup/
     src/app/widgets/cscreator/components/
@@ -67,6 +69,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(rollZZ
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        src/map/game.h  src/map/game.cpp
+        src/map/map.h  src/map/map.cpp
+        src/app/widgets/map/mapwidget.h src/app/widgets/map/mapwidget.cpp
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
         src/app/widgets/cscreator/popup/basicstatpopup.h src/app/widgets/cscreator/popup/basicstatpopup.cpp
