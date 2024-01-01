@@ -2,11 +2,16 @@
 
 namespace CSCreator {
 
-DescriptorPopup::DescriptorPopup(const QString& name):
+DescriptorPopup::DescriptorPopup(const QString& name, CS::DescriptorTypes type):
     CSCreatorPopup("DESCRIPTOR"),
     nameEdit(name)
 {
+    typeEdit.addItem("oneline", CS::DescriptorTypes::ONELINE);
+    typeEdit.addItem("long", CS::DescriptorTypes::LONG);
+    typeEdit.setCurrentIndex(type);
+
     add(&nameEdit);
+    add(&typeEdit);
 }
 
 } // end namespace CSCreator
