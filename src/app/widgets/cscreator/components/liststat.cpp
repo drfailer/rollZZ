@@ -81,6 +81,7 @@ void ListStat::settingsPopup() {
                 addSkill(skill);
             }
         }
+        emit Component::update(confirm);
         delete listStatPopup;
         listStatPopup = nullptr;
     });
