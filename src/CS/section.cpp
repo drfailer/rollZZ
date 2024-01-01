@@ -20,4 +20,8 @@ void Section::addComponent(Component *component) {
     components.push_back(component);
 }
 
+void Section::removeComponent(Component* component) {
+    components.removeOne(component);
+}
+
 } // end namespace CS
