@@ -14,7 +14,6 @@ public:
     Descriptor(CS::Descriptor *descriptor, QWidget* parent = nullptr);
 
 private:
-    QTextEdit contentEdit;
     CS::Descriptor *descriptor = nullptr;
 };
 
