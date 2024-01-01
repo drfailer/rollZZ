@@ -13,7 +13,7 @@ class ListStat : public Component
 {
     Q_OBJECT
 public:
-    ListStat(CS::ListStat *listStat, const QString& name = "name", QWidget* parent = nullptr);
+    ListStat(CS::ListStat *listStat, QWidget* parent = nullptr);
     ~ListStat();
 
     void clearSkills();

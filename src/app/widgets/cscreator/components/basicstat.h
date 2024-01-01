@@ -17,9 +17,9 @@ class BasicStat : public Component
 {
     Q_OBJECT
 public:
-    BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, const QString& title, QWidget *parent = nullptr);
-    BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
-    virtual void settingsPopup();
+    BasicStat(CS::BasicStat *basicStat, const QString& title, QWidget *parent = nullptr);
+    BasicStat(CS::BasicStat *basicStat, QWidget *parent = nullptr);
+    void settingsPopup() override;
     virtual ~BasicStat() {}
     QString getName() const { return nameLabel.text(); }
 

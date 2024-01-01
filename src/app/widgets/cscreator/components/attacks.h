@@ -12,7 +12,7 @@ class Attacks : public Component
 {
     Q_OBJECT
 public:
-    Attacks(CS::Attacks *attack, const QString& name = "name", int maxWeaponNb = 3, QWidget *parent = nullptr);
+    Attacks(CS::Attacks *attack, QWidget *parent = nullptr);
     void settingsPopup() override;
     void update(const QString& title, int maxWeaponNb);
 

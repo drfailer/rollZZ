@@ -9,11 +9,11 @@ namespace CSCreator {
 /*                          constructor & destructor                          */
 /******************************************************************************/
 
-Attacks::Attacks(CS::Attacks *attacks, const QString& title, int maxWeaponNb, QWidget* parent):
+Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
     Component("Attack", parent),
     attacks(attacks)
 {
-    update(title, maxWeaponNb);
+    update("name", 3);
     bodyAdd(&nameLabel);
     bodyAdd(&maxItemsLabel);
     setStyleSheet("QLabel { font-size: 18px; }"

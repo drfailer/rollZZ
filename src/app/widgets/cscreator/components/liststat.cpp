@@ -10,12 +10,12 @@ namespace  CSCreator {
 /*                         constructors & destructors                         */
 /******************************************************************************/
 
-ListStat::ListStat(CS::ListStat *listStat, const QString &name, QWidget *parent):
+ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
     Component("Skills List", parent),
-    nameLabel("name: " + name),
+    nameLabel("name: name"),
     skillsWgt(this),
     skillsLyt(&skillsWgt),
-    name(name),
+    name("name"),
     listStat(listStat)
 {
     bodyAdd(&nameLabel);
@@ -64,8 +64,7 @@ void ListStat::addSkill(SkillWgt* skill)
 /*                                  settings                                  */
 /******************************************************************************/
 
-void ListStat::settingsPopup()
-{
+void ListStat::settingsPopup() {
     if (listStatPopup == nullptr) {
         listStatPopup = new ListStatPopup(name);
         for (const CS::Caracteristic& caracteristic : *listStat) {

@@ -11,7 +11,7 @@ class EquipmentPopup;
 class Equipment : public Component
 {
 public:
-    Equipment(CS::Equipment *equipment, bool useWeight = true, int maxWeight = 0, int maxItems = 0, QWidget* parent = nullptr);
+    Equipment(CS::Equipment *equipment, QWidget* parent = nullptr);
     void settingsPopup() override;
 
 private:

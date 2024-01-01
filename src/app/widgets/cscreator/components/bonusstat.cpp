@@ -8,8 +8,8 @@ namespace CSCreator {
 /*                                constructors                                */
 /******************************************************************************/
 
-BonusStat::BonusStat(CS::BonusStat *bonuStat_in, int valueMax, Dice dice, const QString& name, QWidget *parent):
-    BasicStat(static_cast<CS::BasicStat*>(bonuStat_in), valueMax, dice, name, "Bonus stat", parent),
+BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent):
+    BasicStat(static_cast<CS::BasicStat*>(bonuStat_in), "Bonus stat", parent),
     bonusStat(bonuStat_in)
 {
 
