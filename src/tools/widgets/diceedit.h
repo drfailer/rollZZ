@@ -9,7 +9,7 @@
 class DiceEdit : public QWidget {
     Q_OBJECT
   public:
-    explicit DiceEdit(bool useBonus = false, QWidget *parent = nullptr);
+    DiceEdit(bool useBonus = false, QWidget *parent = nullptr);
     int getFaces() const { return diceFaces.value(); }
     int getNumber() const { return diceNumber.value(); }
     void setFaces(int newFaces) { diceFaces.setValue(newFaces); }

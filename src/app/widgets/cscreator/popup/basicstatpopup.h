@@ -18,8 +18,8 @@ class BasicStatPopup : public CSCreatorPopup
 {
     Q_OBJECT
 public:
-    explicit BasicStatPopup();
-    explicit BasicStatPopup(const QString &name, int maxValue, Dice dice, const QString& title = "STATISTIC");
+    BasicStatPopup();
+    BasicStatPopup(const QString &name, int maxValue, Dice dice, const QString& title = "STATISTIC");
     QString getName() const { return nameEdit.text(); }
     int getMaxValue() const { return valueMaxEdit.value(); }
     Dice getDice() const { return Dice(diceEditWgt.getFaces(), diceEditWgt.getNumber()); }
