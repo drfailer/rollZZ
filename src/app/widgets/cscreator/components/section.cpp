@@ -7,12 +7,6 @@
 #include "liststat.h"
 #include "components/section.h"
 #include "popup/sectionpopup.h"
-#include "popup/basicstatpopup.h"
-#include "popup/bonusstatpopup.h"
-#include "popup/liststatpopup.h"
-#include "popup/descriptorpopup.h"
-#include "popup/equipmentpopup.h"
-#include "popup/attackspopup.h"
 #include "section.h"
 #include <QPalette>
 
@@ -44,17 +38,34 @@ Section::Section(CS::Section* section, const QString& title, QWidget *parent):
     connect(&addElementBtn, &QComboBox::activated, this, [&](int element) { addElement(ComponentTypes(element)); });
 }
 
-Section::~Section()
-{
+Section::~Section() {
     for (auto wgt : content) {
         delete wgt;
     }
 }
 
-void Section::add(QWidget *wgt)
-{
+void Section::add(Component *wgt, CS::Component *component) {
+    // add connections
+    connect(wgt, &Section::remove, this, [&, wgt, component] {
+                bodyRemove(wgt);
+                content.removeOne(wgt);
+                section->removeComponent(component);
+                delete wgt;
+                delete component;
+            });
+    connect(wgt, &Section::moveUp, this, [&, wgt] {
+                move(true, wgt);
+                // TODO: move component in section
+            });
+    connect(wgt, &Section::moveDown, this, [&, wgt] {
+                move(false, wgt);
+                // TODO: move component in section
+            });
+
+    // add the widget and the compnent to the cstree
     content.push_back(wgt);
     bodyInsert(content.count() - 1, wgt);
+    section->addComponent(component);
 }
 
 void Section::move(bool up, QWidget *wgt)
@@ -87,83 +98,25 @@ void Section::addElement(ComponentTypes element)
     case ComponentTypes::None:
         break;
     case ComponentTypes::BasicStat:
-        addBasicStat();
+        createElement<BasicStat, CS::BasicStat>();
         break;
     case ComponentTypes::BonusStat:
-        addBonusStat();
+        createElement<BonusStat, CS::BonusStat>();
         break;
     case ComponentTypes::ListStat:
-        addListStat();
+        createElement<ListStat, CS::ListStat>();
         break;
     case ComponentTypes::Descriptor:
-        addDescriptor();
+        createElement<Descriptor, CS::Descriptor>();
         break;
     case ComponentTypes::Equipment:
-        addEquipment();
+        createElement<Equipment, CS::Equipment>();
         break;
     case ComponentTypes::Attacks:
-        addAttacks();
+        createElement<Attacks, CS::Attacks>();
         break;
     }
     addElementBtn.setCurrentIndex(int(ComponentTypes::None));
 }
-
-#define CreateFunction(popupVar, Component, ...)                                                                 \
-    Component *Section::create##Component() {                                                                    \
-        CS::Component* newComponent = new CS::Component();                                                       \
-        Component *newComponentWgt = new Component(newComponent, __VA_ARGS__);                                   \
-        section->addComponent(newComponent);                                                                     \
-        connect(newComponentWgt, &Section::remove, this, [&, wgt = newComponentWgt]() {                          \
-                bodyRemove(wgt); content.removeOne(wgt); delete wgt;                                             \
-                });                                                                                              \
-        connect(newComponentWgt, &Section::moveUp, this, [&, wgt = newComponentWgt]() { move(true, wgt); });     \
-        connect(newComponentWgt, &Section::moveDown, this, [&, wgt = newComponentWgt]() { move(false, wgt); });  \
-        return newComponentWgt;                                                                                  \
-    }
-CreateFunction(basicStatPopup, BasicStat, basicStatPopup->getMaxValue(), basicStatPopup->getDice(), basicStatPopup->getName(), this)
-CreateFunction(bonusStatPopup, BonusStat, bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName(), this)
-CreateFunction(descriptorPopup, Descriptor, descriptorPopup->getName(), this)
-CreateFunction(equipmentPopup, Equipment, equipmentPopup->getUseWeight(), equipmentPopup->getMaxWeight(), equipmentPopup->getMaxItems(), this)
-CreateFunction(attacksPopup, Attacks, attacksPopup->getName(), attacksPopup->getMaxItems(), this)
-#undef CreateFunction
-
-ListStat *Section::createListStat()
-{
-    CS::ListStat *newListStat = new CS::ListStat();
-    ListStat *newListStatWgt = new ListStat(newListStat, listStatPopup->getName(), this);
-    section->addComponent(newListStat);
-    connect(newListStatWgt, &Section::remove, this, [&, wgt = newListStatWgt]() {
-        bodyRemove(wgt); content.removeOne(wgt); delete wgt;
-    });
-    connect(newListStatWgt, &Section::moveUp, this, [&, wgt = newListStatWgt]() { move(true, wgt); });
-    connect(newListStatWgt, &Section::moveDown, this, [&, wgt = newListStatWgt]() { move(false, wgt); });
-    // add skills
-    for (SkillWgt* skill : listStatPopup->getSkills()) {
-        newListStatWgt->addSkill(skill);
-    }
-    return newListStatWgt;
-}
-
-#define CreatePopup(Component, popupVar, popupClass)                           \
-    void Section::add##Component() {                                           \
-        if (popupVar == nullptr) {                                             \
-            popupVar = new popupClass();                                       \
-        }                                                                      \
-        popupVar->show();                                                      \
-        connect(popupVar, &popupClass::confirm, this, [&](bool confirm) {      \
-            if (confirm) {                                                     \
-                add(create##Component());                                      \
-            }                                                                  \
-            delete popupVar;                                                   \
-            popupVar = nullptr;                                                \
-        });                                                                    \
-    }
-CreatePopup(BasicStat, basicStatPopup, BasicStatPopup)
-CreatePopup(BonusStat, bonusStatPopup, BonusStatPopup)
-CreatePopup(ListStat, listStatPopup, ListStatPopup)
-CreatePopup(Descriptor, descriptorPopup, DescriptorPopup)
-CreatePopup(Equipment, equipmentPopup, EquipmentPopup)
-CreatePopup(Attacks, attacksPopup, AttacksPopup)
-#undef CreatePopup
 
 } // end namespace CSCrator
