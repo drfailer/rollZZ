@@ -2,12 +2,14 @@
 #define CS_DESCRIPTOR_H
 
 #include "component.h"
-
 #include <QString>
 
-// TODO: add descriptor types (line edit, big, ...)
-
 namespace CS {
+
+enum DescriptorTypes : int {
+    ONELINE = 0,
+    LONG = 1
+};
 
 class Descriptor : public Component
 {
@@ -18,9 +20,12 @@ public:
     /* accessors ***************************************************************/
     QString getDescription() const { return description; }
     void setDescription(const QString &newDescription) { description = newDescription; }
+    void setType(DescriptorTypes type) { this->type = type; }
+    DescriptorTypes getType() const { return type; }
 
 private:
     QString description;
+    DescriptorTypes type;
 };
 
 } // end namespace CS
