@@ -33,8 +33,15 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     // the other buttons
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
     connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
-    connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
-    connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+    connect(saveBtn, &QPushButton::clicked, this, [&]() {
+                // TODO: create a popup to ask filename
+                this->CSTree->serializeFile("test.txt");
+            });
+    connect(importBtn, &QPushButton::clicked, this, [&]() {
+                // TODO: create a popup to ask filename
+                this->CSTree->deserializeFile("test.txt");
+                // TODO: update widgets
+            });
 }
 
 CSCreator::~CSCreator() {
