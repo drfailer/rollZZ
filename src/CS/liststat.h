@@ -9,6 +9,7 @@
 namespace CS {
 
 class ListStat : public Component {
+    SERIALIZABLE_SUPER(Component, QList<Caracteristic>);
   public:
     using const_iterator = typename QList<Caracteristic>::const_iterator;
     using Component::Component;

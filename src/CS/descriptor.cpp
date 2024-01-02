@@ -2,7 +2,9 @@
 
 namespace CS {
 
-CS::Descriptor::Descriptor()
+Descriptor::Descriptor(const QString& title):
+    Component(title),
+    SERIALIZER(description, type)
 {
 
 }

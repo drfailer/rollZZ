@@ -2,9 +2,10 @@
 
 namespace CS {
 
-BonusStat::BonusStat(const QString& title, int bonusValue, int value, int valueMax, Dice dice):
+BonusStat::BonusStat(const QString& title, int _bonusValue, int value, int valueMax, Dice dice):
     BasicStat(title, value, valueMax, dice),
-    bonusValue(bonusValue)
+    SERIALIZER(bonusValue),
+    bonusValue(_bonusValue)
 { }
 
 int BonusStat::roll() const

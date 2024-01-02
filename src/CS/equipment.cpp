@@ -6,8 +6,9 @@ namespace CS {
 /*                                constructor                                 */
 /******************************************************************************/
 
-Equipment::Equipment(bool useWeight, int maxWeight, int maxItems)
-    : useWeight(useWeight), maxWeight(maxWeight), maxItems(maxItems) {}
+Equipment::Equipment(bool _useWeight, int _maxWeight, int _maxItems):
+    SERIALIZER(items, useWeight, maxWeight, maxItems, weight),
+    useWeight(_useWeight), maxWeight(_maxWeight), maxItems(_maxItems) {}
 
 Equipment::~Equipment() {
     for (Item *item : items) {

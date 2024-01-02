@@ -1,21 +1,23 @@
 #include "dice.h"
 #include <QRandomGenerator>
 
-Dice::Dice(int faces, int number):
-    faces(faces),
-    diceNumber(number)
-{
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
 
-}
+Dice::Dice(int _faces, int _diceNumber):
+    SERIALIZER(faces, diceNumber),
+    faces(_faces),
+    diceNumber(_diceNumber)
+{}
 
-Dice::Dice(const Dice &other):
-    faces(other.faces),
-    diceNumber(other.diceNumber)
-{
-}
+Dice::Dice(const Dice &other) : Dice(other.faces, other.diceNumber) {}
 
-int Dice::roll() const
-{
+/******************************************************************************/
+/*                                 functions                                  */
+/******************************************************************************/
+
+int Dice::roll() const {
     int result = 0;
 
     for (int i = 0; i < diceNumber; ++i) {
@@ -24,8 +26,7 @@ int Dice::roll() const
     return result;
 }
 
-Dice Dice::operator=(const Dice &other)
-{
+Dice Dice::operator=(const Dice &other) {
     faces = other.faces;
     diceNumber = other.diceNumber;
     return *this;

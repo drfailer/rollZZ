@@ -2,9 +2,10 @@
 
 namespace CS {
 
-Attacks::Attacks(int maxWeaponNb, const QString title):
+Attacks::Attacks(int _maxWeaponNb, const QString title):
     Component(title),
-    maxWeaponNb(maxWeaponNb)
+    SERIALIZER(maxWeaponNb, weapons),
+    maxWeaponNb(_maxWeaponNb)
 {
 
 }

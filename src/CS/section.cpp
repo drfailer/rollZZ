@@ -3,8 +3,9 @@
 
 namespace CS {
 
-Section::Section(const QString& title):
-    title(title)
+Section::Section(const QString& _title):
+    SERIALIZER(title, components),
+    title(_title)
 {
 
 }
