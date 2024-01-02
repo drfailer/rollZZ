@@ -5,7 +5,6 @@
 #include "widgets/cscreator/cscreator.h"
 #include "widgets/gamelist.h"
 #include "widgets/map/mapwidget.h"
-#include "mainwindowui.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

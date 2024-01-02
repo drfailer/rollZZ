@@ -68,6 +68,7 @@ include_directories(
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(rollZZ
         MANUAL_FINALIZATION
+        ressource.qrc
         ${PROJECT_SOURCES}
         src/map/game.h  src/map/game.cpp
         src/map/map.h  src/map/map.cpp
