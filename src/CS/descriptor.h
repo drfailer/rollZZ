@@ -2,14 +2,10 @@
 #define CS_DESCRIPTOR_H
 
 #include "component.h"
+#include "descriptortypes.h"
 #include <QString>
 
 namespace CS {
-
-enum DescriptorTypes : int {
-    ONELINE = 0,
-    LONG = 1
-};
 
 class Descriptor : public Component
 {
