@@ -9,7 +9,7 @@
 namespace CS {
 
 class Equipment : public Component {
-    SERIALIZABLE(QList<Item*>, bool, int, int, int)
+    SERIALIZABLE_SUPER(Component, QList<Item*>, bool, int, int, int)
   public:
     using Component::Component;
     Equipment(bool useWeight = true, int maxWeight = 60, int maxItems = 100);
