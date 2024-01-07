@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-GameList::GameList(const QList<map::Game*>& games, QWidget *parent, std::function<void(const map::Game*)> launchGame):
+GameList::GameList(const QList<map::Game*>& games, QWidget *parent):
     QWidget(parent),
     games(games)
 {
@@ -20,11 +20,10 @@ GameList::GameList(const QList<map::Game*>& games, QWidget *parent, std::functio
     } else {
         // marche pas et je ne comprends pas pk
         layout.setAlignment(Qt::AlignHCenter|Qt::AlignTop);
-        for (const map::Game* elt : games) {
+        for (map::Game* elt : games) {
             QPushButton* btn = new QPushButton(elt->getName());
             layout.addWidget(btn);
-            connect(btn, &QPushButton::clicked, this, [=](){launchGame(elt);});
-            // TODO: connect button
+            connect(btn, &QPushButton::clicked, this, [=](){emit setGame(elt);});
             // TODO: change the stylesheet
         }
     }
@@ -36,3 +35,4 @@ GameList::~GameList()
         delete widget;
     }
 }
+

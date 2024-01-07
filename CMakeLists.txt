@@ -72,7 +72,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         src/map/game.h  src/map/game.cpp
         src/map/map.h  src/map/map.cpp
+        src/map/mapelement.h src/map/mapelement.cpp
         src/app/widgets/map/mapwidget.h src/app/widgets/map/mapwidget.cpp
+        src/app/widgets/map/mapgraphicsview.h src/app/widgets/map/mapgraphicsview.cpp
+        src/app/widgets/map/mapelementwidget.h src/app/widgets/map/mapelementwidget.cpp
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
         src/app/widgets/cscreator/popup/basicstatpopup.h src/app/widgets/cscreator/popup/basicstatpopup.cpp

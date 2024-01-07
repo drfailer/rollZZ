@@ -11,8 +11,15 @@ class GameList : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GameList(const QList<map::Game*>& games,QWidget *parent,std::function<void(const map::Game* game)> launchGame);
+    explicit GameList(const QList<map::Game*>& games,QWidget *parent);
     ~GameList();
+
+public: signals:
+    // Useless parameters, since the parameters of the signal are given as paremters to the slots/lambda
+    // else we should create a signal in our game class,
+    // and call  QObject::sender() to retreive the class and the game value
+    void setGame(map::Game* game =nullptr);
+
 
 private:
     // TODO: we use string for testing but this will be real games (or at least,
