@@ -24,8 +24,9 @@ void MapElementWidget::mousePressEvent(QMouseEvent *event)
 
         mimeData->setData("map-element",byteArray);
         drag->setMimeData(mimeData);
-        emit(NewCursorLabel());
+        emit NewCursorLabel(mapElementToRepresent);
         Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+        event->accept();
     }
 }
 

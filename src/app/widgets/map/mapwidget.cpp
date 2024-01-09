@@ -18,25 +18,43 @@ MapWidget::MapWidget(QWidget *parent, Map map):
 
     layoutMenu = new QBoxLayout(QBoxLayout::TopToBottom,menu);
 
-    QPushButton* b = new QPushButton("coucou",menu);
+    QPushButton* b = new QPushButton("add new element",menu);
+    connect(b,&QPushButton::clicked,this,[&](){
+      QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg)");
+      for(QString filePath: filesPath)
+      {
+        MapElement* el = map.addElementUse(filePath);
+        MapElementWidget* newElement = new MapElementWidget(menu,el);
+        layoutMenu->addWidget(newElement);
+        connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* el)
+                {
+                  labelForCursorDrag->setVisible(true);
+                  labelForCursorDrag->setPixmap(el->getPixMap());
+                  labelForCursorDrag->resize(el->getPixMap().size());
+                });
+      }
+    });
 
     layoutMenu->addWidget(b);
     layoutSideMenu->addWidget(menu);
     layoutSideMenu->addWidget(view);
 
+    labelForCursorDrag = new QLabel(this);
+    labelForCursorDrag->move(-100,-100);
+    labelForCursorDrag->setVisible(false);
+    labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
+
     for(MapElement* mapElement: map.getmapElementsUse())
     {
       MapElementWidget* newElement = new MapElementWidget(menu,mapElement);
       layoutMenu->addWidget(newElement);
-      connect(newElement,&MapElementWidget::NewCursorLabel,this,[=]()
+      connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* mapElement)
               {
-        labelForCursorDrag->setPixmap(mapElement->getPixMap());
-        labelForCursorDrag->resize(mapElement->getPixMap().size());});
-    }
-    labelForCursorDrag = new QLabel(this);
-    labelForCursorDrag->move(-100,-100);
-    labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
+                labelForCursorDrag->setVisible(true);
+                labelForCursorDrag->setPixmap(mapElement->getPixMap());
+                labelForCursorDrag->resize(mapElement->getPixMap().size());});
 
+    }
 }
 
 void MapWidget::dragEnterEvent(QDragEnterEvent *event)
@@ -65,5 +83,6 @@ void MapWidget::dropEvent(QDropEvent *event)
 {
     labelForCursorDrag->clear();
     labelForCursorDrag->move(-100,-100);
+    labelForCursorDrag->setVisible(false);
     event->accept();
 }

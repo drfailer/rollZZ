@@ -15,6 +15,7 @@ public:
     int getmapElementsSize() const {return mapElementSize;}
     std::vector<MapElement> getMap(){return map;}
     const std::vector<MapElement*> getmapElementsUse() const {return mapElementsUse;}
+    MapElement* addElementUse(QString filePath) {MapElement* el = new MapElement(filePath); mapElementsUse.push_back(el); return el;}
 private:
     // TODO: Pointer === better
     std::vector<MapElement> map;

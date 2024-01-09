@@ -3,7 +3,6 @@
 MapElement::MapElement(QString filePath, int x, int y):filePath(filePath),ratio({x,y})
 {
     pixMap = QPixmap(filePath);
-    pixMap = pixMap.scaled(64,64);
 }
 
 QDataStream &operator<<(QDataStream &stream, const MapElement* el) {

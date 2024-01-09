@@ -4,10 +4,19 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QBoxLayout>
+#include <QFileDialog>
 #include "map.h"
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
 
+/*
+ *
+ * TODO
+ * - attribute for scene size and MapElement size (or else they are just to big)
+ * - Layer option
+ * - Move/resize/rotate/delete items on the graphics scene
+ *
+ **/
 class MapWidget: public QWidget
 {
   Q_OBJECT

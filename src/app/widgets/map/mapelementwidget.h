@@ -20,7 +20,7 @@ class MapElementWidget: public QWidget
         void mousePressEvent(QMouseEvent *event) override;
         ~MapElementWidget() {/*TODO*/}
       signals:
-        void NewCursorLabel();
+        void NewCursorLabel(MapElement*);
     private:
             QLabel* label;
             QLabel* labelName;
