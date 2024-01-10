@@ -27,8 +27,7 @@ ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
     connectSettings();
 }
 
-ListStat::~ListStat()
-{
+ListStat::~ListStat() {
     std::cout << "begin list stat destructor" << std::endl;
     clearSkills();
     std::cout << "end list stat destructor" << std::endl;
@@ -38,8 +37,7 @@ ListStat::~ListStat()
 /*                                 functions                                  */
 /******************************************************************************/
 
-void ListStat::clearSkills()
-{
+void ListStat::clearSkills() {
     listStat->clearStats();
     // remove label in the list
     for (QWidget* wgt : skillsLabels) {
@@ -49,15 +47,14 @@ void ListStat::clearSkills()
     skillsLabels.clear();
 }
 
-void ListStat::addSkill(SkillWgt* skill)
-{
+void ListStat::addSkill(SkillWgt* skill) {
     QLabel *newLabel = new QLabel(skill->getName()
                                   + " ("
-                                  + QString::number(skill->getBonusStat())
+                                  + CS::BonusStat::elements.at(skill->getBonusStat())->getTitle()
                                   + ")");
     skillsLyt.addWidget(newLabel);
     skillsLabels.push_back(newLabel);
-    listStat->addStat(CS::Caracteristic(skill->getName(), QString::number(skill->getBonusStat())));
+    listStat->addStat(CS::Caracteristic(skill->getName(), CS::BonusStat::elements.at(skill->getBonusStat())->getTitle()));
 }
 
 /******************************************************************************/

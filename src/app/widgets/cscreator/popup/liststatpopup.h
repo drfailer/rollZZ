@@ -3,6 +3,7 @@
 
 #include "cscreatorpopup.h"
 #include "tools/listelement.h"
+#include "CS/bonusstat.h"
 #include <QWidget>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -55,6 +56,10 @@ public:
         Tools::ListElement(parent),
         nameEdit(name)
     {
+        for (CS::BonusStat *bs : CS::BonusStat::elements) {
+            bonusEdit.addItem(bs->getTitle());
+        }
+
         (void) bonusStatName; // not used yet
         // left side: | name | bonus v |
         addContent(&nameEdit);

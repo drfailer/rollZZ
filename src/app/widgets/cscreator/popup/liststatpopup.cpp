@@ -17,16 +17,14 @@ ListStatPopup::ListStatPopup(const QString& name):
     connect(&addSkillBtn, &QPushButton::clicked, this, [&]() { addSkill(); });
 }
 
-ListStatPopup::~ListStatPopup()
-{
+ListStatPopup::~ListStatPopup() {
     // note: on ne delete pas les skills ici
     for (SkillWgt* skillWgt : skills) {
         delete skillWgt;
     }
 }
 
-void ListStatPopup::addSkill()
-{
+void ListStatPopup::addSkill() {
     SkillWgt *newSkill = new SkillWgt();
 
     connect(newSkill, &SkillWgt::moveUp, this, [&, wgt = newSkill]() { moveSkill(true, wgt); });
@@ -36,8 +34,7 @@ void ListStatPopup::addSkill()
     skills.push_back(newSkill);
 }
 
-void ListStatPopup::addSkill(const QString &name, const QString &bonusStatName)
-{
+void ListStatPopup::addSkill(const QString &name, const QString &bonusStatName) {
     SkillWgt *newSkill = new SkillWgt(name, bonusStatName);
     connect(newSkill, &SkillWgt::moveUp, this, [&, wgt = newSkill]() { moveSkill(true, wgt); });
     connect(newSkill, &SkillWgt::moveDown, this, [&, wgt = newSkill]() { moveSkill(false, wgt); });
@@ -46,15 +43,13 @@ void ListStatPopup::addSkill(const QString &name, const QString &bonusStatName)
     skills.push_back(newSkill);
 }
 
-void ListStatPopup::removeSkill(SkillWgt *wgt)
-{
+void ListStatPopup::removeSkill(SkillWgt *wgt) {
     skillListLyt.removeWidget(wgt);
     skills.removeOne(wgt);
     delete wgt;
 }
 
-void ListStatPopup::moveSkill(bool up, SkillWgt *wgt)
-{
+void ListStatPopup::moveSkill(bool up, SkillWgt *wgt) {
     int index = skillListLyt.indexOf(wgt);
     int newIndex = up ? index - 1 : index + 1;
 
