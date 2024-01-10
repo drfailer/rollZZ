@@ -12,11 +12,15 @@ class BonusStat : public BasicStat {
   public:
     BonusStat(const QString &title = "name", int bonusValue = 0, int value = 8,
               int valueMax = 20, Dice dice = Dice());
+    ~BonusStat();
     int roll() const;
 
     /* accessors **************************************************************/
     int getBonusValue() const { return bonusValue; }
     void setBonusValue(int newBonusValue) { bonusValue = newBonusValue; }
+
+    /* access the elements in the stats list **********************************/
+    static QList<BonusStat*> elements;
 
   private:
     int bonusValue;
