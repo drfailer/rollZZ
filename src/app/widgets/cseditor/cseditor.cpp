@@ -3,6 +3,7 @@
 #include "CS/section.h"
 #include <CS/part.h>
 #include <QTabWidget>
+#include <QScrollArea>
 #include <iostream>
 
 namespace CSEditor {
@@ -43,14 +44,20 @@ CSEditor::~CSEditor() {
 QWidget* CSEditor::createTab(CS::Part* part) {
     QWidget *newTabWgt = new QWidget(tabWgt);
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
+    QScrollArea *scrollArea = new QScrollArea(this);
+
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setWidgetResizable(true);
 
     for (CS::Section* section : part->getSections()) {
-        newTabLyt->addWidget(new Section(section, this));
+        newTabLyt->addWidget(new Section(section, newTabWgt));
     }
 
     newTabWgt->setLayout(newTabLyt);
     newTabLyt->setAlignment(Qt::AlignTop);
-    return newTabWgt;
+    scrollArea->setWidget(newTabWgt);
+    return scrollArea;
 }
 
 } // end namespace CSEditor
