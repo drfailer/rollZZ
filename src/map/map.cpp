@@ -1,7 +1,8 @@
 #include "map.h"
 
-Map::Map(int mapElementSize,std::pair<int,int> maxmapElementsNbr):mapElementSize(mapElementSize),maxmapElementsNbr(maxmapElementsNbr)
+Map::Map()
 {
     mapElementsUse = std::vector<MapElement*>{new MapElement(":ressources/tiles/wall")};
+    mapElementsUse[0]->RescalePixMap(64,64);
     map= std::vector<MapElement>();
 }

@@ -15,6 +15,8 @@ add_compile_options(-Wall -Wextra -g)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+make_directory($ENV{HOME}/.local/resources)
+
 ################################################################################
 #                                   mongocxx                                   #
 ################################################################################

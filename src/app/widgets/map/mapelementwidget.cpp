@@ -8,6 +8,7 @@ mapElementToRepresent(mapElementToRepresent)
     label = new QLabel(this);
     label->setPixmap(mapElementToRepresent->getPixMap());
     layout->addWidget(label);
+    label->setBaseSize(mapElementToRepresent->getPixMapSize());
     labelName = new QLabel(this);
     labelName->setText(mapElementToRepresent->getName());
     layout->addWidget(labelName);

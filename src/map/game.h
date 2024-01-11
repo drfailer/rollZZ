@@ -11,10 +11,10 @@ class Game
 public:
     Game(QString name);
     QString getName() const;
-    Map getMap() const; 
+    Map* getMap() const;
 private:
     QString name;
-    Map map;
+    Map* map;
 };
 
 #endif // GAME_H

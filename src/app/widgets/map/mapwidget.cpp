@@ -1,6 +1,6 @@
 #include "mapwidget.h"
 
-MapWidget::MapWidget(QWidget *parent, Map map):
+MapWidget::MapWidget(QWidget *parent, Map* map):
     QWidget(parent),
     map(map)
 {
@@ -19,11 +19,20 @@ MapWidget::MapWidget(QWidget *parent, Map map):
     layoutMenu = new QBoxLayout(QBoxLayout::TopToBottom,menu);
 
     QPushButton* b = new QPushButton("add new element",menu);
-    connect(b,&QPushButton::clicked,this,[&](){
+    connect(b,&QPushButton::clicked,this,[=](){
       QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg)");
       for(QString filePath: filesPath)
       {
-        MapElement* el = map.addElementUse(filePath);
+        QString name = filePath.mid(filePath.lastIndexOf('/')+1);
+        QString newFilePath = QDir::homePath() + QString("/.local/ressources/") + name;
+
+        if (QFile::exists(newFilePath))
+          QFile::remove(newFilePath);
+
+        QFile::copy(filePath,newFilePath);
+
+        MapElement* el = map->addElementUse(newFilePath,name);
+        el->RescalePixMap(PIXMAP_MENU_SIZE,PIXMAP_MENU_SIZE);
         MapElementWidget* newElement = new MapElementWidget(menu,el);
         layoutMenu->addWidget(newElement);
         connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* el)
@@ -44,7 +53,7 @@ MapWidget::MapWidget(QWidget *parent, Map map):
     labelForCursorDrag->setVisible(false);
     labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-    for(MapElement* mapElement: map.getmapElementsUse())
+    for(MapElement* mapElement: map->getmapElementsUse())
     {
       MapElementWidget* newElement = new MapElementWidget(menu,mapElement);
       layoutMenu->addWidget(newElement);
@@ -53,15 +62,12 @@ MapWidget::MapWidget(QWidget *parent, Map map):
                 labelForCursorDrag->setVisible(true);
                 labelForCursorDrag->setPixmap(mapElement->getPixMap());
                 labelForCursorDrag->resize(mapElement->getPixMap().size());});
-
     }
 }
 
 void MapWidget::dragEnterEvent(QDragEnterEvent *event)
-{
-    if (event->mimeData()->hasFormat("map-element"))
-      event->acceptProposedAction();
-}
+{    if (event->mimeData()->hasFormat("map-element"))
+      event->acceptProposedAction();}
 
 void MapWidget::dragMoveEvent(QDragMoveEvent *event)
 {
@@ -76,7 +82,6 @@ void MapWidget::dragMoveEvent(QDragMoveEvent *event)
       labelForCursorDrag->move(position.x()-sizeX/2,position.y()-sizeY/2);
       event->acceptProposedAction();
     }
-
 }
 
 void MapWidget::dropEvent(QDropEvent *event)

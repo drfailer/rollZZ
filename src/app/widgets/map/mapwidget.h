@@ -9,6 +9,8 @@
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
 
+#define PIXMAP_MENU_SIZE 128
+
 /*
  *
  * TODO
@@ -21,7 +23,7 @@ class MapWidget: public QWidget
 {
   Q_OBJECT
 public:
-    MapWidget(QWidget *parent = nullptr, Map map = {});
+    MapWidget(QWidget *parent = nullptr, Map* map = {});
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
@@ -32,7 +34,7 @@ private:
         QBoxLayout* layoutMenu;
         QScrollArea* scrollArea;
         QWidget* menu;
-        Map map;
+        Map* map;
         QLabel* labelForCursorDrag;
 };
 
