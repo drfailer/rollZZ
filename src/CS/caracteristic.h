@@ -27,6 +27,8 @@ class Caracteristic {
     void setChecked(int newChecked) { checked = newChecked; }
     Dice getDice() const { return dice; }
     void setDice(const Dice &newDice) { dice = newDice; }
+    QString getLinkedStatName() const { return linkedStatName; }
+    void setLinkedStatName(QString linkedStatName) { this->linkedStatName = linkedStatName; }
 
     Caracteristic operator=(const Caracteristic& other) {
         name = other.name;
