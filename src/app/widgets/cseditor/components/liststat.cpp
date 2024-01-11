@@ -18,7 +18,6 @@ ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
                   "QFrame { background-color: #202020; }"
                   );
 
-    // TODO: add skill edit for each skill
     for (int i = 0; i < listStat->count(); ++i) {
         bodyAdd(new Caracteristic(&listStat->at(i), this));
     }

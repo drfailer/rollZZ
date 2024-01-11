@@ -12,6 +12,7 @@ Caracteristic::Caracteristic(CS::Caracteristic* caracteristic, QWidget* parent):
     layout.addWidget(&check);
     layout.addWidget(new QLabel(caracteristic->getName()));
     layout.addWidget(&bonusEdit);
+    layout.addWidget(new QLabel("(" + caracteristic->getLinkedStatName() + ")"));
     layout.setAlignment(Qt::AlignLeft);
     // TODO: compute the default bonus
 }
