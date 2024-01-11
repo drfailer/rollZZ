@@ -14,11 +14,13 @@
 /*
  *
  * TODO
- * - attribute for scene size and MapElement size (or else they are just to big)
  * - Layer option
  * - Move/resize/rotate/delete items on the graphics scene
+ * - Menu to see existing item on the map (to select them more easily)
+ * - Do you see an error msg with drag? I see nothing...
  *
  **/
+
 class MapWidget: public QWidget
 {
   Q_OBJECT

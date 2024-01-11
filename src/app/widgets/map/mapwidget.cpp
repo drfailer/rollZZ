@@ -37,9 +37,13 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
         layoutMenu->addWidget(newElement);
         connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* el)
                 {
+                  std::cout<< view->getScale();
+                  QPixmap labelPixMap = el->getPixMap();
+                  labelPixMap = labelPixMap.scaled(labelPixMap.size()*view->getScale());
                   labelForCursorDrag->setVisible(true);
-                  labelForCursorDrag->setPixmap(el->getPixMap());
-                  labelForCursorDrag->resize(el->getPixMap().size());
+                  labelForCursorDrag->setPixmap(labelPixMap);
+                  labelForCursorDrag->resize(labelPixMap.size());
+
                 });
       }
     });
@@ -57,11 +61,16 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
     {
       MapElementWidget* newElement = new MapElementWidget(menu,mapElement);
       layoutMenu->addWidget(newElement);
-      connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* mapElement)
+      connect(newElement,&MapElementWidget::NewCursorLabel,this,[&](MapElement* el)
               {
+                std::cout<< view->getScale();
+                QPixmap labelPixMap = el->getPixMap();
+                labelPixMap = labelPixMap.scaled(labelPixMap.size()*view->getScale());
                 labelForCursorDrag->setVisible(true);
-                labelForCursorDrag->setPixmap(mapElement->getPixMap());
-                labelForCursorDrag->resize(mapElement->getPixMap().size());});
+                labelForCursorDrag->setPixmap(labelPixMap);
+                labelForCursorDrag->resize(labelPixMap.size());
+
+              });
     }
 }
 
