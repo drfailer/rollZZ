@@ -65,7 +65,7 @@ void ListStat::settingsPopup() {
     if (listStatPopup == nullptr) {
         listStatPopup = new ListStatPopup(name);
         for (const CS::Caracteristic& caracteristic : *listStat) {
-            listStatPopup->addSkill(caracteristic.getName(), "");
+            listStatPopup->addSkill(caracteristic.getName(), caracteristic.getLinkedStatName());
         }
     }
     listStatPopup->show();

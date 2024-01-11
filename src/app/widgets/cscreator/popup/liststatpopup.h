@@ -60,7 +60,8 @@ public:
             bonusEdit.addItem(bs->getTitle());
         }
 
-        (void) bonusStatName; // not used yet
+        bonusEdit.setCurrentText(bonusStatName);
+
         // left side: | name | bonus v |
         addContent(&nameEdit);
         addContent(&bonusEdit);
