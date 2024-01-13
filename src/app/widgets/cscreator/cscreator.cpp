@@ -1,10 +1,20 @@
 #include "cscreator.h"
+#include "bonusstat.h"
+#include "component.h"
 #include "components/section.h"
 #include "popup/sectionpopup.h"
 #include "popup/tabpopup.h"
 #include "section.h"
 #include <CS/part.h>
 #include <QTabWidget>
+#include <QScrollArea>
+#include "cscreator/components/section.h"
+#include "cscreator/components/basicstat.h"
+#include "cscreator/components/bonusstat.h"
+#include "cscreator/components/attacks.h"
+#include "cscreator/components/liststat.h"
+#include "cscreator/components/descriptor.h"
+#include "cscreator/components/equipment.h"
 #include <iostream>
 #define ADD_FN(id) [&](bool add) { id(add); }
 
@@ -28,7 +38,7 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     tabWgt->setTabPosition(QTabWidget::South);
 
     // add the first tab
-    tabWgt->addTab(createTab(), "main");
+    tabWgt->addTab(createTab("main"), "main");
 
     // the other buttons
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
@@ -40,7 +50,7 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     connect(importBtn, &QPushButton::clicked, this, [&]() {
                 // TODO: create a popup to ask filename
                 this->CSTree->deserializeFile("test.txt");
-                // TODO: update widgets
+                reload();
             });
 }
 
@@ -61,7 +71,7 @@ void CSCreator::move(bool up, QWidget *wgt) {
 /* Tabs                                                                       */
 /******************************************************************************/
 
-QWidget* CSCreator::createTab() {
+QWidget* CSCreator::createTab(const QString& name) {
     QWidget *newTabWgt = new QWidget(tabWgt);
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
     QPushButton *newSectionBtn = new QPushButton("new section");
@@ -71,8 +81,8 @@ QWidget* CSCreator::createTab() {
     newTabWgt->setLayout(newTabLyt);
     newTabLyt->setAlignment(Qt::AlignTop);
     connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
-    tabs.push_back(newTabWgt);
     parts.insert(newTabWgt, newPart);
+    newPart->setName(name);
     CSTree->addPart(newPart);
     return newTabWgt;
 }
@@ -84,9 +94,11 @@ void CSCreator::addTabPopup() {
     tabPopup->show();
     connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
         if (add) {
-            QWidget* newTab = createTab();
-            tabWgt->addTab(newTab, tabPopup->getName());
-            parts[newTab]->setName(tabPopup->getName());
+            QWidget* newTab = createTab(tabPopup->getName());
+            QScrollArea *scrollArea = createScrollArea();
+
+            scrollArea->setWidget(newTab);
+            tabWgt->addTab(scrollArea, tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
@@ -102,7 +114,7 @@ void CSCreator::renameTabPopup(int index) {
     connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) {
         if (rename) {
             tabWgt->setTabText(index, tabPopup->getName());
-            parts[tabWgt->widget(index)]->setName(tabPopup->getName());
+            parts[getTabWgt(index)]->setName(tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
@@ -123,29 +135,93 @@ void CSCreator::addSectionPopup() {
     sectionPopup->show();
     connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
         if (add) {
-            // TODO: create a custom widget for this
             CS::Section* newSection = new CS::Section(sectionPopup->getName());
-            Section *newSectionWgt = new Section(newSection, sectionPopup->getName(), this);
+            Section *newSectionWgt = createSection(newSection);
+
             currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSectionWgt);
-            parts[tabWgt->widget(tabWgt->currentIndex())]->addSection(newSection);
+            parts[getTabWgt(tabWgt->currentIndex())]->addSection(newSection);
             index++;
-            // connections
-            connect(newSectionWgt, &Section::remove, this, [&, newSection, wgt = newSectionWgt]() {
-                        parts[tabWgt->widget(tabWgt->currentIndex())]->removeSection(newSection);
-                        currentTabLyt()->removeWidget(wgt);
-                        delete wgt;
-                    });
-            connect(newSectionWgt, &Section::moveUp, this, [&, wgt = newSectionWgt]() {
-                        move(true, wgt);
-                    });
-            connect(newSectionWgt, &Section::moveDown, this, [&, wgt = newSectionWgt]() {
-                        move(false, wgt);
-                    });
         }
         // remove the popup window
         delete sectionPopup;
         sectionPopup = nullptr;
     });
+}
+
+/******************************************************************************/
+/*                                   reload                                   */
+/******************************************************************************/
+
+void CSCreator::reload() {
+    tabWgt->clear();
+    for (CS::Part* part : CSTree->getParts()) {
+        reloadPart(part);
+    }
+}
+
+void CSCreator::reloadPart(CS::Part *part) {
+    // delete all widget in the tab
+    QWidget* oldTabWgt = parts.key(part);
+    parts.remove(oldTabWgt);
+    delete oldTabWgt;
+
+    // recreate the widget
+    QWidget *newTabWgt = createTab(part->getName());
+    QVBoxLayout *layout = dynamic_cast<QVBoxLayout*>(newTabWgt->layout());
+    QScrollArea *scrollArea = createScrollArea();
+
+    // adding widgets
+    for (CS::Section *section : part->getSections()) {
+        Section *newSectionWgt = createSection(section);
+        int count = layout->count();
+
+        for (CS::Component *component : section->getComponents()) {
+            newSectionWgt->add(createComponent(component), component);
+        }
+        layout->insertWidget(count - 1, newSectionWgt);
+    }
+
+    scrollArea->setWidget(newTabWgt);
+    tabWgt->addTab(scrollArea, part->getName());
+}
+
+/******************************************************************************/
+/*                              create elements                               */
+/******************************************************************************/
+
+Section *CSCreator::createSection(CS::Section *section) {
+    Section *sectionWgt = new Section(section, this);
+
+    // connections
+    connect(
+        sectionWgt, &Section::remove, this, [&, section, wgt = sectionWgt]() {
+            parts[getTabWgt(tabWgt->currentIndex())]->removeSection(section);
+            currentTabLyt()->removeWidget(wgt);
+            delete wgt;
+        });
+    connect(sectionWgt, &Section::moveUp, this,
+            [&, wgt = sectionWgt]() { move(true, wgt); });
+    connect(sectionWgt, &Section::moveDown, this,
+            [&, wgt = sectionWgt]() { move(false, wgt); });
+
+    return sectionWgt;
+}
+
+Component *CSCreator::createComponent(CS::Component *component) {
+    if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
+        return new BonusStat(bonusStat, this);
+    } else if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
+        return new BasicStat(basicStat, this);
+    } else if (CS::ListStat* listStat = dynamic_cast<CS::ListStat*>(component)) {
+        return new ListStat(listStat, this);
+    } else if (CS::Descriptor* descriptor = dynamic_cast<CS::Descriptor*>(component)) {
+        return new Descriptor(descriptor, this);
+    } else if (CS::Equipment* equipment = dynamic_cast<CS::Equipment*>(component)) {
+        return new Equipment(equipment, this);
+    } else if (CS::Attacks* attacks = dynamic_cast<CS::Attacks*>(component)) {
+        return new Attacks(attacks, this);
+    }
+    return nullptr;
 }
 
 } // end namespace CSCreator

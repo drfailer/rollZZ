@@ -8,12 +8,14 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 #include <QMap>
-
+#include <QScrollArea>
 
 namespace CSCreator {
 
 class TabPopup;
 class SectionPopup;
+class Section;
+class Component;
 
 // the configuration corresponds to the elements on the page that has been created with the designer
 struct CSCreatorConfig {
@@ -30,7 +32,9 @@ public:
     CS::CS* getCSTree() const { return CSTree; }
     explicit CSCreator(CSCreatorConfig config, CS::CS *CSTree = nullptr, QWidget *parent = nullptr);
     ~CSCreator();
-    QWidget* createTab();
+    QWidget* createTab(const QString& name);
+    void reload();
+    void reloadPart(CS::Part *part);
 
 public slots:
     /* add bnts ****************************************************************/
@@ -43,14 +47,12 @@ private:
     int index = 0;
 
     /* elements on the page ****************************************************/
-    // TODO: there is no need of pointers here
     QWidget *contentWgt;
     QVBoxLayout *contentLyt;
     QTabWidget *tabWgt;
     QPushButton *newTabBtn;
     QPushButton *saveBtn;
     QPushButton *importBtn;
-    QList<QWidget*> tabs;
     QMap<QWidget*, CS::Part*> parts;
 
     /* popup menus *************************************************************/
@@ -61,7 +63,27 @@ private:
     CS::CS* CSTree = nullptr;
 
     /* private methods *********************************************************/
-    QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }
+
+    Section *createSection(CS::Section *section);
+    Component *createComponent(CS::Component *component);
+
+    QScrollArea* createScrollArea() {
+        QScrollArea *scrollArea = new QScrollArea(this);
+
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setWidgetResizable(true);
+        return scrollArea;
+    }
+
+    QWidget* getTabWgt(int index) {
+        QScrollArea *scrollArea = dynamic_cast<QScrollArea*>(tabWgt->widget(index));
+        return scrollArea->widget();
+    }
+
+    QVBoxLayout* currentTabLyt() {
+        return dynamic_cast<QVBoxLayout*>(getTabWgt(tabWgt->currentIndex())->layout());
+    }
 };
 
 } // end namespace CSCreator

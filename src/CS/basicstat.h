@@ -13,6 +13,7 @@ class BasicStat : public Component {
     BasicStat(const QString &name = "name", int value = 8, int valueMax = 20,
               Dice dice = Dice(20));
     BasicStat(int value, int valueMax = 20, Dice dice = Dice(20));
+    ~BasicStat() {}
     int roll() const { return dice.roll(); }
 
     /* accessors
