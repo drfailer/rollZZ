@@ -48,13 +48,14 @@ void ListStat::clearSkills() {
 }
 
 void ListStat::addSkill(SkillWgt* skill) {
-    QLabel *newLabel = new QLabel(skill->getName()
-                                  + " ("
-                                  + CS::BonusStat::elements.at(skill->getBonusStat())->getTitle()
-                                  + ")");
+    QString bonusStatName = (CS::BonusStat::elements.count())
+        ? CS::BonusStat::elements.at(skill->getBonusStat())->getTitle()
+        : "none";
+    QLabel *newLabel = new QLabel(skill->getName() + " (" + bonusStatName + ")");
+
     skillsLyt.addWidget(newLabel);
     skillsLabels.push_back(newLabel);
-    listStat->addStat(CS::Caracteristic(skill->getName(), CS::BonusStat::elements.at(skill->getBonusStat())->getTitle()));
+    listStat->addStat(CS::Caracteristic(skill->getName(), bonusStatName));
 }
 
 /******************************************************************************/

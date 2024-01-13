@@ -56,8 +56,12 @@ public:
         Tools::ListElement(parent),
         nameEdit(name)
     {
-        for (CS::BonusStat *bs : CS::BonusStat::elements) {
-            bonusEdit.addItem(bs->getTitle());
+        if (CS::BonusStat::elements.count()) {
+            for (CS::BonusStat *bs : CS::BonusStat::elements) {
+                bonusEdit.addItem(bs->getTitle());
+            }
+        } else {
+            bonusEdit.addItem("none");
         }
 
         bonusEdit.setCurrentText(bonusStatName);
