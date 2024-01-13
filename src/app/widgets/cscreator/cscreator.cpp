@@ -38,7 +38,10 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     tabWgt->setTabPosition(QTabWidget::South);
 
     // add the first tab
-    tabWgt->addTab(createTab("main"), "main");
+    QWidget *defaultTabWgt = createTab("main");
+    QScrollArea *defaultScrollArea = createScrollArea();
+    defaultScrollArea->setWidget(defaultTabWgt);
+    tabWgt->addTab(defaultScrollArea, "main");
 
     // the other buttons
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
