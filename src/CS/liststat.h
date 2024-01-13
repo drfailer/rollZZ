@@ -11,7 +11,8 @@ namespace CS {
 class ListStat : public Component {
     SERIALIZABLE_SUPER(Component, QList<Caracteristic>);
   public:
-    using const_iterator = typename QList<Caracteristic>::const_iterator;
+    // note: we can't do that because of the serializer (this is a problem)
+    /* using const_iterator = typename QList<Caracteristic>::const_iterator; */
     using Component::Component;
     ListStat();
 
@@ -19,9 +20,10 @@ class ListStat : public Component {
     void addStat(Caracteristic newStat) { stats.push_back(newStat); }
     void removeStat(int index) { stats.remove(index); }
     void clearStats() { stats.clear(); }
+    const QList<Caracteristic>& getStats() const { return stats; }
     Caracteristic &at(int index) { return stats[index]; }
-    const_iterator begin() const { return stats.begin(); }
-    const_iterator end() const { return stats.end(); }
+    /* const_iterator begin() const { return stats.begin(); } */
+    /* const_iterator end() const { return stats.end(); } */
     int count() const { return stats.count(); }
 
   private:
