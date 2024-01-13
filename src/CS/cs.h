@@ -18,6 +18,7 @@ class CS {
     /* methods ****************************************************************/
     void addPart(Part *part) { parts.push_back(part); }
     const QList<Part *> &getParts() const { return parts; }
+    void clearParts();
     // TODO: add a way to move parts
 
   private:

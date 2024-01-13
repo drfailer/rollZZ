@@ -3,6 +3,10 @@
 namespace CS {
 
 CS::~CS() {
+    clearParts();
+}
+
+void CS::clearParts() {
     for (Part *part : parts) {
         delete part;
     }
