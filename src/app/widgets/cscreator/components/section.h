@@ -30,7 +30,7 @@ class Section : public Component
 {
     Q_OBJECT
 public:
-    explicit Section(CS::Section* section, const QString& title, QWidget *parent = nullptr);
+    explicit Section(CS::Section* section, QWidget *parent = nullptr);
     ~Section();
     void add(Component *wgt, CS::Component *component);
     void move(bool up, QWidget* wgt);

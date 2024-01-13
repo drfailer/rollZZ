@@ -12,8 +12,8 @@
 
 namespace CSCreator {
 
-Section::Section(CS::Section* section, const QString& title, QWidget *parent):
-    Component(title, parent),
+Section::Section(CS::Section* section, QWidget *parent):
+    Component(section->getTitle(), parent),
     addElementBtn(this),
     section(section)
 {
