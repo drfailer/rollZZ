@@ -52,6 +52,7 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
             });
     connect(importBtn, &QPushButton::clicked, this, [&]() {
                 // TODO: create a popup to ask filename
+                this->CSTree->clearParts();
                 this->CSTree->deserializeFile("test.txt");
                 reload();
             });
