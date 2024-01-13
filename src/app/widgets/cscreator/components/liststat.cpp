@@ -3,6 +3,7 @@
 #include <iostream>
 #include <liststatpopup.h>
 #include "CS/liststat.h"
+#include "caracteristic.h"
 
 namespace  CSCreator {
 
@@ -24,6 +25,10 @@ ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
                   "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
                   "QFrame { background-color: #202020; }"
                   );
+    // adding the stats when we load a file
+    for (const CS::Caracteristic& stats : listStat->getStats()) {
+        addSkill(stats);
+    }
     connectSettings();
 }
 
@@ -56,6 +61,12 @@ void ListStat::addSkill(SkillWgt* skill) {
     skillsLyt.addWidget(newLabel);
     skillsLabels.push_back(newLabel);
     listStat->addStat(CS::Caracteristic(skill->getName(), bonusStatName));
+}
+
+void ListStat::addSkill(const CS::Caracteristic& skill) {
+    QLabel *newLabel = new QLabel(skill.getName() + " (" + skill.getLinkedStatName() + ")");
+    skillsLyt.addWidget(newLabel);
+    skillsLabels.push_back(newLabel);
 }
 
 /******************************************************************************/

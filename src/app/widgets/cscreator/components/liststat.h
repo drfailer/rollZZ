@@ -18,6 +18,7 @@ public:
 
     void clearSkills();
     void addSkill(SkillWgt* skill);
+    void addSkill(const CS::Caracteristic& skill);
     void settingsPopup() override;
 
 private:
