@@ -42,7 +42,7 @@ class Caracteristic {
   private:
     QString name;
     QString linkedStatName;
-    int bonus;
+    int bonus = 0;
     bool checked;
     Dice dice;
 };
