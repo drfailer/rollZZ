@@ -20,7 +20,7 @@ struct QtConvertor {
     }
 
     deserialize_custom_type(QString, const std::string& str) {
-        return QString(str.substr(1, str.size() - 2).c_str());
+        return QString::fromUtf8(str.substr(1, str.size() - 2).c_str());
     }
 
     static inline std::string serialize(const QString &elt) {
