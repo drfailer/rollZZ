@@ -17,8 +17,7 @@ BonusStat::~BonusStat() {
     elements.removeOne(this);
 }
 
-int BonusStat::roll() const
-{
+int BonusStat::roll() const {
     int diceResult = BasicStat::roll();
 
     // critical miss configurable ?
