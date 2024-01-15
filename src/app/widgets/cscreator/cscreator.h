@@ -35,6 +35,7 @@ public:
     QWidget* createTab(const QString& name);
     void reload();
     void reloadPart(CS::Part *part);
+    void clearTabs();
 
 public slots:
     /* add bnts ****************************************************************/

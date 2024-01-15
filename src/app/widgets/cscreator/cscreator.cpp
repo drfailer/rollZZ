@@ -50,10 +50,9 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
                 // TODO: create a popup to ask filename
                 this->CSTree->serializeFile("test.txt");
             });
-    connect(importBtn, &QPushButton::clicked, this, [&]() {
+    connect(importBtn, &QPushButton::clicked, this, [&, CSTree]() {
                 // TODO: create a popup to ask filename
-                this->CSTree->clearParts();
-                this->CSTree->deserializeFile("test.txt");
+                CSTree->load("test.txt");
                 reload();
             });
 }
@@ -157,19 +156,15 @@ void CSCreator::addSectionPopup() {
 /******************************************************************************/
 
 void CSCreator::reload() {
-    tabWgt->clear();
+    clearTabs();
+
+    // update the widgets
     for (CS::Part* part : CSTree->getParts()) {
         reloadPart(part);
     }
 }
 
 void CSCreator::reloadPart(CS::Part *part) {
-    // delete all widget in the tab
-    QWidget* oldTabWgt = parts.key(part);
-    parts.remove(oldTabWgt);
-    delete oldTabWgt;
-
-    // recreate the widget
     QWidget *newTabWgt = createTab(part->getName());
     QVBoxLayout *layout = dynamic_cast<QVBoxLayout*>(newTabWgt->layout());
     QScrollArea *scrollArea = createScrollArea();
@@ -226,6 +221,17 @@ Component *CSCreator::createComponent(CS::Component *component) {
         return new Attacks(attacks, this);
     }
     return nullptr;
+}
+
+void CSCreator::clearTabs() {
+    parts.clear(); // remove all parts
+
+    // clear tabs
+    for (int i = 0; i < tabWgt->count(); ++i) {
+        QWidget *wgt = tabWgt->widget(i);
+        tabWgt->removeTab(i);
+        delete wgt;
+    }
 }
 
 } // end namespace CSCreator
