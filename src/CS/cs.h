@@ -20,6 +20,10 @@ class CS {
     const QList<Part *> &getParts() const { return parts; }
     void clearParts();
     // TODO: add a way to move parts
+    void load(const QString& fileName) {
+        clearParts();
+        deserializeFile(fileName.toStdString());
+    }
 
   private:
     QList<Part *> parts;
