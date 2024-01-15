@@ -14,7 +14,6 @@ Section::~Section() {
     for (Component* comp : components) {
         delete comp;
     }
-    components.clear();
 }
 
 void Section::addComponent(Component *component) {

@@ -17,7 +17,6 @@ Part::~Part() {
     for (CS::Section* section : sections) {
         delete section;
     }
-    sections.clear();
 }
 
 /******************************************************************************/
