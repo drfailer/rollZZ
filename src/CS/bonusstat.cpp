@@ -3,7 +3,15 @@
 
 namespace CS {
 
+/******************************************************************************/
+/*                              static variables                              */
+/******************************************************************************/
+
 QList<BonusStat*> BonusStat::elements;
+
+/******************************************************************************/
+/*                          constructor & destructor                          */
+/******************************************************************************/
 
 BonusStat::BonusStat(const QString& title, int _bonusValue, int value, int valueMax, Dice dice):
     BasicStat(title, value, valueMax, dice),
@@ -16,6 +24,10 @@ BonusStat::BonusStat(const QString& title, int _bonusValue, int value, int value
 BonusStat::~BonusStat() {
     elements.removeOne(this);
 }
+
+/******************************************************************************/
+/*                                    roll                                    */
+/******************************************************************************/
 
 int BonusStat::roll() const {
     int diceResult = BasicStat::roll();
