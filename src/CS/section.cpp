@@ -21,7 +21,9 @@ void Section::addComponent(Component *component) {
 }
 
 void Section::removeComponent(Component* component) {
-    components.removeOne(component);
+    if (components.removeOne(component)) {
+        delete component;
+    }
 }
 
 } // end namespace CS
