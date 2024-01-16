@@ -1,6 +1,11 @@
 #include "attacks.h"
+#include "weapon.h"
 
 namespace CS {
+
+/******************************************************************************/
+/*                          constructor & destructor                          */
+/******************************************************************************/
 
 Attacks::Attacks(int _maxWeaponNb, const QString title):
     Component(title),
@@ -9,6 +14,16 @@ Attacks::Attacks(int _maxWeaponNb, const QString title):
 {
 
 }
+
+Attacks::~Attacks() {
+    for (Weapon* weapon : weapons) {
+        delete weapon;
+    }
+}
+
+/******************************************************************************/
+/*                                 add weapon                                 */
+/******************************************************************************/
 
 void Attacks::addWeapon(Weapon* weapon)
 {
@@ -19,4 +34,4 @@ void Attacks::addWeapon(Weapon* weapon)
     }
 }
 
-}
+} // end namespace CS

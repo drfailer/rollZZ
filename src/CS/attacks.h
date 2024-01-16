@@ -12,6 +12,7 @@ class Attacks : public Component {
     SERIALIZABLE_SUPER(Component, int, QList<Weapon*>)
   public:
     Attacks(int maxWeaponNb = 3, const QString title = "attacks & spells");
+    ~Attacks();
 
     /* accessors **************************************************************/
     void addWeapon(Weapon *weapon);
