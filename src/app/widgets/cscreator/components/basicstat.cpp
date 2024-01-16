@@ -12,7 +12,7 @@ BasicStat::BasicStat(CS::BasicStat *basicStat, const QString &title, QWidget *pa
     Component(title, parent),
     basicStat(basicStat)
 {
-    update(20, Dice(), "basic stat"); // default values
+    update(20, Dice(), basicStat->getTitle()); // default values
 
     bodyAdd(&nameLabel);
     bodyAdd(&valueMaxLabel);
