@@ -16,6 +16,9 @@ class Caracteristic {
                   Dice dice = Dice(), int checked = false);
     Caracteristic(const Caracteristic& other): Caracteristic(other.name,
             other.linkedStatName, other.dice, other.checked) { }
+
+
+    /* roll *******************************************************************/
     int roll() const;
 
     /* accessors **************************************************************/
