@@ -30,7 +30,7 @@ class Section : public Component
 {
     Q_OBJECT
 public:
-    explicit Section(CS::Section* section, QWidget *parent = nullptr);
+    Section(CS::Section* section, QWidget *parent = nullptr);
     ~Section();
     void add(Component *wgt, CS::Component *component);
     void move(bool up, QWidget* wgt);
@@ -48,6 +48,7 @@ private:
     SectionPopup *sectionPopup = nullptr;
 
     /* create elements ********************************************************/
+    Component *createComponent(CS::Component *component);
     template<typename WgtT, typename CompT>
     void createElement() {
         CompT *component = new CompT();
@@ -65,6 +66,10 @@ private:
                     }
                 });
     }
+
+    /* utility functions ******************************************************/
+    void connectNewSection(Component *wgt, CS::Component *component);
+    void appendComponent(Component *wgt);
 };
 
 } // end namespace CSCrator

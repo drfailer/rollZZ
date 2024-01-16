@@ -12,6 +12,10 @@
 
 namespace CSCreator {
 
+/******************************************************************************/
+/*                          constructor & destructor                          */
+/******************************************************************************/
+
 Section::Section(CS::Section* section, QWidget *parent):
     Component(section->getTitle(), parent),
     addElementBtn(this),
@@ -35,7 +39,16 @@ Section::Section(CS::Section* section, QWidget *parent):
 
     // connect buttons
     connectSettings();
-    connect(&addElementBtn, &QComboBox::activated, this, [&](int element) { addElement(ComponentTypes(element)); });
+    connect(&addElementBtn, &QComboBox::activated, this, [&](int element) {
+            addElement(ComponentTypes(element));
+        });
+
+    // update the compoenents if required
+    for (CS::Component *component : section->getComponents()) {
+        Component* wgt = createComponent(component);
+        connectNewSection(wgt, component);
+        appendComponent(wgt);
+    }
 }
 
 Section::~Section() {
@@ -44,29 +57,21 @@ Section::~Section() {
     }
 }
 
-void Section::add(Component *wgt, CS::Component *component) {
-    // add connections
-    connect(wgt, &Section::remove, this, [&, wgt, component] {
-                bodyRemove(wgt);
-                content.removeOne(wgt);
-                section->removeComponent(component);
-                delete wgt;
-                delete component;
-            });
-    connect(wgt, &Section::moveUp, this, [&, wgt] {
-                move(true, wgt);
-                // TODO: move component in section
-            });
-    connect(wgt, &Section::moveDown, this, [&, wgt] {
-                move(false, wgt);
-                // TODO: move component in section
-            });
+/******************************************************************************/
+/*                                    add                                     */
+/******************************************************************************/
 
-    // add the widget and the compnent to the cstree
-    content.push_back(wgt);
-    bodyInsert(content.count() - 1, wgt);
+
+
+void Section::add(Component *wgt, CS::Component *component) {
+    connectNewSection(wgt, component);
+    appendComponent(wgt);
     section->addComponent(component);
 }
+
+/******************************************************************************/
+/*                                    move                                    */
+/******************************************************************************/
 
 void Section::move(bool up, QWidget *wgt)
 {
@@ -119,4 +124,51 @@ void Section::addElement(ComponentTypes element)
     addElementBtn.setCurrentIndex(int(ComponentTypes::None));
 }
 
-} // end namespace CSCrator
+/******************************************************************************/
+/*                    create component from CS::Component                     */
+/******************************************************************************/
+
+Component *Section::createComponent(CS::Component *component) {
+    if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
+        return new BonusStat(bonusStat, this);
+    } else if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
+        return new BasicStat(basicStat, this);
+    } else if (CS::ListStat* listStat = dynamic_cast<CS::ListStat*>(component)) {
+        return new ListStat(listStat, this);
+    } else if (CS::Descriptor* descriptor = dynamic_cast<CS::Descriptor*>(component)) {
+        return new Descriptor(descriptor, this);
+    } else if (CS::Equipment* equipment = dynamic_cast<CS::Equipment*>(component)) {
+        return new Equipment(equipment, this);
+    } else if (CS::Attacks* attacks = dynamic_cast<CS::Attacks*>(component)) {
+        return new Attacks(attacks, this);
+    }
+    return nullptr;
+}
+
+/******************************************************************************/
+/*                             utility functions                              */
+/******************************************************************************/
+
+void Section::connectNewSection(Component *wgt, CS::Component *component) {
+    connect(wgt, &Section::remove, this, [&, wgt, component] {
+        bodyRemove(wgt);
+        content.removeOne(wgt);
+        section->removeComponent(component);
+        delete wgt;
+    });
+    connect(wgt, &Section::moveUp, this, [&, wgt] {
+        move(true, wgt);
+        // TODO: move component in section
+    });
+    connect(wgt, &Section::moveDown, this, [&, wgt] {
+        move(false, wgt);
+        // TODO: move component in section
+    });
+}
+
+void Section::appendComponent(Component *wgt) {
+    content.push_back(wgt);
+    bodyInsert(content.count() - 1, wgt);
+}
+
+} // namespace CSCreator
