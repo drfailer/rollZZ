@@ -14,16 +14,17 @@ class BasicStat : public Component {
               Dice dice = Dice(20));
     BasicStat(int value, int valueMax = 20, Dice dice = Dice(20));
     ~BasicStat() {}
-    int roll() const { return dice.roll(); }
 
-    /* accessors
-     * ***************************************************************/
+    /* accessors **************************************************************/
     int getValue() const { return value; }
     void setValue(int newValue) { value = newValue; }
     int getValueMax() const { return valueMax; }
     void setValueMax(int newValueMax) { valueMax = newValueMax; }
     Dice getDice() const { return dice; }
     void setDice(Dice newDice) { dice = newDice; }
+
+    /* roll *******************************************************************/
+    int roll() const { return dice.roll(); }
 
   private:
     int value;
