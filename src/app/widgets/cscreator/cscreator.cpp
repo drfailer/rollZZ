@@ -2,7 +2,6 @@
 #include "bonusstat.h"
 #include "component.h"
 #include "components/section.h"
-#include "popup/sectionpopup.h"
 #include "popup/tabpopup.h"
 #include "section.h"
 #include <CS/part.h>
@@ -15,6 +14,7 @@
 #include "cscreator/components/liststat.h"
 #include "cscreator/components/descriptor.h"
 #include "cscreator/components/equipment.h"
+#include "cscreator/components/part.h"
 #include <iostream>
 #define ADD_FN(id) [&](bool add) { id(add); }
 
@@ -60,34 +60,16 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
 CSCreator::~CSCreator() {
 }
 
-void CSCreator::move(bool up, QWidget *wgt) {
-    int index = currentTabLyt()->indexOf(wgt);
-    int newIndex = up ? index - 1 : index + 1;
-
-    if (newIndex >= 0 && newIndex < currentTabLyt()->count() - 1) {
-        currentTabLyt()->removeWidget(wgt);
-        currentTabLyt()->insertWidget(newIndex, wgt);
-    }
-}
-
 /******************************************************************************/
 /* Tabs                                                                       */
 /******************************************************************************/
 
 QWidget* CSCreator::createTab(const QString& name) {
-    QWidget *newTabWgt = new QWidget(tabWgt);
-    QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
-    QPushButton *newSectionBtn = new QPushButton("new section");
-    CS::Part *newPart = new CS::Part();
+    CS::Part *newPart = new CS::Part(name);
+    Part* newPartWgt = new Part(newPart, tabWgt);
 
-    newTabLyt->addWidget(newSectionBtn);
-    newTabWgt->setLayout(newTabLyt);
-    newTabLyt->setAlignment(Qt::AlignTop);
-    connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
-    parts.insert(newTabWgt, newPart);
-    newPart->setName(name);
     CSTree->addPart(newPart);
-    return newTabWgt;
+    return newPartWgt;
 }
 
 void CSCreator::addTabPopup() {
@@ -117,7 +99,7 @@ void CSCreator::renameTabPopup(int index) {
     connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) {
         if (rename) {
             tabWgt->setTabText(index, tabPopup->getName());
-            parts[getTabWgt(index)]->setName(tabPopup->getName());
+            getPart(index)->setName(tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
@@ -126,30 +108,6 @@ void CSCreator::renameTabPopup(int index) {
 }
 
 // TODO: removeTab
-
-/******************************************************************************/
-/* add Category                                                               */
-/******************************************************************************/
-
-void CSCreator::addSectionPopup() {
-    if (sectionPopup == nullptr) {
-        sectionPopup = new SectionPopup();
-    }
-    sectionPopup->show();
-    connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
-        if (add) {
-            CS::Section* newSection = new CS::Section(sectionPopup->getName());
-            Section *newSectionWgt = createSection(newSection);
-
-            currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSectionWgt);
-            parts[getTabWgt(tabWgt->currentIndex())]->addSection(newSection);
-            index++;
-        }
-        // remove the popup window
-        delete sectionPopup;
-        sectionPopup = nullptr;
-    });
-}
 
 /******************************************************************************/
 /*                                   reload                                   */
@@ -171,13 +129,13 @@ void CSCreator::reloadPart(CS::Part *part) {
 
     // adding widgets
     for (CS::Section *section : part->getSections()) {
-        Section *newSectionWgt = createSection(section);
-        int count = layout->count();
+        /* Section *newSectionWgt = createSection(section); */
+        /* int count = layout->count(); */
 
-        for (CS::Component *component : section->getComponents()) {
-            newSectionWgt->add(createComponent(component), component);
-        }
-        layout->insertWidget(count - 1, newSectionWgt);
+        /* for (CS::Component *component : section->getComponents()) { */
+        /*     newSectionWgt->add(createComponent(component), component); */
+        /* } */
+        /* layout->insertWidget(count - 1, newSectionWgt); */
     }
 
     scrollArea->setWidget(newTabWgt);
@@ -187,24 +145,6 @@ void CSCreator::reloadPart(CS::Part *part) {
 /******************************************************************************/
 /*                              create elements                               */
 /******************************************************************************/
-
-Section *CSCreator::createSection(CS::Section *section) {
-    Section *sectionWgt = new Section(section, this);
-
-    // connections
-    connect(
-        sectionWgt, &Section::remove, this, [&, section, wgt = sectionWgt]() {
-            parts[getTabWgt(tabWgt->currentIndex())]->removeSection(section);
-            currentTabLyt()->removeWidget(wgt);
-            delete wgt;
-        });
-    connect(sectionWgt, &Section::moveUp, this,
-            [&, wgt = sectionWgt]() { move(true, wgt); });
-    connect(sectionWgt, &Section::moveDown, this,
-            [&, wgt = sectionWgt]() { move(false, wgt); });
-
-    return sectionWgt;
-}
 
 Component *CSCreator::createComponent(CS::Component *component) {
     if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
@@ -224,8 +164,6 @@ Component *CSCreator::createComponent(CS::Component *component) {
 }
 
 void CSCreator::clearTabs() {
-    parts.clear(); // remove all parts
-
     // clear tabs
     for (int i = 0; i < tabWgt->count(); ++i) {
         QWidget *wgt = tabWgt->widget(i);
@@ -234,4 +172,18 @@ void CSCreator::clearTabs() {
     }
 }
 
+Part *CSCreator::getPart(int index) {
+    QScrollArea *scrollArea =
+        dynamic_cast<QScrollArea *>(tabWgt->widget(index));
+    return dynamic_cast<Part *>(scrollArea->widget());
+}
+
+QScrollArea *CSCreator::createScrollArea() {
+    QScrollArea *scrollArea = new QScrollArea(this);
+
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setWidgetResizable(true);
+    return scrollArea;
+}
 } // end namespace CSCreator
