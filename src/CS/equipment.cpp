@@ -28,7 +28,9 @@ void Equipment::addItem(Item *item) {
 
 void Equipment::removeItem(int index) {
     if (index < items.count()) {
+        Item *item = items.at(index);
         items.remove(index);
+        delete item;
     }
 }
 
