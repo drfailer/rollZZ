@@ -86,6 +86,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/descriptorpopup.h src/app/widgets/cscreator/popup/descriptorpopup.cpp
         src/app/widgets/cscreator/popup/equipmentpopup.h src/app/widgets/cscreator/popup/equipmentpopup.cpp
         src/app/widgets/cscreator/components/section.h src/app/widgets/cscreator/components/section.cpp
+        src/app/widgets/cscreator/components/part.h src/app/widgets/cscreator/components/part.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
         src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
         src/CS/cs.h src/CS/cs.cpp
