@@ -1,6 +1,7 @@
 #include "cscreator/components/part.h"
 #include "cscreator/components/section.h"
 #include "cscreator/popup/sectionpopup.h"
+#include "CS/section.h"
 
 namespace CSCreator {
 
@@ -9,15 +10,19 @@ Part::Part(CS::Part *part, QWidget* parent):
     part(part),
     newSectionBtn("new section")
 {
+    // update section if needed
+    for (CS::Section* section : part->getSections()) {
+        layout.addWidget(new Section(section, this));
+    }
+    // add section button
     layout.addWidget(&newSectionBtn);
+
     layout.setAlignment(Qt::AlignTop);
     setLayout(&layout);
+
+    // connect
     connect(&newSectionBtn, &QPushButton::clicked, this, &Part::addSectionPopup);
-
-    // TODO: update the sections if part->sections is not empty
 }
-
-// TODO: update the cscreator code
 
 /******************************************************************************/
 /*                                add section                                 */
