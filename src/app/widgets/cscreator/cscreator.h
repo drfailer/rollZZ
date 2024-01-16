@@ -62,7 +62,6 @@ private:
     void reload();
     void reloadPart(CS::Part *part);
     void clearTabs();
-    Component *createComponent(CS::Component *component);
     QScrollArea *createScrollArea();
     Part *getPart(int index);
 };

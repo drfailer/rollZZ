@@ -118,50 +118,17 @@ void CSCreator::reload() {
 
     // update the widgets
     for (CS::Part* part : CSTree->getParts()) {
-        reloadPart(part);
+        Part* newPartWgt = new Part(part, tabWgt);
+        QScrollArea *scrollArea = createScrollArea();
+
+        scrollArea->setWidget(newPartWgt);
+        tabWgt->addTab(scrollArea, part->getName());
     }
-}
-
-void CSCreator::reloadPart(CS::Part *part) {
-    QWidget *newTabWgt = createTab(part->getName());
-    QVBoxLayout *layout = dynamic_cast<QVBoxLayout*>(newTabWgt->layout());
-    QScrollArea *scrollArea = createScrollArea();
-
-    // adding widgets
-    for (CS::Section *section : part->getSections()) {
-        /* Section *newSectionWgt = createSection(section); */
-        /* int count = layout->count(); */
-
-        /* for (CS::Component *component : section->getComponents()) { */
-        /*     newSectionWgt->add(createComponent(component), component); */
-        /* } */
-        /* layout->insertWidget(count - 1, newSectionWgt); */
-    }
-
-    scrollArea->setWidget(newTabWgt);
-    tabWgt->addTab(scrollArea, part->getName());
 }
 
 /******************************************************************************/
-/*                              create elements                               */
+/*                             utility functions                              */
 /******************************************************************************/
-
-Component *CSCreator::createComponent(CS::Component *component) {
-    if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
-        return new BonusStat(bonusStat, this);
-    } else if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
-        return new BasicStat(basicStat, this);
-    } else if (CS::ListStat* listStat = dynamic_cast<CS::ListStat*>(component)) {
-        return new ListStat(listStat, this);
-    } else if (CS::Descriptor* descriptor = dynamic_cast<CS::Descriptor*>(component)) {
-        return new Descriptor(descriptor, this);
-    } else if (CS::Equipment* equipment = dynamic_cast<CS::Equipment*>(component)) {
-        return new Equipment(equipment, this);
-    } else if (CS::Attacks* attacks = dynamic_cast<CS::Attacks*>(component)) {
-        return new Attacks(attacks, this);
-    }
-    return nullptr;
-}
 
 void CSCreator::clearTabs() {
     // clear tabs
