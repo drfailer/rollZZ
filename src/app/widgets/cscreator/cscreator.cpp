@@ -1,22 +1,10 @@
 #include "cscreator.h"
-#include "bonusstat.h"
-#include "component.h"
-#include "components/section.h"
 #include "popup/tabpopup.h"
-#include "section.h"
 #include <CS/part.h>
 #include <QTabWidget>
 #include <QScrollArea>
-#include "cscreator/components/section.h"
-#include "cscreator/components/basicstat.h"
-#include "cscreator/components/bonusstat.h"
-#include "cscreator/components/attacks.h"
-#include "cscreator/components/liststat.h"
-#include "cscreator/components/descriptor.h"
-#include "cscreator/components/equipment.h"
 #include "cscreator/components/part.h"
 #include <iostream>
-#define ADD_FN(id) [&](bool add) { id(add); }
 
 
 namespace CSCreator {
