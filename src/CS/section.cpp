@@ -26,4 +26,13 @@ void Section::removeComponent(Component* component) {
     }
 }
 
+void Section::move(bool up, Component *component) {
+    int index = components.lastIndexOf(component);
+    int newIndex = up ? index - 1 : index + 1;
+
+    if (components.removeOne(component)) {
+        components.insert(newIndex, component);
+    }
+}
+
 } // end namespace CS

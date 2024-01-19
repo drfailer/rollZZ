@@ -22,7 +22,7 @@ class Section {
     void addComponent(Component *);
     void removeComponent(Component *);
     const QList<Component *> &getComponents() const { return components; }
-    // TODO: move components
+    void move(bool up, Component *component);
 
     /* accessors **************************************************************/
     QString getTitle() const { return title; }
