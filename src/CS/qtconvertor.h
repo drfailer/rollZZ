@@ -23,7 +23,7 @@ struct QtConvertor {
         return QString::fromUtf8(str.substr(1, str.size() - 2).c_str());
     }
 
-    static inline std::string serialize(const QString &elt) {
+    serialize_custom_type(const QString &elt) {
         std::ostringstream oss;
         oss << "\"" << elt.toStdString() << "\"";
         return oss.str();
