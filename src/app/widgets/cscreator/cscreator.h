@@ -17,6 +17,7 @@ class SectionPopup;
 class Section;
 class Component;
 class Part;
+class FileSelectorPopup;
 
 // the configuration corresponds to the elements on the page that has been created with the designer
 struct CSCreatorConfig {
@@ -37,6 +38,8 @@ public slots:
     /* add bnts ****************************************************************/
     void addTabPopup();
     void renameTabPopup(int index);
+    void loadTemplateFile();
+    void saveTemplateFile();
 
 private:
     int index = 0;
@@ -52,6 +55,7 @@ private:
     /* popup menus *************************************************************/
     TabPopup *tabPopup = nullptr;
     SectionPopup *sectionPopup = nullptr;
+    FileSelectorPopup* fileSelectorPopup = nullptr;
 
     /* cs tree *****************************************************************/
     CS::CS* CSTree = nullptr;

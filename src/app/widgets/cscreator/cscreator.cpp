@@ -1,4 +1,5 @@
 #include "cscreator.h"
+#include "fileselectorpopup.h"
 #include "popup/tabpopup.h"
 #include <CS/part.h>
 #include <QTabWidget>
@@ -34,15 +35,8 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     // the other buttons
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
     connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
-    connect(saveBtn, &QPushButton::clicked, this, [&]() {
-                // TODO: create a popup to ask filename
-                this->CSTree->serializeFile("test.txt");
-            });
-    connect(importBtn, &QPushButton::clicked, this, [&, CSTree]() {
-                // TODO: create a popup to ask filename
-                CSTree->load("test.txt");
-                reload();
-            });
+    connect(saveBtn, &QPushButton::clicked, this, &CSCreator::saveTemplateFile);
+    connect(importBtn, &QPushButton::clicked, this, &CSCreator::loadTemplateFile);
 }
 
 CSCreator::~CSCreator() {
@@ -141,4 +135,42 @@ QScrollArea *CSCreator::createScrollArea() {
     scrollArea->setWidgetResizable(true);
     return scrollArea;
 }
+
+/******************************************************************************/
+/*                            load and save cstree                            */
+/******************************************************************************/
+
+void CSCreator::loadTemplateFile() {
+    if (fileSelectorPopup == nullptr) {
+        fileSelectorPopup = new FileSelectorPopup("Select a file to load");
+        fileSelectorPopup->show();
+
+        connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
+                if (confirm) {
+                    CSTree->load(fileSelectorPopup->getFile());
+                    reload();
+                }
+                delete fileSelectorPopup;
+                fileSelectorPopup = nullptr;
+        });
+    }
+}
+
+void CSCreator::saveTemplateFile() {
+    if (fileSelectorPopup == nullptr) {
+        fileSelectorPopup = new FileSelectorPopup("Select a file to load");
+        fileSelectorPopup->show();
+
+        connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
+                if (confirm) {
+                    std::cout << "save in: " << fileSelectorPopup->getFile().toStdString() <<
+                    std::endl;
+                    CSTree->save(fileSelectorPopup->getFile());
+                }
+                delete fileSelectorPopup;
+                fileSelectorPopup = nullptr;
+        });
+    }
+}
+
 } // end namespace CSCreator
