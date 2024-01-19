@@ -24,6 +24,9 @@ class CS {
         clearParts();
         deserializeFile(fileName.toStdString());
     }
+    void save(const QString& fileName) {
+        serializeFile(fileName.toStdString());
+    }
 
   private:
     QList<Part *> parts;
