@@ -11,6 +11,7 @@
 #include <QList>
 #include <QPushButton>
 #include <QComboBox>
+#include <QScrollArea>
 
 namespace CSCreator {
 
@@ -29,9 +30,10 @@ public:
 
 private:
     QLineEdit nameEdit;
-    QWidget skillListWgt;
-    QVBoxLayout skillListLyt;
+    QWidget *skillListWgt;
+    QVBoxLayout *skillListLyt;
     QPushButton addSkillBtn;
+    QScrollArea *scrollArea;
     QList<SkillWgt*> skills;
 
     void removeSkill(SkillWgt *wgt);
