@@ -156,13 +156,13 @@ void Section::connectNewSection(Component *wgt, CS::Component *component) {
         section->removeComponent(component);
         delete wgt;
     });
-    connect(wgt, &Section::moveUp, this, [&, wgt] {
+    connect(wgt, &Section::moveUp, this, [&, wgt, component] {
         move(true, wgt);
-        // TODO: move component in section
+        this->section->move(true, component);
     });
-    connect(wgt, &Section::moveDown, this, [&, wgt] {
+    connect(wgt, &Section::moveDown, this, [&, wgt, component] {
         move(false, wgt);
-        // TODO: move component in section
+        this->section->move(false, component);
     });
 }
 
