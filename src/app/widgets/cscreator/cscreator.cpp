@@ -63,20 +63,20 @@ QWidget* CSCreator::createTab(const QString& name) {
 void CSCreator::addTabPopup() {
     if (tabPopup == nullptr) {
         tabPopup = new TabPopup("NEW TAB");
-    }
-    tabPopup->show();
-    connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
-        if (add) {
-            QWidget* newTab = createTab(tabPopup->getName());
-            QScrollArea *scrollArea = createScrollArea();
+        tabPopup->show();
+        connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
+            if (add) {
+                QWidget* newTab = createTab(tabPopup->getName());
+                QScrollArea *scrollArea = createScrollArea();
 
-            scrollArea->setWidget(newTab);
-            tabWgt->addTab(scrollArea, tabPopup->getName());
-        }
-        // remove the popup window
-        delete tabPopup;
-        tabPopup = nullptr;
-    });
+                scrollArea->setWidget(newTab);
+                tabWgt->addTab(scrollArea, tabPopup->getName());
+            }
+            // remove the popup window
+            delete tabPopup;
+            tabPopup = nullptr;
+        });
+    }
 }
 
 void CSCreator::renameTabPopup(int index) {
