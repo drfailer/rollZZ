@@ -6,9 +6,9 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
 {
     setAcceptDrops(true);
     view = new MapGraphicsView(this);
-    connect(view,&MapGraphicsView::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
-    connect(view,&MapGraphicsView::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
-    connect(view,&MapGraphicsView::dropEventSignal,this,&MapWidget::dropEvent);
+    connect(view->getScene(),&MapGraphicsScene::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
+    connect(view->getScene(),&MapGraphicsScene::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
+    connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::dropEvent);
 
     scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -69,7 +69,6 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
                 labelForCursorDrag->setVisible(true);
                 labelForCursorDrag->setPixmap(labelPixMap);
                 labelForCursorDrag->resize(labelPixMap.size());
-
               });
     }
 }

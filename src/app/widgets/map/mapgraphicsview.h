@@ -1,15 +1,16 @@
 #ifndef MAPGRAPHICSVIEW_H
 #define MAPGRAPHICSVIEW_H
 
-
 #include <QGraphicsView>
 #include <QGraphicsItem>
 #include <QDropEvent>
 #include <QWidget>
 #include "map.h"
+#include "mapgraphicsitem.h"
 #include <QMimeData>
 #include <QCoreApplication>
 #include <QTimeLine>
+#include "mapgraphicsscene.h"
 
 class MapGraphicsView: public QGraphicsView
 {
@@ -17,29 +18,20 @@ class MapGraphicsView: public QGraphicsView
 public:
     MapGraphicsView(QWidget* parent);
     qreal getScale() const;
-    void dropEvent(QDropEvent *event) override;
-    void dragEnterEvent(QDragEnterEvent *event) override;
-    void dragMoveEvent(QDragMoveEvent *event) override;
+    MapGraphicsScene* getScene() const {return scene;}
     void wheelEvent ( QWheelEvent * event ) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
-    void keyPressEvent(QKeyEvent *event) override;
-  signals:
-    void dropEventSignal(QDropEvent *event);
-    void dragEnterEventSignal(QDragEnterEvent *event) ;
-    void dragMoveEventSignal(QDragMoveEvent *event);
   public slots:
     void scalingTime(qreal x);
     void animFinished();
 
 
 private:
-  QGraphicsScene* scene;
-  QGraphicsItem* selectionBorder;
-  QGraphicsItem* selectedItem;
-  std::vector<QGraphicsPixmapItem*> items;
+  MapGraphicsScene* scene;
+  // For Scene position and scaling
   int numScheduledScalings;
-  int mousePosOriginX,mousePosOriginY;
+  QPointF mousePosOrigin;
   int sceneSizeX,sceneSizeY;
 };
 
