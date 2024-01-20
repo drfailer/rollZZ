@@ -7,8 +7,7 @@
 
 namespace CSCreator {
 
-class SectionPopup : public Popup
-{
+class SectionPopup : public Tools::Popup {
     Q_OBJECT
 public:
     SectionPopup();

@@ -9,8 +9,7 @@
 
 namespace CSCreator {
 
-class DescriptorPopup : public Popup
-{
+class DescriptorPopup : public Tools::Popup {
     Q_OBJECT
 public:
     DescriptorPopup(const QString& name = "name", CS::DescriptorTypes type = CS::LONG);

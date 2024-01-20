@@ -14,8 +14,7 @@
 
 namespace CSCreator {
 
-class BasicStatPopup : public Popup
-{
+class BasicStatPopup : public Tools::Popup {
     Q_OBJECT
 public:
     BasicStatPopup();

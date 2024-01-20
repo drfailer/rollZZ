@@ -9,8 +9,7 @@
 
 namespace CSCreator {
 
-class AttacksPopup : public Popup
-{
+class AttacksPopup : public Tools::Popup {
     Q_OBJECT
 public:
     AttacksPopup(const QString name = "name", int maxItems = 3);

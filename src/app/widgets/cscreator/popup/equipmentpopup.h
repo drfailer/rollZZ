@@ -21,8 +21,7 @@ namespace CSCreator {
  * placeholder will be composed of a name, a quantity and a weight.
  */
 
-class EquipmentPopup : public Popup
-{
+class EquipmentPopup : public Tools::Popup {
     Q_OBJECT
 public:
     EquipmentPopup(bool useWeight = true, int maxWeight = 0, int maxItems = 0);

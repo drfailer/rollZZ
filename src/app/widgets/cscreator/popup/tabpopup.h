@@ -7,8 +7,7 @@
 
 namespace CSCreator {
 
-class TabPopup : public Popup
-{
+class TabPopup : public Tools::Popup {
     Q_OBJECT
 public:
     TabPopup(const QString& name, const QString& defaultText);

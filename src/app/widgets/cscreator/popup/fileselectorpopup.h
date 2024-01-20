@@ -10,7 +10,7 @@
 
 namespace CSCreator {
 
-class FileSelectorPopup : public Popup {
+class FileSelectorPopup : public Tools::Popup {
 public:
     FileSelectorPopup(const QString& name, const QString& defaultFile):
         Popup(name),

@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
+namespace Tools {
+
 class Popup : public QWidget {
     Q_OBJECT
 public:
@@ -23,5 +25,7 @@ private:
     QPushButton confirmBtn;
     QPushButton cancelBtn;
 };
+
+} // end namespace Tools
 
 #endif

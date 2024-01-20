@@ -1,5 +1,7 @@
 #include "tools/popup.h"
 
+namespace Tools {
+
 /******************************************************************************/
 /*                                constructor                                 */
 /******************************************************************************/
@@ -40,3 +42,5 @@ Popup::Popup(const QString& name):
 void Popup::add(QWidget *wdgt) {
     bodyLyt.addWidget(wdgt);
 }
+
+} // end namespace Tools

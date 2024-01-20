@@ -17,8 +17,7 @@ namespace CSCreator {
 
 class SkillWgt;
 
-class ListStatPopup : public Popup
-{
+class ListStatPopup : public Tools::Popup {
     Q_OBJECT
 public:
     ListStatPopup(const QString& name = "name");
