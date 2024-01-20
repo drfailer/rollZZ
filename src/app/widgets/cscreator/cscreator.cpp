@@ -142,12 +142,13 @@ QScrollArea *CSCreator::createScrollArea() {
 
 void CSCreator::loadTemplateFile() {
     if (fileSelectorPopup == nullptr) {
-        fileSelectorPopup = new FileSelectorPopup("Select a file to load");
+        fileSelectorPopup = new FileSelectorPopup("Select a file to load", templateFilePath);
         fileSelectorPopup->show();
 
         connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
                 if (confirm) {
-                    CSTree->load(fileSelectorPopup->getFile());
+                    templateFilePath = fileSelectorPopup->getFile();
+                    CSTree->load(templateFilePath);
                     reload();
                 }
                 delete fileSelectorPopup;
@@ -158,14 +159,13 @@ void CSCreator::loadTemplateFile() {
 
 void CSCreator::saveTemplateFile() {
     if (fileSelectorPopup == nullptr) {
-        fileSelectorPopup = new FileSelectorPopup("Select a file to load");
+        fileSelectorPopup = new FileSelectorPopup("Select a file to save", templateFilePath);
         fileSelectorPopup->show();
 
         connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
                 if (confirm) {
-                    std::cout << "save in: " << fileSelectorPopup->getFile().toStdString() <<
-                    std::endl;
-                    CSTree->save(fileSelectorPopup->getFile());
+                    templateFilePath = fileSelectorPopup->getFile();
+                    CSTree->save(templateFilePath);
                 }
                 delete fileSelectorPopup;
                 fileSelectorPopup = nullptr;

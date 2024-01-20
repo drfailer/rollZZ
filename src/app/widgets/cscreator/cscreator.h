@@ -42,7 +42,8 @@ public slots:
     void saveTemplateFile();
 
 private:
-    int index = 0;
+    /* datas *******************************************************************/
+    QString templateFilePath = "";
 
     /* elements on the page ****************************************************/
     QWidget *contentWgt;

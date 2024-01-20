@@ -6,14 +6,15 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QLineEdit>
+#include "config.h"
 
 namespace CSCreator {
 
 class FileSelectorPopup : public CSCreatorPopup {
 public:
-    FileSelectorPopup(QString name = "Select a Template"):
+    FileSelectorPopup(const QString& name, const QString& defaultFile):
         CSCreatorPopup(name),
-        fileNameEdit(QDir::homePath()),
+        fileNameEdit((defaultFile.isEmpty()) ? TEMPLATE_DIRECTORY : defaultFile),
         fileSelectButton("Browse")
     {
         add(&fileNameEdit);
