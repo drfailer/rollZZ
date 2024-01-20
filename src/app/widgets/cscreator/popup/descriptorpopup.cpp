@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 DescriptorPopup::DescriptorPopup(const QString& name, CS::DescriptorTypes type):
-    CSCreatorPopup("DESCRIPTOR"),
+    Popup("DESCRIPTOR"),
     nameEdit(name)
 {
     typeEdit.addItem("oneline", CS::DescriptorTypes::ONELINE);

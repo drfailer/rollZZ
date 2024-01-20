@@ -83,7 +83,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
         src/app/widgets/cscreator/popup/basicstatpopup.h src/app/widgets/cscreator/popup/basicstatpopup.cpp
-        src/app/widgets/cscreator/popup/cscreatorpopup.h src/app/widgets/cscreator/popup/cscreatorpopup.cpp
         src/app/widgets/cscreator/popup/sectionpopup.h src/app/widgets/cscreator/popup/sectionpopup.cpp
         src/app/widgets/cscreator/popup/descriptorpopup.h src/app/widgets/cscreator/popup/descriptorpopup.cpp
         src/app/widgets/cscreator/popup/equipmentpopup.h src/app/widgets/cscreator/popup/equipmentpopup.cpp
@@ -116,6 +115,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/components/equipment.h src/app/widgets/cscreator/components/equipment.cpp
         src/app/widgets/cscreator/components/attacks.h src/app/widgets/cscreator/components/attacks.cpp
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
+        src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
         src/app/widgets/cseditor/components/attacks.cpp src/app/widgets/cseditor/components/attacks.h
         src/app/widgets/cseditor/components/basicstat.cpp src/app/widgets/cseditor/components/basicstat.h
         src/app/widgets/cseditor/components/bonusstat.cpp src/app/widgets/cseditor/components/bonusstat.h

@@ -1,7 +1,7 @@
 #ifndef CSEDITOR_BASICSTATPOPUP_H
 #define CSEDITOR_BASICSTATPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include "diceedit.h"
 
 #include <QLabel>
@@ -14,7 +14,7 @@
 
 namespace CSCreator {
 
-class BasicStatPopup : public CSCreatorPopup
+class BasicStatPopup : public Popup
 {
     Q_OBJECT
 public:

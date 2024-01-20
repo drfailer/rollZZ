@@ -145,7 +145,7 @@ void CSCreator::loadTemplateFile() {
         fileSelectorPopup = new FileSelectorPopup("Select a file to load", templateFilePath);
         fileSelectorPopup->show();
 
-        connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
+        connect(fileSelectorPopup, &Popup::confirm, [&](bool confirm) {
                 if (confirm) {
                     templateFilePath = fileSelectorPopup->getFile();
                     CSTree->load(templateFilePath);
@@ -162,7 +162,7 @@ void CSCreator::saveTemplateFile() {
         fileSelectorPopup = new FileSelectorPopup("Select a file to save", templateFilePath);
         fileSelectorPopup->show();
 
-        connect(fileSelectorPopup, &CSCreatorPopup::confirm, [&](bool confirm) {
+        connect(fileSelectorPopup, &Popup::confirm, [&](bool confirm) {
                 if (confirm) {
                     templateFilePath = fileSelectorPopup->getFile();
                     CSTree->save(templateFilePath);

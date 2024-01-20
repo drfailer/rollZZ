@@ -1,19 +1,15 @@
-#ifndef CSEDITOR_CSCREATORPOPUP_H
-#define CSEDITOR_CSCREATORPOPUP_H
+#ifndef POPUP_HPP
+#define POPUP_HPP
 
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QWidget>
 
-namespace CSCreator {
-
-// NOTE: this class is very generic, it may be placed somewhere else (to be accessible everywhere)
-class CSCreatorPopup : public QWidget
-{
+class Popup : public QWidget {
     Q_OBJECT
 public:
-    CSCreatorPopup(const QString& name);
+    Popup(const QString& name);
     void add(QWidget *wdgt);
 
 signals:
@@ -28,6 +24,4 @@ private:
     QPushButton cancelBtn;
 };
 
-} // end namespace CSCreator
-
-#endif // CSCREATORPOPUP_H
+#endif

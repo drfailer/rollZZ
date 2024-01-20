@@ -4,7 +4,7 @@
 namespace CSCreator {
 
 ListStatPopup::ListStatPopup(const QString& name):
-    CSCreatorPopup("LIST STATS"),
+    Popup("LIST STATS"),
     nameEdit(name),
     skillListWgt(new QWidget()),
     skillListLyt(new QVBoxLayout(this)),

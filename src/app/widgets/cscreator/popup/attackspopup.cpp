@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 AttacksPopup::AttacksPopup(const QString name, int maxItems):
-    CSCreatorPopup("ATTACKS & SPELLS"),
+    Popup("ATTACKS & SPELLS"),
     nameEdit(name),
     maxItemsEdit(this)
 {

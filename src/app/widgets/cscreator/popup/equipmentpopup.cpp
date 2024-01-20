@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 EquipmentPopup::EquipmentPopup(bool useWeight, int maxWeight, int maxItems):
-    CSCreatorPopup("EQUIPMENT"),
+    Popup("EQUIPMENT"),
     useWeightRBtn("use weight", this),
     maxWeightBox(this),
     maxItemsBox(this)

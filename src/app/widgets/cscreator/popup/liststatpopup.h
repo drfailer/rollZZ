@@ -1,7 +1,7 @@
 #ifndef CSEDITOR_LISTSTATPOPUP_H
 #define CSEDITOR_LISTSTATPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include "tools/listelement.h"
 #include "CS/bonusstat.h"
 #include <QWidget>
@@ -17,7 +17,7 @@ namespace CSCreator {
 
 class SkillWgt;
 
-class ListStatPopup : public CSCreatorPopup
+class ListStatPopup : public Popup
 {
     Q_OBJECT
 public:

@@ -1,13 +1,13 @@
 #ifndef CSEDITOR_TABPOPUP_H
 #define CSEDITOR_TABPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include <QLineEdit>
 #include <QWidget>
 
 namespace CSCreator {
 
-class TabPopup : public CSCreatorPopup
+class TabPopup : public Popup
 {
     Q_OBJECT
 public:

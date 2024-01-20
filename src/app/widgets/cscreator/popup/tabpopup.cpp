@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 TabPopup::TabPopup(const QString& name, const QString& defaultText):
-    CSCreatorPopup(name),
+    Popup(name),
     nameEdit(defaultText)
 {
     add(&nameEdit);

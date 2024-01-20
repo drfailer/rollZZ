@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 SectionPopup::SectionPopup(const QString &defaultValue):
-    CSCreatorPopup("SECTION"),
+    Popup("SECTION"),
     nameEdit(defaultValue)
 {
     add(&nameEdit);

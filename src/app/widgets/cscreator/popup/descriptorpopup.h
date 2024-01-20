@@ -1,7 +1,7 @@
 #ifndef CSEDITOR_DESCRIPTORPOPUP_H
 #define CSEDITOR_DESCRIPTORPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include "CS/descriptor.h"
 
 #include <QLineEdit>
@@ -9,7 +9,7 @@
 
 namespace CSCreator {
 
-class DescriptorPopup : public CSCreatorPopup
+class DescriptorPopup : public Popup
 {
     Q_OBJECT
 public:

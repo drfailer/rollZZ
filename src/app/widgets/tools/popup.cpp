@@ -1,8 +1,10 @@
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 
-namespace CSCreator {
+/******************************************************************************/
+/*                                constructor                                 */
+/******************************************************************************/
 
-CSCreatorPopup::CSCreatorPopup(const QString& name):
+Popup::Popup(const QString& name):
     QWidget(nullptr),
     mainLyt(this),
     title(name),
@@ -31,9 +33,10 @@ CSCreatorPopup::CSCreatorPopup(const QString& name):
     setStyleSheet("QWidget { color: #F2F2F2; background-color: #1B1B1B; }");
 }
 
-void CSCreatorPopup::add(QWidget *wdgt)
-{
+/******************************************************************************/
+/*                                    add                                     */
+/******************************************************************************/
+
+void Popup::add(QWidget *wdgt) {
     bodyLyt.addWidget(wdgt);
 }
-
-} // end namespace CSCreator

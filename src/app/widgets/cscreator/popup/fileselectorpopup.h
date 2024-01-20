@@ -1,6 +1,6 @@
 #ifndef FILESELECTORPOPUP_HPP
 #define FILESELECTORPOPUP_HPP
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include <QWidget>
 #include <QPushButton>
 #include <QFileDialog>
@@ -10,10 +10,10 @@
 
 namespace CSCreator {
 
-class FileSelectorPopup : public CSCreatorPopup {
+class FileSelectorPopup : public Popup {
 public:
     FileSelectorPopup(const QString& name, const QString& defaultFile):
-        CSCreatorPopup(name),
+        Popup(name),
         fileNameEdit((defaultFile.isEmpty()) ? TEMPLATE_DIRECTORY : defaultFile),
         fileSelectButton("Browse")
     {

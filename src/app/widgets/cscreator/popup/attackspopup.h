@@ -1,7 +1,7 @@
 #ifndef CSEDITOR_ATTACKSPOPUP_H
 #define CSEDITOR_ATTACKSPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 
 #include <QComboBox>
 #include <QLineEdit>
@@ -9,7 +9,7 @@
 
 namespace CSCreator {
 
-class AttacksPopup : public CSCreatorPopup
+class AttacksPopup : public Popup
 {
     Q_OBJECT
 public:

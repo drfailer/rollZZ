@@ -3,7 +3,7 @@
 namespace CSCreator {
 
 BasicStatPopup::BasicStatPopup(const QString &title):
-    CSCreatorPopup(title),
+    Popup(title),
     nameEdit("stat name")
 {
     // TODO: create a form

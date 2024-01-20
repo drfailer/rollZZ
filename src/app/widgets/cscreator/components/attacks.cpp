@@ -1,7 +1,7 @@
 #include "attacks.h"
 
+#include "attackspopup.h"
 #include "component.h"
-#include "popup/attackspopup.h"
 
 namespace CSCreator {
 
