@@ -96,6 +96,11 @@ void MainWindow::initCSEditor() {
     QHBoxLayout* CSListLyt = new QHBoxLayout();
     QDir csDirectory(CS_DIRECTORY);
     QStringList csFiles = csDirectory.entryList(QStringList(), QDir::Files);
+    CSEditor::CSEditorConfig csEditorConfig = {
+        .contentWgt = ui->CSEditorContent,
+        .saveBtn = ui->CSEditorSaveBtn,
+        .importBtn = ui->CSEditorImportBtn,
+    };
 
     CSListLyt->setAlignment(Qt::AlignTop);
     ui->CSList->setLayout(CSListLyt);
@@ -108,7 +113,7 @@ void MainWindow::initCSEditor() {
         // TODO: get the character name
         QPushButton* testCSBtn = new QPushButton(csFile, this);
         CSListLyt->addWidget(testCSBtn);
-        connect(testCSBtn, &QPushButton::clicked, this, [&, csFile](){
+        connect(testCSBtn, &QPushButton::clicked, this, [&, csFile, csEditorConfig](){
                 // NOTE: we can optimize here by saving the name of the current
                 // character and not reloading the same file.
                 if (csEditor != nullptr) {
@@ -116,11 +121,6 @@ void MainWindow::initCSEditor() {
                     csEditor = nullptr;
                 }
                 CSTree.load(CS_DIRECTORY + csFile);
-                CSEditor::CSEditorConfig csEditorConfig = {
-                    .contentWgt = ui->CSEditorContent,
-                    .saveBtn = ui->CSEditorSaveBtn,
-                    .importBtn = ui->CSEditorImportBtn,
-                };
                 csEditor = new CSEditor::CSEditor(csEditorConfig, &CSTree, ui->CSEditor);
                 ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSEditor));
             });
