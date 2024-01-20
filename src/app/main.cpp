@@ -4,11 +4,14 @@
 #include <QDebug>
 #include <QFile>
 #include "mongodb/mongodb.hpp"
+#include "init.h"
 
 /* #define MAIN_TEST */
 
 #ifndef MAIN_TEST
 int main(int argc, char *argv[]) {
+    init(); // we call the init function on start
+
     QApplication app(argc, argv);
     MainWindow   w;
     // on peut faire un steelsheet dans le code aussi :)

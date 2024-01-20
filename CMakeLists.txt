@@ -57,6 +57,8 @@ endif()
 
 set(PROJECT_SOURCES
         src/app/main.cpp
+        src/app/config.cpp
+        src/app/init.cpp
         src/app/mainwindow.cpp
         src/app/mainwindow.h
         ressources/mainwindow.ui
