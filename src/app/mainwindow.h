@@ -13,10 +13,8 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -30,5 +28,11 @@ private:
     CSCreator::CSCreator *csCreator = nullptr;
     CSEditor::CSEditor *csEditor = nullptr;
     CS::CS CSTree;
+
+    /* init functions *********************************************************/
+    void initMenu();
+    void initGames();
+    void initCSCreator();
+    void initCSEditor();
 };
 #endif // MAINWINDOW_H
