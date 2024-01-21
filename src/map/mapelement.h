@@ -19,7 +19,7 @@ public:
   QString getName() const {return name;}
   QString getFilePath() const {return filePath;}
   void setPixMap(QPixmap map) {pixMap = map;}
-  void setName(QString name) {filePath = name;}
+  void setName(QString name) {name = name;}
   void setFilePath(QString filePath) {filePath = filePath;}
   QSize getImageSize()const {return imageSize;}
   QSize getPixMapSize()const {return pixMapSize;}

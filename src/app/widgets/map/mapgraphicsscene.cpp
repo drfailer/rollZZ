@@ -1,4 +1,5 @@
 #include "mapgraphicsscene.h"
+#include<iostream>
 
 MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), sceneSizeX(2500),sceneSizeY(2500)
 {
@@ -36,6 +37,7 @@ void MapGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
   QPointF scenePoint = event->scenePos();
+  MapGraphicsItem* el;
 
   const QMimeData* mimeData = event->mimeData();
   QByteArray byteArray = mimeData->data("map-element");
@@ -48,7 +50,12 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
   if(scenePoint.x() + elementSizeX/2 <= sceneSizeX && scenePoint.x() - elementSizeX/2 >= 0 && scenePoint.y() + elementSizeY/2 <= sceneSizeY && scenePoint.y() - elementSizeY/2 >= 0 )
   {
-    MapGraphicsItem* el = new MapGraphicsItem(mapElementToDrop->getPixMap());
+    std::cout << "|"<< mapElementToDrop->getFilePath().toStdString() << "|" << std::endl;
+
+    // TODO: TAKE the original image, not the image we use to print on the menu
+    // IDK why, doesn't work with this line
+    //el = new MapGraphicsItem(QPixmap(mapElementToDrop->getFilePath()));
+    el = new MapGraphicsItem(mapElementToDrop);
     addItem(el);
     items.push_back(el);
     items.back()->setPos(scenePoint.x()-elementSizeX/2,scenePoint.y()-elementSizeY/2);
@@ -60,11 +67,15 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   Qt::DropActions proposedAction = event->possibleActions();
   Qt::KeyboardModifiers modifiers = event->modifiers();
 
-  emit dropEventSignal(new QDropEvent(dropPos, proposedAction, event->mimeData(),event->buttons(),modifiers));
+  emit dropEventSignal(new QDropEvent(dropPos, proposedAction, event->mimeData(),event->buttons(),modifiers),el);
 }
 
 void MapGraphicsScene::focusItem(MapGraphicsItem* el)
 {
+  if(selectedItem && selectedItem != el)
+  {
+    selectedItem->unselected();
+  }
   selectedItem = el;
 }
 

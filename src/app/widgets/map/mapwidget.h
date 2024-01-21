@@ -15,10 +15,13 @@
  *
  * TODO
  * - Layer option
- * - Move/resize/rotate/delete items on the graphics scene
  * - Menu to see existing item on the map (to select them more easily)
- * - Do you see an error msg with drag? I see nothing...
- *
+ * - function for menu item used
+ * - Create a class for menu (widget, layout and scrollArea)
+ * - modify the scroll area so we can see the bottom element
+ * - clean all code
+ * - Take the original image when drop on map (not the menu one)
+ * => reload the image (not opti if lot of them, or other attribute pixmap in mapElement)
  **/
 
 class MapWidget: public QWidget
@@ -30,12 +33,16 @@ public:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     ~MapWidget() {/*TODO*/}
+  public slots:
+    void drop(QDropEvent *event, MapGraphicsItem* dropItem);
 private:
         MapGraphicsView* view;
         QBoxLayout* layoutSideMenu;
         QBoxLayout* layoutMenu;
+        QBoxLayout* layoutMenuItemOnMap;
         QScrollArea* scrollArea;
         QWidget* menu;
+        QWidget* menuItemOnMap;
         Map* map;
         QLabel* labelForCursorDrag;
 };

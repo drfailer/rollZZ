@@ -25,7 +25,7 @@ public:
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void keyPressEvent(QKeyEvent *event) override;
 signals:
-  void dropEventSignal(QDropEvent *event);
+  void dropEventSignal(QDropEvent *event,MapGraphicsItem* dropItem);
   void dragEnterEventSignal(QDragEnterEvent *event) ;
   void dragMoveEventSignal(QDragMoveEvent *event);
 public slots:

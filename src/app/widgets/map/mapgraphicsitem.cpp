@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-MapGraphicsItem::MapGraphicsItem(QPixmap map,QGraphicsItem* parent):QGraphicsObject(parent),pixmap(map)
+MapGraphicsItem::MapGraphicsItem(MapElement* mapElement,QGraphicsItem* parent):QGraphicsObject(parent),mapElement(mapElement)
 {
+  QPixmap pixmap = mapElement->getPixMap();
   borderRect = QRectF(-borderSize/2,-borderSize/2, pixmap.width()+borderSize, pixmap.height()+borderSize);
   selectedHandle = nullptr;
   scaleHandles = QVector<Handle*>(5);
@@ -25,6 +26,7 @@ void MapGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   Q_UNUSED(option);
   Q_UNUSED(widget);
 
+  QPixmap pixmap = mapElement->getPixMap();
   painter->drawPixmap(borderRect, pixmap,pixmap.rect());
   if (isSelected())
   {
@@ -40,39 +42,45 @@ void MapGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
   if(event->buttons()== Qt::LeftButton)
   {
-    if(!isSelected())
-    {
-      QRectF border = boundingRect();
-
-      scaleHandles[0] = new Handle(this,TOP_LEFT);
-      scaleHandles[0]->setPos(border.topLeft());
-      scaleHandles[1] = new Handle(this,TOP_RIGHT);
-      scaleHandles[1]->setPos(border.topRight());
-
-      scaleHandles[2] = new Handle(this,BOTTOM_RIGHT);
-      scaleHandles[2]->setPos(border.bottomRight());
-      scaleHandles[3]= new Handle(this,BOTTOM_LEFT);
-      scaleHandles[3]->setPos(border.bottomLeft());
-      scaleHandles[4]= new Handle(this,ROTATE);
-      scaleHandles[4]->setPos(border.center().x(),border.topLeft().y()-20);
-
-
-      for(Handle* handle : scaleHandles)
-      {
-        connect(handle,&Handle::mousePressSignal,this,&MapGraphicsItem::prepareForRescale);
-        connect(handle,&Handle::mouseMoveSignal,this,&MapGraphicsItem::rescale);
-      }
-
-      selected = true;
-      emit mousePressedSignal(this);
-    }
+      setSelected(true);
   }
   QGraphicsObject::mousePressEvent(event);
 }
 
+void MapGraphicsItem::setSelected(bool b)
+{
+  if (b && !selected)
+  {
+  QRectF border = boundingRect();
+
+  scaleHandles[0] = new Handle(this,TOP_LEFT);
+  scaleHandles[0]->setPos(border.topLeft());
+  scaleHandles[1] = new Handle(this,TOP_RIGHT);
+  scaleHandles[1]->setPos(border.topRight());
+
+  scaleHandles[2] = new Handle(this,BOTTOM_RIGHT);
+  scaleHandles[2]->setPos(border.bottomRight());
+  scaleHandles[3]= new Handle(this,BOTTOM_LEFT);
+  scaleHandles[3]->setPos(border.bottomLeft());
+  scaleHandles[4]= new Handle(this,ROTATE);
+  scaleHandles[4]->setPos(border.center().x(),border.topLeft().y()-20);
+
+
+  for(Handle* handle : scaleHandles)
+  {
+      connect(handle,&Handle::mousePressSignal,this,&MapGraphicsItem::prepareForRescale);
+      connect(handle,&Handle::mouseMoveSignal,this,&MapGraphicsItem::rescale);
+  }
+
+  selected = true;
+  emit mousePressedSignal(this);
+  }
+  else
+  emit mousePressedSignal(nullptr);
+}
+
 void MapGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  std::cout << "move item" << std::endl;
   QGraphicsObject::mouseMoveEvent(event);
 }
 
