@@ -3,17 +3,16 @@
 
 #include "part.h"
 #include "serializable.hpp"
-#include "qtconvertor.h"
 
 #include <QList>
 
 namespace CS {
 
 class CS {
-    SERIALIZABLE_WITH_CONVERTOR(QtConvertor, QString, QList<Part *>);
+    SERIALIZABLE(QList<Part *>);
 
   public:
-    CS() : SERIALIZER(characterName, parts) {}
+    CS() : SERIALIZER(parts) {}
     ~CS();
 
     /* methods ****************************************************************/
@@ -29,12 +28,7 @@ class CS {
         serializeFile(fileName.toStdString());
     }
 
-    /* accessors **************************************************************/
-    void setCharacterName(QString characterName) { this->characterName = characterName; }
-    QString getCharacterName() const { return characterName; }
-
   private:
-    QString characterName;
     QList<Part *> parts;
 };
 
