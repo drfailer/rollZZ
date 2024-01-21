@@ -32,6 +32,9 @@ public:
     explicit CSEditor(const CSEditorConfig& config, CS::CS *CSTree = nullptr, QWidget *parent = nullptr);
     ~CSEditor();
 
+    /* accessors ***************************************************************/
+    QString getCSFile() const { return csFile; }
+
 private:
     int index = 0;
 

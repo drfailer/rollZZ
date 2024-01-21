@@ -142,13 +142,13 @@ void MainWindow::startCSEditor(const QString& csFile, const QString& loadedFile)
         .csFile = csFile,
     };
 
-    // NOTE: we can optimize here by saving the name of the current
-    // character and not reloading the same file.
     if (csEditor != nullptr) {
+        if (csEditor->getCSFile() == csFile) {
+            return; // we don't reload the same file
+        }
         delete csEditor;
         csEditor = nullptr;
     }
-
     CSTree.load(loadedFile.isEmpty() ? csFile : loadedFile);
     csEditor = new CSEditor::CSEditor(csEditorConfig, &CSTree, ui->CSEditor);
     ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSEditor));
