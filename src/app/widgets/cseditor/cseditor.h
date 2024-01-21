@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 #include <QMap>
+#include <QString>
 
 
 namespace CSEditor {
@@ -20,6 +21,7 @@ struct CSEditorConfig {
     QWidget *contentWgt;
     QPushButton *saveBtn;
     QPushButton *importBtn;
+    QString csFile;
 };
 
 class CSEditor : public QWidget
@@ -42,6 +44,7 @@ private:
 
     /* cs tree *****************************************************************/
     CS::CS* CSTree = nullptr;
+    QString csFile = "";
 
     /* private methods *********************************************************/
     QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }

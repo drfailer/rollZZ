@@ -8,6 +8,9 @@
 
 namespace CSEditor {
 
+// TODO: get the title in the cnfiguration and change it (put the name of the
+// character).
+
 CSEditor::CSEditor(const CSEditorConfig& config, CS::CS *CSTree, QWidget *parent):
     QWidget(parent),
     contentWgt(config.contentWgt),
@@ -15,7 +18,8 @@ CSEditor::CSEditor(const CSEditorConfig& config, CS::CS *CSTree, QWidget *parent
     tabWgt(new QTabWidget(this)),
     saveBtn(config.saveBtn),
     importBtn(config.importBtn),
-    CSTree(CSTree)
+    CSTree(CSTree),
+    csFile(config.csFile)
 {
     // add the tabWgt in the page
     contentWgt->setLayout(contentLyt);
@@ -29,7 +33,9 @@ CSEditor::CSEditor(const CSEditorConfig& config, CS::CS *CSTree, QWidget *parent
     }
 
     // the other buttons
-    connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+    connect(saveBtn, &QPushButton::clicked, this, [&]() {
+                this->CSTree->save(csFile);
+            });
     connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
 
     setContentsMargins(0, 0, 0, 0);
