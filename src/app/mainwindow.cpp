@@ -4,6 +4,8 @@
 #include <QDir>
 #include <iostream>
 #include "config.h"
+#include "popup/createcharacterpopup.h"
+#include "tools/popup.h"
 #include <QPushButton>
 
 /******************************************************************************/
@@ -85,44 +87,41 @@ void MainWindow::initCSCreator() {
 /******************************************************************************/
 
 void MainWindow::initCSEditor() {
-    // WARN: the CSTree should be different here, but for now we keep it like
-    // this for the test
-
-    // TODO: move this in a method
-
-    // this should be done in another class (CharactersManager) and it should
-    // handle the character creation
-
     QHBoxLayout* CSListLyt = new QHBoxLayout();
     QDir csDirectory(CS_DIRECTORY);
     QStringList csFiles = csDirectory.entryList(QStringList(), QDir::Files);
-    CSEditor::CSEditorConfig csEditorConfig = {
-        .contentWgt = ui->CSEditorContent,
-        .saveBtn = ui->CSEditorSaveBtn,
-        .importBtn = ui->CSEditorImportBtn,
-    };
 
     CSListLyt->setAlignment(Qt::AlignTop);
     ui->CSList->setLayout(CSListLyt);
 
+    // connect newCS button
     connect(ui->createCS, &QPushButton::clicked, this, [&]() {
-            // TODO: popup to create a cs (generate file name)
-            });
+        if (createCharacterPopup == nullptr) {
+            createCharacterPopup = new CreateCharacterPopup();
+            createCharacterPopup->show();
 
+            connect(createCharacterPopup, &Tools::Popup::confirm, this,
+                [&](bool confirm) {
+                    if (confirm) {
+                        startCSEditor(
+                                CS_DIRECTORY + createCharacterPopup->getName(),
+                                createCharacterPopup->getTemplate()
+                            );
+                    }
+                    delete createCharacterPopup;
+                    createCharacterPopup = nullptr;
+            });
+        }
+    });
+
+    // create buttons for existing cs
     for (const QString& csFile : csFiles) {
-        // TODO: get the character name
         QPushButton* testCSBtn = new QPushButton(csFile, this);
+        QString path = CS_DIRECTORY + csFile;
+
         CSListLyt->addWidget(testCSBtn);
-        connect(testCSBtn, &QPushButton::clicked, this, [&, csFile, csEditorConfig](){
-                // NOTE: we can optimize here by saving the name of the current
-                // character and not reloading the same file.
-                if (csEditor != nullptr) {
-                    delete csEditor;
-                    csEditor = nullptr;
-                }
-                CSTree.load(CS_DIRECTORY + csFile);
-                csEditor = new CSEditor::CSEditor(csEditorConfig, &CSTree, ui->CSEditor);
-                ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSEditor));
+        connect(testCSBtn, &QPushButton::clicked, this, [&, path](){
+                startCSEditor(path);
             });
     }
 }
@@ -133,5 +132,25 @@ void MainWindow::initCSEditor() {
 
 void MainWindow::goToPage(QWidget *w) {
     ui->pages->setCurrentIndex(ui->pages->indexOf(w));
-
 }
+
+void MainWindow::startCSEditor(const QString& csFile, const QString& loadedFile) {
+    CSEditor::CSEditorConfig csEditorConfig = {
+        .contentWgt = ui->CSEditorContent,
+        .saveBtn = ui->CSEditorSaveBtn,
+        .importBtn = ui->CSEditorImportBtn,
+        .csFile = csFile,
+    };
+
+    // NOTE: we can optimize here by saving the name of the current
+    // character and not reloading the same file.
+    if (csEditor != nullptr) {
+        delete csEditor;
+        csEditor = nullptr;
+    }
+
+    CSTree.load(loadedFile.isEmpty() ? csFile : loadedFile);
+    csEditor = new CSEditor::CSEditor(csEditorConfig, &CSTree, ui->CSEditor);
+    ui->CSPages->setCurrentIndex(ui->CSPages->indexOf(ui->CSEditor));
+}
+
