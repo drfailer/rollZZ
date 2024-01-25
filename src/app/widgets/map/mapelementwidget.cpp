@@ -6,7 +6,7 @@ mapElementToRepresent(mapElementToRepresent)
 {
     layout = new QBoxLayout(QBoxLayout::TopToBottom,this);
     label = new QLabel(this);
-    label->setPixmap(mapElementToRepresent->getPixMap());
+    label->setPixmap(mapElementToRepresent->getPreviewPixMap());
     layout->addWidget(label);
     label->setBaseSize(mapElementToRepresent->getPixMapSize());
     labelName = new QLabel(this);

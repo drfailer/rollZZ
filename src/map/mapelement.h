@@ -15,10 +15,12 @@ class MapElement
 public:
   MapElement(QString filePath);
   MapElement(QString filePath,QString name);
-  QPixmap getPixMap() const {return pixMap;}
+  QPixmap getPreviewPixMap() const {return previewPixMap;}
+  QPixmap getOriginalPixMap() const {return originalPixMap;}
   QString getName() const {return name;}
   QString getFilePath() const {return filePath;}
-  void setPixMap(QPixmap map) {this->pixMap = map;}
+  void setPreviewPixMap(QPixmap map) {this->previewPixMap = map;}
+  void setOriginalPixMap(QPixmap map) {this->originalPixMap = map;}
   void setName(QString name) {this->name = name;}
   void setFilePath(QString filePath) {this->filePath = filePath;}
   QSize getImageSize()const {return imageSize;}
@@ -32,7 +34,8 @@ private:
 
   // can be retreive from the previous information
   QSize imageSize;
-  QPixmap pixMap;
+  QPixmap previewPixMap;
+  QPixmap originalPixMap;
 };
 
 QDataStream &operator>>(QDataStream &stream, MapElement* el);

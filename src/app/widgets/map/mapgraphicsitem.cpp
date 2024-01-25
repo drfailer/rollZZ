@@ -4,7 +4,7 @@
 
 MapGraphicsItem::MapGraphicsItem(MapElement* mapElement,QGraphicsItem* parent):QGraphicsObject(parent),mapElement(mapElement)
 {
-  QPixmap pixmap = mapElement->getPixMap();
+  QPixmap pixmap = mapElement->getOriginalPixMap();
   borderRect = QRectF(-borderSize/2,-borderSize/2, pixmap.width()+borderSize, pixmap.height()+borderSize);
   selectedHandle = nullptr;
   scaleHandles = QVector<Handle*>(5);
@@ -26,7 +26,7 @@ void MapGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   Q_UNUSED(option);
   Q_UNUSED(widget);
 
-  QPixmap pixmap = mapElement->getPixMap();
+  QPixmap pixmap = mapElement->getOriginalPixMap();
   painter->drawPixmap(borderRect, pixmap,pixmap.rect());
   if (isSelected())
   {

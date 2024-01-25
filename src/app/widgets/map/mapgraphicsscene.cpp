@@ -45,8 +45,8 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   MapElement* mapElementToDrop = new MapElement(":ressources/tiles/wall");
   inStream >> mapElementToDrop;
 
-  int elementSizeX = mapElementToDrop->getPixMap().size().width(),
-      elementSizeY = mapElementToDrop->getPixMap().size().height();
+  int elementSizeX = mapElementToDrop->getOriginalPixMap().size().width(),
+      elementSizeY = mapElementToDrop->getOriginalPixMap().size().height();
 
   if(scenePoint.x() + elementSizeX/2 <= sceneSizeX && scenePoint.x() - elementSizeX/2 >= 0 && scenePoint.y() + elementSizeY/2 <= sceneSizeY && scenePoint.y() - elementSizeY/2 >= 0 )
   {

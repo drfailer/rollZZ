@@ -1,15 +1,15 @@
 #include "mapelement.h"
 
-MapElement::MapElement(QString filePath):filePath(filePath),name(filePath.mid(filePath.lastIndexOf('/')))
+MapElement::MapElement(QString filePath):filePath(filePath),name(filePath.mid(filePath.lastIndexOf('/')+1))
 {
-    pixMap = QPixmap(filePath);
-    imageSize = pixMap.size();
+    originalPixMap = previewPixMap = QPixmap(filePath);
+    imageSize = previewPixMap.size();
 }
 
 MapElement::MapElement(QString filePath,QString name):filePath(filePath),name(name)
 {
-    pixMap = QPixmap(filePath);
-    imageSize = pixMap.size();
+    originalPixMap = previewPixMap = QPixmap(filePath);
+    imageSize = previewPixMap.size();
 }
 
 void MapElement::RescalePixMap(int maxX,int maxY)
@@ -21,11 +21,11 @@ void MapElement::RescalePixMap(int maxX,int maxY)
     else
       pixMapSize = QSize(maxX,imageSize.height()*ratioX);
 
-    pixMap = pixMap.scaled(pixMapSize);
+    previewPixMap = previewPixMap.scaled(pixMapSize);
 }
 
 QDataStream &operator<<(QDataStream &stream, const MapElement* el) {
-    stream << el->getPixMap();
+    stream << el->getOriginalPixMap();
     stream << el->getName();
     stream << el->getFilePath();
     return stream;
@@ -39,7 +39,7 @@ QDataStream &operator>>(QDataStream &stream, MapElement* el)
     stream >> map;
     stream >> name;
     stream >> filePath;
-    el->setPixMap(map);
+    el->setOriginalPixMap(map);
     el->setName(name);
     el->setFilePath(filePath);
     return stream;

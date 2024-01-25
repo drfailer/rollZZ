@@ -18,7 +18,7 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
 
   auto lambdaLabel = [&](MapElement* el)
   {
-    QPixmap labelPixMap = el->getPixMap();
+    QPixmap labelPixMap = el->getOriginalPixMap();
     labelPixMap = labelPixMap.scaled(labelPixMap.size()*view->getScale());
     labelForCursorDrag->setVisible(true);
     labelForCursorDrag->setPixmap(labelPixMap);
@@ -31,7 +31,7 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
     QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg *.jpeg)");
     for(QString& filePath: filesPath)
     {
-      QString name = filePath.mid(filePath.lastIndexOf('/')+1);
+      QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
       QString newFilePath = QDir::homePath() + QString("/.local/ressources/") + name;
 
       if (QFile::exists(newFilePath))
