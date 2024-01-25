@@ -25,6 +25,7 @@ public:
   ~MapGraphicsItem();
 signals:
   void mousePressedSignal(MapGraphicsItem* el);
+  void deleteSignal();
 
 public slots:
   void prepareForRescale(QPointF scenePos);

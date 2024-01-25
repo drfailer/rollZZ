@@ -1,6 +1,6 @@
 #include "mapelementwidget.h"
 
-MapElementWidget::MapElementWidget(QWidget* parent, MapElement* mapElementToRepresent):
+MapElementWidget::MapElementWidget(MapElement* mapElementToRepresent,QWidget* parent):
 QWidget(parent),
 mapElementToRepresent(mapElementToRepresent)
 {
@@ -12,6 +12,8 @@ mapElementToRepresent(mapElementToRepresent)
     labelName = new QLabel(this);
     labelName->setText(mapElementToRepresent->getName());
     layout->addWidget(labelName);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
+
 }
 
 void MapElementWidget::mousePressEvent(QMouseEvent *event)

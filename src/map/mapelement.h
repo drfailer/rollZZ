@@ -13,19 +13,19 @@
 class MapElement
 {
 public:
-  MapElement(QString filePath=":ressources/mapElements/wall");
+  MapElement(QString filePath);
   MapElement(QString filePath,QString name);
   QPixmap getPixMap() const {return pixMap;}
   QString getName() const {return name;}
   QString getFilePath() const {return filePath;}
-  void setPixMap(QPixmap map) {pixMap = map;}
-  void setName(QString name) {name = name;}
-  void setFilePath(QString filePath) {filePath = filePath;}
+  void setPixMap(QPixmap map) {this->pixMap = map;}
+  void setName(QString name) {this->name = name;}
+  void setFilePath(QString filePath) {this->filePath = filePath;}
   QSize getImageSize()const {return imageSize;}
   QSize getPixMapSize()const {return pixMapSize;}
   void RescalePixMap(int maxX,int maxY);
 private:
-  //need to be safe
+  //need to be save
   QString filePath;
   QString name;
   QSize pixMapSize;

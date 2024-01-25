@@ -16,7 +16,7 @@ class MapElementWidget: public QWidget
 {
     Q_OBJECT
     public:
-        MapElementWidget(QWidget *parent = nullptr, MapElement* mapElement = new MapElement());
+        MapElementWidget(MapElement* mapElement,QWidget *parent = nullptr);
         void mousePressEvent(QMouseEvent *event) override;
         ~MapElementWidget() {/*TODO*/}
       signals:

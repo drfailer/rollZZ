@@ -8,6 +8,7 @@
 #include "map.h"
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
+#include "mapscrollarea.h"
 
 #define PIXMAP_MENU_SIZE 128
 
@@ -15,13 +16,10 @@
  *
  * TODO
  * - Layer option
- * - Menu to see existing item on the map (to select them more easily)
- * - function for menu item used
- * - Create a class for menu (widget, layout and scrollArea)
- * - modify the scroll area so we can see the bottom element
  * - clean all code
  * - Take the original image when drop on map (not the menu one)
  * => reload the image (not opti if lot of them, or other attribute pixmap in mapElement)
+ * - item outside map bug
  **/
 
 class MapWidget: public QWidget
@@ -38,13 +36,10 @@ public:
 private:
         MapGraphicsView* view;
         QBoxLayout* layoutSideMenu;
-        QBoxLayout* layoutMenu;
-        QBoxLayout* layoutMenuItemOnMap;
-        QScrollArea* scrollArea;
-        QWidget* menu;
-        QWidget* menuItemOnMap;
         Map* map;
         QLabel* labelForCursorDrag;
+        MapScrollArea* menuMapElementSelection;
+        MapScrollArea* menuItemOnMap;
 };
 
 #endif // MAPWIDGET_H

@@ -163,6 +163,8 @@ void MapGraphicsItem::endRescale()
     resizing = false;
 }
 
+
+
 MapGraphicsItem::~MapGraphicsItem()
 {
   delete selectedHandle;

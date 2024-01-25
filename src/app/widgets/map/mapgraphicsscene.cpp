@@ -37,12 +37,12 @@ void MapGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
   QPointF scenePoint = event->scenePos();
-  MapGraphicsItem* el;
+  MapGraphicsItem* el = nullptr;
 
   const QMimeData* mimeData = event->mimeData();
   QByteArray byteArray = mimeData->data("map-element");
   QDataStream inStream(byteArray);
-  MapElement* mapElementToDrop = new MapElement();
+  MapElement* mapElementToDrop = new MapElement(":ressources/tiles/wall");
   inStream >> mapElementToDrop;
 
   int elementSizeX = mapElementToDrop->getPixMap().size().width(),
@@ -110,7 +110,10 @@ void MapGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void MapGraphicsScene::keyPressEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Delete && selectedItem)
-  {delete selectedItem;
+  {
+    emit selectedItem->deleteSignal();
+    delete selectedItem;
     selectedItem = nullptr;
+
   }
 }

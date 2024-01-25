@@ -26,6 +26,7 @@ void MapElement::RescalePixMap(int maxX,int maxY)
 
 QDataStream &operator<<(QDataStream &stream, const MapElement* el) {
     stream << el->getPixMap();
+    stream << el->getName();
     stream << el->getFilePath();
     return stream;
 }
@@ -34,10 +35,12 @@ QDataStream &operator>>(QDataStream &stream, MapElement* el)
 {
     QString name;
     QPixmap map;
-
+    QString filePath;
     stream >> map;
     stream >> name;
+    stream >> filePath;
     el->setPixMap(map);
-    el->setFilePath(name);
+    el->setName(name);
+    el->setFilePath(filePath);
     return stream;
 }

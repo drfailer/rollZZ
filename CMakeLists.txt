@@ -117,6 +117,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/map/mapgraphicsitem.h src/app/widgets/map/mapgraphicsitem.cpp
         src/app/widgets/map/handle.h src/app/widgets/map/handle.cpp
         src/app/widgets/map/mapgraphicsscene.h src/app/widgets/map/mapgraphicsscene.cpp
+        src/app/widgets/map/mapscrollarea.h src/app/widgets/map/mapscrollarea.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
