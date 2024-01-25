@@ -6,7 +6,6 @@ MapGraphicsItem::MapGraphicsItem(MapElement* mapElement,QGraphicsItem* parent):Q
 {
   QPixmap pixmap = mapElement->getOriginalPixMap();
   borderRect = QRectF(-borderSize/2,-borderSize/2, pixmap.width()+borderSize, pixmap.height()+borderSize);
-  selectedHandle = nullptr;
   scaleHandles = QVector<Handle*>(5);
   setFlags(QGraphicsItem::ItemIsSelectable|
            QGraphicsItem::ItemIsMovable);
@@ -167,9 +166,7 @@ void MapGraphicsItem::endRescale()
 
 MapGraphicsItem::~MapGraphicsItem()
 {
-  delete selectedHandle;
   for(Handle* h: scaleHandles)
     delete h;
-  delete selectedHandle;
 }
 

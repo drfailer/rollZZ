@@ -11,6 +11,12 @@
 #include <QCoreApplication>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimeLine>
+#include <set>
+
+struct CompareMapItem
+{
+  bool operator()(MapGraphicsItem* a, MapGraphicsItem* b) const {return a->zValue() < b->zValue();}
+};
 
 class MapGraphicsScene: public QGraphicsScene
 {
@@ -18,12 +24,13 @@ class MapGraphicsScene: public QGraphicsScene
 public:
   MapGraphicsScene(QWidget* parent);
   qreal getScale() const;
+  void setActualZValue(int i){actualZValue = i; if(selectedItem) {selectedItem->setZValue(i); previousZValue = i;} }
   void dropEvent(QGraphicsSceneDragDropEvent *event);
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-  void keyPressEvent(QKeyEvent *event) override;
+  void deleteSelected();
 signals:
   void dropEventSignal(QDropEvent *event,MapGraphicsItem* dropItem);
   void dragEnterEventSignal(QDragEnterEvent *event) ;
@@ -32,8 +39,10 @@ public slots:
       void focusItem(MapGraphicsItem* el);
 
 private:
+  int actualZValue;
+  int previousZValue;
   MapGraphicsItem* selectedItem;
-  QVector<MapGraphicsItem*> items;
+  std::set<MapGraphicsItem*,CompareMapItem> items;
   int sceneSizeX,sceneSizeY;
 };
 

@@ -9,17 +9,13 @@
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
 #include "mapscrollarea.h"
+#include "layerselection.h"
 
 #define PIXMAP_MENU_SIZE 128
 
 /*
- *
  * TODO
- * - Layer option
  * - clean all code
- * - Take the original image when drop on map (not the menu one)
- * => reload the image (not opti if lot of them, or other attribute pixmap in mapElement)
- * - item outside map bug
  **/
 
 class MapWidget: public QWidget
@@ -30,6 +26,7 @@ public:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
     ~MapWidget() {/*TODO*/}
   public slots:
     void drop(QDropEvent *event, MapGraphicsItem* dropItem);
@@ -38,8 +35,12 @@ private:
         QBoxLayout* layoutSideMenu;
         Map* map;
         QLabel* labelForCursorDrag;
-        MapScrollArea* menuMapElementSelection;
+        QWidget* menuMapElementSelection;
+        QVBoxLayout* layoutMenuMapElement;
+        MapScrollArea* scrollAreaMapElementSelection;
         MapScrollArea* menuItemOnMap;
+        LayerSelection* layerSelection;
+
 };
 
 #endif // MAPWIDGET_H

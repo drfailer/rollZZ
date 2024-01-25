@@ -33,7 +33,6 @@ public slots:
   void endRescale();
 
 private:
-    QGraphicsItem* selectedHandle;
     QVector<Handle*> scaleHandles;
     QRectF borderRect;
     qreal borderSize = 4.0;

@@ -1,9 +1,7 @@
 #include "mapwidget.h"
 
 
-MapWidget::MapWidget(QWidget *parent, Map* map):
-                                                  QWidget(parent),
-                                                  map(map)
+MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
 {
   setAcceptDrops(true);
   view = new MapGraphicsView(this);
@@ -14,7 +12,18 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
   layoutSideMenu = new QBoxLayout(QBoxLayout::LeftToRight,this);
 
   menuItemOnMap = new MapScrollArea(this);
-  menuMapElementSelection = new MapScrollArea(this);
+  menuMapElementSelection = new QWidget(this);
+  layoutMenuMapElement = new QVBoxLayout(menuMapElementSelection);
+  layoutMenuMapElement->setAlignment(Qt::AlignTop);
+
+  QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
+  layerSelection = new LayerSelection(menuMapElementSelection);
+  connect(layerSelection,&LayerSelection::changeLayer,this,[&](int i){view->getScene()->setActualZValue(i);});
+  scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
+  layoutMenuMapElement->addWidget(addButton);
+  layoutMenuMapElement->addWidget(layerSelection);
+  layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
+  scrollAreaMapElementSelection->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
   auto lambdaLabel = [&](MapElement* el)
   {
@@ -25,9 +34,7 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
     labelForCursorDrag->resize(labelPixMap.size());
   };
 
-
-  QPushButton* b = new QPushButton("add new element",menuItemOnMap);
-  connect(b,&QPushButton::clicked,this,[=](){
+  connect(addButton,&QPushButton::clicked,this,[=](){
     QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg *.jpeg)");
     for(QString& filePath: filesPath)
     {
@@ -42,13 +49,11 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
       qDebug() << newFilePath << " et " << name;
       MapElement* el = map->addElementUse(newFilePath,name);
       el->RescalePixMap(PIXMAP_MENU_SIZE,PIXMAP_MENU_SIZE);
-      MapElementWidget* newElement = new MapElementWidget(el,menuMapElementSelection);
-      menuMapElementSelection->addContent(newElement);
+      MapElementWidget* newElement = new MapElementWidget(el,scrollAreaMapElementSelection);
+      scrollAreaMapElementSelection->addContent(newElement);
       connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
     }
   });
-
-  menuMapElementSelection->addContent(b);
 
   layoutSideMenu->addWidget(menuMapElementSelection);
   layoutSideMenu->addWidget(view);
@@ -61,8 +66,8 @@ MapWidget::MapWidget(QWidget *parent, Map* map):
 
   for(MapElement* mapElement: map->getmapElementsUse())
   {
-    MapElementWidget* newElement = new MapElementWidget(mapElement,menuMapElementSelection);
-    menuMapElementSelection->addContent(newElement);
+    MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
+    scrollAreaMapElementSelection->addContent(newElement);
 
            //create a function since I repeat this 2 times;
     connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
@@ -107,4 +112,11 @@ void MapWidget::drop(QDropEvent *event, MapGraphicsItem* itemDrop)
       connect (itemDrop,&MapGraphicsItem::deleteSignal,this,[=](){menuItemOnMap->removeContent(temp); delete temp;});
       menuItemOnMap->addContent(temp);
     }
+}
+
+
+void MapWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Delete)
+      view->getScene()->deleteSelected();
 }

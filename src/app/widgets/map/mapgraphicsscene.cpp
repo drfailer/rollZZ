@@ -1,13 +1,14 @@
 #include "mapgraphicsscene.h"
 #include<iostream>
 
-MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), sceneSizeX(2500),sceneSizeY(2500)
+MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), sceneSizeX(2500),sceneSizeY(2500),actualZValue(0)
 {
   setSceneRect(0,0,sceneSizeX,sceneSizeY);
   QGraphicsItem *rectItem = new QGraphicsRectItem(0,0,sceneSizeX,sceneSizeY);
   addItem(rectItem);
-  items = QVector<MapGraphicsItem*>();
+  items = std::set<MapGraphicsItem*,CompareMapItem>();
   selectedItem = nullptr;
+  previousZValue = 0;
 }
 
 void MapGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -50,16 +51,12 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
   if(scenePoint.x() + elementSizeX/2 <= sceneSizeX && scenePoint.x() - elementSizeX/2 >= 0 && scenePoint.y() + elementSizeY/2 <= sceneSizeY && scenePoint.y() - elementSizeY/2 >= 0 )
   {
-    std::cout << "|"<< mapElementToDrop->getFilePath().toStdString() << "|" << std::endl;
-
-    // TODO: TAKE the original image, not the image we use to print on the menu
-    // IDK why, doesn't work with this line
-    //el = new MapGraphicsItem(QPixmap(mapElementToDrop->getFilePath()));
     el = new MapGraphicsItem(mapElementToDrop);
+    el->setZValue(actualZValue);
     addItem(el);
-    items.push_back(el);
-    items.back()->setPos(scenePoint.x()-elementSizeX/2,scenePoint.y()-elementSizeY/2);
-    connect(items.back(),&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
+    items.insert(el);
+    el->setPos(scenePoint.x()-elementSizeX/2,scenePoint.y()-elementSizeY/2);
+    connect(el,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
   }
   event->accept();
 
@@ -72,12 +69,20 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
 void MapGraphicsScene::focusItem(MapGraphicsItem* el)
 {
-  if(selectedItem && selectedItem != el)
+  if(selectedItem)
   {
+    selectedItem->setZValue(previousZValue);
     selectedItem->unselected();
   }
+  if(el)
+  {
   selectedItem = el;
-}
+  previousZValue = selectedItem->zValue();
+  selectedItem->setZValue(2);
+  }
+  else
+  selectedItem = nullptr;
+ }
 
 void MapGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
@@ -95,6 +100,7 @@ void MapGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
     }
     else if (selectedItem)
     {
+      selectedItem->setZValue(previousZValue);
       selectedItem->unselected();
       selectedItem = nullptr;
     }
@@ -107,13 +113,13 @@ void MapGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
   QGraphicsScene::mouseMoveEvent(event);
 }
 
-void MapGraphicsScene::keyPressEvent(QKeyEvent *event)
+
+void MapGraphicsScene::deleteSelected()
 {
-  if (event->key() == Qt::Key_Delete && selectedItem)
+  if(selectedItem)
   {
     emit selectedItem->deleteSignal();
     delete selectedItem;
     selectedItem = nullptr;
-
   }
 }
