@@ -14,6 +14,7 @@ BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent):
 
 {
     bodyAdd(&bonusEdit);
+    bonusEdit.setMinimum(-100);
 }
 
 } // end namespace CSEditor
