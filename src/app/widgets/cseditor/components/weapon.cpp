@@ -36,6 +36,7 @@ Weapon::Weapon(CS::Weapon *weapon, QWidget* parent):
     connect(&damageTypeEdit, &QLineEdit::textChanged, this, [&](const QString& newText) {
                 this->weapon->setDamageType(newText);
             });
+    layout.setContentsMargins(0, 0, 0, 0);
 }
 
 } // end namespace CSCrator
