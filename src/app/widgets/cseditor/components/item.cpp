@@ -5,7 +5,10 @@ namespace CSEditor {
 Item::Item(CS::Item* item, bool useWeight, QWidget *parent):
     QWidget(parent),
     item(item),
-    layout(this)
+    layout(this),
+    nameEdit("name"),
+    descriptionEdit("description"),
+    removeBtn("X")
 {
     layout.addWidget(&nameEdit);
     layout.addWidget(&descriptionEdit);

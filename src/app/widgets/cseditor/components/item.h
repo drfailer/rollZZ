@@ -14,7 +14,6 @@ class Item : public QWidget {
     Q_OBJECT
   public:
     Item(CS::Item *item, bool useWeight, QWidget *parent = nullptr);
-    ~Item() = default;
     int getWeight() const { return weightEdit.value(); }
 
   signals:

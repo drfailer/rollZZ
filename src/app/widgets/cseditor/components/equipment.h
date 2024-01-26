@@ -3,7 +3,6 @@
 
 #include "component.h"
 #include "CS/equipment.h"
-#include "cseditor/components/item.h"
 #include <QPushButton>
 #include <QList>
 
@@ -22,21 +21,15 @@ public:
 private:
     CS::Equipment *equipment = nullptr;
     QPushButton addItemBtn;
-    QList<Item*> items;
 
     /* helpter function *******************************************************/
-    int totalWeight() const {
-        int sum = 0;
-        for (Item *item : items) {
-            sum += item->getWeight();
-        }
-        return sum;
-    }
-
     QString weightStr() const {
-        int weight = totalWeight();
+        int weight = equipment->getWeight();
         return " (" + QString::number(weight) + "/" + QString::number(equipment->getMaxWeight()) + ")";
     }
+
+    void loadItem(CS::Item *item);
+    void insertAndConnectItem(CS::Item *item, Item* newItemWgt);
 };
 
 } // end namespace CSEditor

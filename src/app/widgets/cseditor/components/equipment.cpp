@@ -14,14 +14,16 @@ Equipment::Equipment(CS::Equipment *equipment, QWidget *parent)
     : Component(equipment->getTitle(), parent), equipment(equipment),
       addItemBtn("add item") {
     bodyAdd(&addItemBtn);
+
+    for (CS::Item *item : equipment->getItems()) {
+        loadItem(item);
+    }
+
     connect(&addItemBtn, &QPushButton::clicked, this, [&] { addItem(); });
+    setContentsMargins(0, 5, 0, 5);
 }
 
 Equipment::~Equipment() {
-    for (Item *item : items) {
-        delete item;
-    }
-    items.clear();
 }
 
 /******************************************************************************/
@@ -29,24 +31,29 @@ Equipment::~Equipment() {
 /******************************************************************************/
 
 void Equipment::addItem() {
-    if (items.count() < equipment->getMaxItems()) {
+    if (equipment->count() < equipment->getMaxItems()) {
         CS::Item *item = new CS::Item();
         Item *newItemWgt = new Item(item, equipment->getUseWeight(), this);
-
-        bodyInsert(bodyCount() - 1, newItemWgt);
-        items.push_back(newItemWgt);
-        connect(newItemWgt, &Item::remove, this, [&, item, wgt = newItemWgt] {
-            items.removeOne(wgt);
-            equipment->removeItem(item);
-            bodyRemove(wgt);
-            delete wgt;
-        });
-        // TODO not working yet
-        /* newItemWgt->connectWeightEdit(this, [&](int) { */
-        /*     equipment->setWeight(totalWeight()); */
-        /*     setTitle(equipment->getTitle() + weightStr()); */
-        /* }); */
+        insertAndConnectItem(item, newItemWgt);
     }
+}
+
+void Equipment::loadItem(CS::Item *item) {
+    Item *newItemWgt = new Item(item, equipment->getUseWeight(), this);
+    insertAndConnectItem(item, newItemWgt);
+}
+
+void Equipment::insertAndConnectItem(CS::Item *item, Item* newItemWgt) {
+    bodyInsert(bodyCount() - 1, newItemWgt);
+    connect(newItemWgt, &Item::remove, this, [&, item, wgt = newItemWgt] {
+                equipment->removeItem(item);
+                bodyRemove(wgt);
+            });
+    // TODO not working yet
+    /* newItemWgt->connectWeightEdit(this, [&](int) { */
+    /*     equipment->setWeight(totalWeight()); */
+    /*     setTitle(equipment->getTitle() + weightStr()); */
+    /* }); */
 }
 
 } // end namespace CSEditor
