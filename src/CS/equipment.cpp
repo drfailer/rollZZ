@@ -7,7 +7,7 @@ namespace CS {
 /******************************************************************************/
 
 Equipment::Equipment(bool _useWeight, int _maxWeight, int _maxItems):
-    SERIALIZER(items, useWeight, maxWeight, maxItems, weight),
+    SERIALIZER(items, useWeight, maxWeight, maxItems),
     useWeight(_useWeight), maxWeight(_maxWeight), maxItems(_maxItems) {}
 
 Equipment::~Equipment() {
@@ -34,6 +34,21 @@ void Equipment::removeItem(int index) {
     }
 }
 
-void Equipment::removeItem(Item *item) { items.removeOne(item); }
+void Equipment::removeItem(Item *item) {
+    items.removeOne(item);
+    delete item;
+}
 
+/******************************************************************************/
+/*                                 get weight                                 */
+/******************************************************************************/
+
+int Equipment::getWeight() const {
+    int sum = 0;
+
+    for (Item *item : items) {
+        sum += item->getWeight();
+    }
+    return sum;
+}
 } // namespace CS

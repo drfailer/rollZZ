@@ -9,7 +9,7 @@
 namespace CS {
 
 class Equipment : public Component {
-    SERIALIZABLE_SUPER(Component, QList<Item*>, bool, int, int, int)
+    SERIALIZABLE_SUPER(Component, QList<Item*>, bool, int, int)
   public:
     using Component::Component;
     Equipment(bool useWeight = true, int maxWeight = 60, int maxItems = 100);
@@ -27,15 +27,14 @@ class Equipment : public Component {
     bool getUseWeight() const { return useWeight; }
     Item *at(int index) { return items[index]; }
     int count() const { return items.count(); }
-    void setWeight(int weight) { this->weight = weight; }
-    int getWeight() const { return weight; }
+    int getWeight() const;
+    const QList<Item*> getItems() { return items; }
 
   private:
     QList<Item *> items;
     bool useWeight;
     int maxWeight;
     int maxItems;
-    int weight = 0;
 };
 
 } // namespace CS
