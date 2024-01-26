@@ -1,5 +1,6 @@
 #include "cseditor/components/attacks.h"
 
+#include "cseditor/components/weapon.h"
 #include "component.h"
 #include <QPushButton>
 #include "CS/weapon.h"
@@ -15,8 +16,8 @@ Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
     attacks(attacks)
 {
     // add weapons
-    for (int i = 0; i < attacks->getMaxWeaponNb(); ++i) {
-        addWeapon();
+    for (CS::Weapon *weapon : attacks->getWeapons()) {
+        addWeapon(weapon);
     }
 
     // set style
@@ -26,16 +27,10 @@ Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
                   );
 }
 
-void Attacks::addWeapon() {
-    if (weapons.count() < attacks->getMaxWeaponNb()) {
-        // insert before the add weapon button
-        CS::Weapon* newWeapon = new CS::Weapon();
-        Weapon* newWeaponWgt = new Weapon(newWeapon);
+void Attacks::addWeapon(CS::Weapon *weapon) {
+    Weapon* newWeaponWgt = new Weapon(weapon, this);
 
-        attacks->addWeapon(newWeapon);
-        weapons.push_back(newWeaponWgt);
-        bodyInsert(bodyCount() - 1, newWeaponWgt);
-    }
+    bodyAdd(newWeaponWgt);
 }
 
 // TODO: remove weapons

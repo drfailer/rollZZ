@@ -7,7 +7,6 @@
 #include <QSpinBox>
 #include <QBoxLayout>
 #include <QPushButton>
-#include <functional>
 
 namespace CSEditor {
 
@@ -16,7 +15,6 @@ class Item : public QWidget {
   public:
     Item(CS::Item *item, bool useWeight, QWidget *parent = nullptr);
     ~Item() = default;
-    void connectWeightEdit(QObject* object, std::function<void(int)> function);
     int getWeight() const { return weightEdit.value(); }
 
   signals:

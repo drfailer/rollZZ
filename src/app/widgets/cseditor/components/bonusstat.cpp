@@ -14,7 +14,12 @@ BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent):
 
 {
     bonusEdit.setMinimum(-100);
+    bonusEdit.setValue(bonusStat->getBonusValue());
     bodyAdd("Bonus:", &bonusEdit);
+
+    connect(&bonusEdit, &QSpinBox::valueChanged, this, [&](int newValue) {
+                this->bonusStat->setBonusValue(newValue);
+            });
 }
 
 } // end namespace CSEditor

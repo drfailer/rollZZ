@@ -2,7 +2,6 @@
 #define CSEDITOR_ATTACKS_H
 
 #include "CS/attacks.h"
-#include "cseditor/components/weapon.h"
 #include "component.h"
 #include <QSpinBox>
 #include <QList>
@@ -17,13 +16,9 @@ public:
 
 private:
     CS::Attacks *attacks;
-    // TODO: create a list of weaponds
-    // TODO: add a button to add weapons
-    // TODO: create a widget for weapons (damage, ...)
-    QList<Weapon*> weapons;
 
     /* methods ****************************************************************/
-    void addWeapon();
+    void addWeapon(CS::Weapon *weapon);
 };
 
 } // end namespace CSEditor

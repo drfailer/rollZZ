@@ -13,7 +13,7 @@ namespace CSEditor {
 class Weapon : public QWidget {
     Q_OBJECT
   public:
-    Weapon(CS::Weapon *weapon);
+    Weapon(CS::Weapon *weapon, QWidget* parent);
     ~Weapon() = default;
 
   private:

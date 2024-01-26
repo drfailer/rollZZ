@@ -20,10 +20,18 @@ Item::Item(CS::Item* item, bool useWeight, QWidget *parent):
 
     // connects
     connect(&removeBtn, &QPushButton::clicked, this, [&]{ emit remove(); });
-}
-
-void Item::connectWeightEdit(QObject* object, std::function<void(int)> function) {
-    connect(&quantityEdit, &QSpinBox::valueChanged, object, function);
+    connect(&nameEdit, &QLineEdit::textChanged, this, [&](const QString& newText) {
+                this->item->setName(newText);
+            });
+    connect(&descriptionEdit, &QLineEdit::textChanged, this, [&](const QString& newText) {
+                this->item->setDescription(newText);
+            });
+    connect(&quantityEdit, &QSpinBox::valueChanged, this, [&](int newValue) {
+                this->item->setQuantity(newValue);
+            });
+    connect(&weightEdit, &QSpinBox::valueChanged, this, [&](int newValue) {
+                this->item->setWeight(newValue);
+            });
 }
 
 } // end namespace CSEditor
