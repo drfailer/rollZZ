@@ -10,11 +10,15 @@ Item::Item(CS::Item* item, bool useWeight, QWidget *parent):
     descriptionEdit("description"),
     removeBtn("X")
 {
+    nameEdit.setText(item->getName());
+    descriptionEdit.setText(item->getDescription());
+    quantityEdit.setValue(item->getQuantity());
     layout.addWidget(&nameEdit);
     layout.addWidget(&descriptionEdit);
     layout.addWidget(&quantityEdit);
 
     if (useWeight) {
+        weightEdit.setValue(item->getWeight());
         layout.addWidget(&weightEdit);
     } else {
         weightEdit.hide();
