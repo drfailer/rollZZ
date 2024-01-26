@@ -36,6 +36,12 @@ void Attacks::update(const QString& title, int maxWeaponNb) {
     attacks->setMaxWeaponNb(maxWeaponNb);
     nameLabel.setText("name: " + title);
     maxItemsLabel.setText("max weapon number: " + QString::number(maxWeaponNb));
+
+    // add the weapons to cstree
+    attacks->clearWeapons();
+    for (int i = 0; i < maxWeaponNb; ++i) {
+        attacks->addWeapon(new CS::Weapon());
+    }
 }
 
 } // end namespace CSCreator
