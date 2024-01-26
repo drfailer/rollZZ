@@ -13,8 +13,8 @@ BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent):
     bonusStat(bonuStat_in)
 
 {
-    bodyAdd(&bonusEdit);
     bonusEdit.setMinimum(-100);
+    bodyAdd("Bonus:", &bonusEdit);
 }
 
 } // end namespace CSEditor

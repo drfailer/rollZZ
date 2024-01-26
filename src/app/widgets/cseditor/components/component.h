@@ -6,7 +6,8 @@
 #include <QPushButton>
 #include <QString>
 #include <QVBoxLayout>
-#include <qlineedit.h>
+#include <QLineEdit>
+#include <QFormLayout>
 
 namespace CSEditor {
 
@@ -18,6 +19,7 @@ class Component : public QFrame {
 
     /* methods ****************************************************************/
     void bodyAdd(QWidget *wgt);
+    void bodyAdd(const QString& description, QWidget *wgt);
     void bodyRemove(QWidget *wgt);
     void bodyInsert(int index, QWidget *wgt);
     int bodyCount() const { return bodyLyt.count(); }
@@ -30,7 +32,7 @@ class Component : public QFrame {
   private:
     QVBoxLayout mainLyt;
     QHBoxLayout headerLyt;
-    QVBoxLayout bodyLyt;
+    QFormLayout bodyLyt;
     QLabel title;
     QHBoxLayout titleLyt;
 };

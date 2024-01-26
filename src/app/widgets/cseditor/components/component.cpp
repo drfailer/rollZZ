@@ -2,6 +2,10 @@
 
 namespace CSEditor {
 
+/******************************************************************************/
+/*                                constructor                                 */
+/******************************************************************************/
+
 Component::Component(const QString &title, QWidget *parent)
     : QFrame(parent), mainLyt(this), title(title) {
     headerLyt.addLayout(&titleLyt);
@@ -21,12 +25,20 @@ Component::Component(const QString &title, QWidget *parent)
     setContentsMargins(0, 0, 0, 0);
 }
 
-void Component::bodyAdd(QWidget *wgt) { bodyLyt.addWidget(wgt); }
+/******************************************************************************/
+/*                                 functions                                  */
+/******************************************************************************/
 
-void Component::bodyRemove(QWidget *wgt) { bodyLyt.removeWidget(wgt); }
+void Component::bodyAdd(QWidget *wgt) { bodyLyt.addRow(wgt); }
+
+void Component::bodyAdd(const QString& description, QWidget *wgt) {
+    bodyLyt.addRow(description, wgt);
+}
+
+void Component::bodyRemove(QWidget *wgt) { bodyLyt.removeRow(wgt); }
 
 void Component::bodyInsert(int index, QWidget *wgt) {
-    bodyLyt.insertWidget(index, wgt);
+    bodyLyt.insertRow(index, wgt);
 }
 
 } // end namespace CSEditor
