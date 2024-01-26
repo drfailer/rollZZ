@@ -39,8 +39,12 @@ Popup::Popup(const QString& name):
 /*                                    add                                     */
 /******************************************************************************/
 
-void Popup::add(QWidget *wdgt) {
-    bodyLyt.addWidget(wdgt);
+void Popup::add(QWidget *wgt) {
+    bodyLyt.addRow(wgt);
+}
+
+void Popup::add(const QString& description, QWidget *wgt) {
+    bodyLyt.addRow(description, wgt);
 }
 
 } // end namespace Tools

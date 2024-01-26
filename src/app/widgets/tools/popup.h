@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QWidget>
+#include <QFormLayout>
 
 namespace Tools {
 
@@ -12,7 +13,8 @@ class Popup : public QWidget {
     Q_OBJECT
 public:
     Popup(const QString& name);
-    void add(QWidget *wdgt);
+    void add(QWidget *wgt);
+    void add(const QString& description, QWidget *wgt);
 
 signals:
     void confirm(bool);
@@ -20,7 +22,7 @@ signals:
 private:
     QVBoxLayout mainLyt;
     QLabel title;
-    QVBoxLayout bodyLyt;
+    QFormLayout bodyLyt;
     QHBoxLayout btnLyt;
     QPushButton confirmBtn;
     QPushButton cancelBtn;
