@@ -1,7 +1,7 @@
-#ifndef EQUIPMENTPOPUP_H
-#define EQUIPMENTPOPUP_H
+#ifndef CSEDITOR_EQUIPMENTPOPUP_H
+#define CSEDITOR_EQUIPMENTPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 
 #include <QLineEdit>
 #include <QRadioButton>
@@ -21,8 +21,7 @@ namespace CSCreator {
  * placeholder will be composed of a name, a quantity and a weight.
  */
 
-class EquipmentPopup : public CSCreatorPopup
-{
+class EquipmentPopup : public Tools::Popup {
     Q_OBJECT
 public:
     EquipmentPopup(bool useWeight = true, int maxWeight = 0, int maxItems = 0);

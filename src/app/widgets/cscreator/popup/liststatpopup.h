@@ -1,8 +1,9 @@
-#ifndef LISTSTATPOPUP_H
-#define LISTSTATPOPUP_H
+#ifndef CSEDITOR_LISTSTATPOPUP_H
+#define CSEDITOR_LISTSTATPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 #include "tools/listelement.h"
+#include "CS/bonusstat.h"
 #include <QWidget>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -10,13 +11,13 @@
 #include <QList>
 #include <QPushButton>
 #include <QComboBox>
+#include <QScrollArea>
 
 namespace CSCreator {
 
 class SkillWgt;
 
-class ListStatPopup : public CSCreatorPopup
-{
+class ListStatPopup : public Tools::Popup {
     Q_OBJECT
 public:
     ListStatPopup(const QString& name = "name");
@@ -28,9 +29,10 @@ public:
 
 private:
     QLineEdit nameEdit;
-    QWidget skillListWgt;
-    QVBoxLayout skillListLyt;
+    QWidget *skillListWgt;
+    QVBoxLayout *skillListLyt;
     QPushButton addSkillBtn;
+    QScrollArea *scrollArea;
     QList<SkillWgt*> skills;
 
     void removeSkill(SkillWgt *wgt);
@@ -55,7 +57,16 @@ public:
         Tools::ListElement(parent),
         nameEdit(name)
     {
-        (void) bonusStatName; // not used yet
+        if (CS::BonusStat::elements.count()) {
+            for (CS::BonusStat *bs : CS::BonusStat::elements) {
+                bonusEdit.addItem(bs->getTitle());
+            }
+        } else {
+            bonusEdit.addItem("none");
+        }
+
+        bonusEdit.setCurrentText(bonusStatName);
+
         // left side: | name | bonus v |
         addContent(&nameEdit);
         addContent(&bonusEdit);

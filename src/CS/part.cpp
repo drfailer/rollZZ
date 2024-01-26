@@ -8,15 +8,15 @@ namespace CS {
 /*                          constructor & destructor                          */
 /******************************************************************************/
 
-Part::Part(const QString& name):
-    name(name)
+Part::Part(const QString& _name):
+    SERIALIZER(name, sections),
+    name(_name)
 { }
 
 Part::~Part() {
     for (CS::Section* section : sections) {
         delete section;
     }
-    sections.clear();
 }
 
 /******************************************************************************/

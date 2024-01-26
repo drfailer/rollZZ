@@ -1,6 +1,7 @@
 #include "liststat.h"
 
-CS::ListStat::ListStat()
+CS::ListStat::ListStat():
+    SERIALIZER(stats)
 {
 
 }

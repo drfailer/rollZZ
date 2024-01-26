@@ -3,20 +3,26 @@
 
 #include "basicstat.h"
 #include "dice.h"
+#include "serializer.hpp"
 
 namespace CS {
 
-class BonusStat : public BasicStat
-{
-public:
-    BonusStat(const QString& title = "name", int bonusValue = 0, int value = 8, int valueMax = 20, Dice dice = Dice());
+class BonusStat : public BasicStat {
+    SERIALIZABLE_SUPER(BasicStat, int);
+  public:
+    BonusStat(const QString &title = "name", int bonusValue = 0, int value = 8,
+              int valueMax = 20, Dice dice = Dice());
+    ~BonusStat();
     int roll() const;
 
-    /* accessors ***************************************************************/
+    /* accessors **************************************************************/
     int getBonusValue() const { return bonusValue; }
     void setBonusValue(int newBonusValue) { bonusValue = newBonusValue; }
 
-private:
+    /* access the elements in the stats list **********************************/
+    static QList<BonusStat*> elements;
+
+  private:
     int bonusValue;
 };
 

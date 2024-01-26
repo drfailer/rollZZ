@@ -8,22 +8,20 @@
 
 namespace CS {
 
-class ListStat : public Component
-{
-public:
-    using const_iterator = typename QList<Caracteristic>::const_iterator;
-    using Component::Component;
+class ListStat : public Component {
+    SERIALIZABLE_SUPER(Component, QList<Caracteristic>);
+  public:
     ListStat();
 
-    /* accessors ***************************************************************/
+    /* accessors **************************************************************/
     void addStat(Caracteristic newStat) { stats.push_back(newStat); }
     void removeStat(int index) { stats.remove(index); }
     void clearStats() { stats.clear(); }
-    Caracteristic& at(int index) { return stats[index]; }
-    const_iterator begin() { return stats.begin(); }
-    const_iterator end() { return stats.end(); }
+    const QList<Caracteristic>& getStats() const { return stats; }
+    Caracteristic &at(int index) { return stats[index]; }
+    int count() const { return stats.count(); }
 
-private:
+  private:
     QList<Caracteristic> stats;
 };
 

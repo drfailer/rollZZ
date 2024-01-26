@@ -1,12 +1,11 @@
 #include "cscreator.h"
-#include "components/section.h"
-#include "popup/sectionpopup.h"
+#include "fileselectorpopup.h"
 #include "popup/tabpopup.h"
-#include "section.h"
 #include <CS/part.h>
 #include <QTabWidget>
+#include <QScrollArea>
+#include "cscreator/components/part.h"
 #include <iostream>
-#define ADD_FN(id) [&](bool add) { id(add); }
 
 
 namespace CSCreator {
@@ -28,63 +27,50 @@ CSCreator::CSCreator(CSCreatorConfig config, CS::CS *CSTree, QWidget *parent):
     tabWgt->setTabPosition(QTabWidget::South);
 
     // add the first tab
-    tabWgt->addTab(createTab(), "main");
+    QWidget *defaultTabWgt = createTab("main");
+    QScrollArea *defaultScrollArea = createScrollArea();
+    defaultScrollArea->setWidget(defaultTabWgt);
+    tabWgt->addTab(defaultScrollArea, "main");
 
     // the other buttons
     connect(newTabBtn, &QPushButton::clicked, this, &CSCreator::addTabPopup);
     connect(tabWgt, &QTabWidget::tabBarDoubleClicked, this, &CSCreator::renameTabPopup);
-    connect(saveBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
-    connect(importBtn, &QPushButton::clicked, this, [&]() { std::cout << "todo" << std::endl; });
+    connect(saveBtn, &QPushButton::clicked, this, &CSCreator::saveTemplateFile);
+    connect(importBtn, &QPushButton::clicked, this, &CSCreator::loadTemplateFile);
 }
 
 CSCreator::~CSCreator() {
-}
-
-void CSCreator::move(bool up, QWidget *wgt) {
-    int index = currentTabLyt()->indexOf(wgt);
-    int newIndex = up ? index - 1 : index + 1;
-
-    if (newIndex >= 0 && newIndex < currentTabLyt()->count() - 1) {
-        currentTabLyt()->removeWidget(wgt);
-        currentTabLyt()->insertWidget(newIndex, wgt);
-    }
 }
 
 /******************************************************************************/
 /* Tabs                                                                       */
 /******************************************************************************/
 
-QWidget* CSCreator::createTab() {
-    QWidget *newTabWgt = new QWidget(tabWgt);
-    QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
-    QPushButton *newSectionBtn = new QPushButton("new section");
-    CS::Part *newPart = new CS::Part();
+QWidget* CSCreator::createTab(const QString& name) {
+    CS::Part *newPart = new CS::Part(name);
+    Part* newPartWgt = new Part(newPart, tabWgt);
 
-    newTabLyt->addWidget(newSectionBtn);
-    newTabWgt->setLayout(newTabLyt);
-    newTabLyt->setAlignment(Qt::AlignTop);
-    connect(newSectionBtn, &QPushButton::clicked, this, &CSCreator::addSectionPopup);
-    tabs.push_back(newTabWgt);
-    parts.insert(newTabWgt, newPart);
     CSTree->addPart(newPart);
-    return newTabWgt;
+    return newPartWgt;
 }
 
 void CSCreator::addTabPopup() {
     if (tabPopup == nullptr) {
         tabPopup = new TabPopup("NEW TAB");
+        tabPopup->show();
+        connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
+            if (add) {
+                QWidget* newTab = createTab(tabPopup->getName());
+                QScrollArea *scrollArea = createScrollArea();
+
+                scrollArea->setWidget(newTab);
+                tabWgt->addTab(scrollArea, tabPopup->getName());
+            }
+            // remove the popup window
+            delete tabPopup;
+            tabPopup = nullptr;
+        });
     }
-    tabPopup->show();
-    connect(tabPopup, &TabPopup::confirm, this, [&](bool add) {
-        if (add) {
-            QWidget* newTab = createTab();
-            tabWgt->addTab(newTab, tabPopup->getName());
-            parts[newTab]->setName(tabPopup->getName());
-        }
-        // remove the popup window
-        delete tabPopup;
-        tabPopup = nullptr;
-    });
 }
 
 void CSCreator::renameTabPopup(int index) {
@@ -95,7 +81,7 @@ void CSCreator::renameTabPopup(int index) {
     connect(tabPopup, &TabPopup::confirm, this, [&, index](bool rename) {
         if (rename) {
             tabWgt->setTabText(index, tabPopup->getName());
-            parts[tabWgt->widget(index)]->setName(tabPopup->getName());
+            getPart(index)->setName(tabPopup->getName());
         }
         // remove the popup window
         delete tabPopup;
@@ -106,39 +92,85 @@ void CSCreator::renameTabPopup(int index) {
 // TODO: removeTab
 
 /******************************************************************************/
-/* add Category                                                               */
+/*                                   reload                                   */
 /******************************************************************************/
 
-void CSCreator::addSectionPopup() {
-    if (sectionPopup == nullptr) {
-        sectionPopup = new SectionPopup();
+void CSCreator::reload() {
+    clearTabs();
+
+    // update the widgets
+    for (CS::Part* part : CSTree->getParts()) {
+        Part* newPartWgt = new Part(part, tabWgt);
+        QScrollArea *scrollArea = createScrollArea();
+
+        scrollArea->setWidget(newPartWgt);
+        tabWgt->addTab(scrollArea, part->getName());
     }
-    sectionPopup->show();
-    connect(sectionPopup, &SectionPopup::confirm, this, [&](bool add) {
-        if (add) {
-            // TODO: create a custom widget for this
-            CS::Section* newSection = new CS::Section(sectionPopup->getName());
-            Section *newSectionWgt = new Section(newSection, sectionPopup->getName(), this);
-            currentTabLyt()->insertWidget(currentTabLyt()->count() - 1, newSectionWgt);
-            parts[tabWgt->widget(tabWgt->currentIndex())]->addSection(newSection);
-            index++;
-            // connections
-            connect(newSectionWgt, &Section::remove, this, [&, newSection, wgt = newSectionWgt]() {
-                        parts[tabWgt->widget(tabWgt->currentIndex())]->removeSection(newSection);
-                        currentTabLyt()->removeWidget(wgt);
-                        delete wgt;
-                    });
-            connect(newSectionWgt, &Section::moveUp, this, [&, wgt = newSectionWgt]() {
-                        move(true, wgt);
-                    });
-            connect(newSectionWgt, &Section::moveDown, this, [&, wgt = newSectionWgt]() {
-                        move(false, wgt);
-                    });
-        }
-        // remove the popup window
-        delete sectionPopup;
-        sectionPopup = nullptr;
-    });
+}
+
+/******************************************************************************/
+/*                             utility functions                              */
+/******************************************************************************/
+
+void CSCreator::clearTabs() {
+    // clear tabs
+    for (int i = 0; i < tabWgt->count(); ++i) {
+        QWidget *wgt = tabWgt->widget(i);
+        tabWgt->removeTab(i);
+        delete wgt;
+    }
+}
+
+Part *CSCreator::getPart(int index) {
+    QScrollArea *scrollArea =
+        dynamic_cast<QScrollArea *>(tabWgt->widget(index));
+    return dynamic_cast<Part *>(scrollArea->widget());
+}
+
+QScrollArea *CSCreator::createScrollArea() {
+    QScrollArea *scrollArea = new QScrollArea(this);
+
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setWidgetResizable(true);
+    return scrollArea;
+}
+
+/******************************************************************************/
+/*                            load and save cstree                            */
+/******************************************************************************/
+
+void CSCreator::loadTemplateFile() {
+    if (fileSelectorPopup == nullptr) {
+        fileSelectorPopup = new FileSelectorPopup("Select a file to load", templateFilePath);
+        fileSelectorPopup->show();
+
+        connect(fileSelectorPopup, &Tools::Popup::confirm, [&](bool confirm) {
+                if (confirm) {
+                    templateFilePath = fileSelectorPopup->getFile();
+                    CSTree->load(templateFilePath);
+                    reload();
+                }
+                delete fileSelectorPopup;
+                fileSelectorPopup = nullptr;
+        });
+    }
+}
+
+void CSCreator::saveTemplateFile() {
+    if (fileSelectorPopup == nullptr) {
+        fileSelectorPopup = new FileSelectorPopup("Select a file to save", templateFilePath);
+        fileSelectorPopup->show();
+
+        connect(fileSelectorPopup, &Tools::Popup::confirm, [&](bool confirm) {
+                if (confirm) {
+                    templateFilePath = fileSelectorPopup->getFile();
+                    CSTree->save(templateFilePath);
+                }
+                delete fileSelectorPopup;
+                fileSelectorPopup = nullptr;
+        });
+    }
 }
 
 } // end namespace CSCreator

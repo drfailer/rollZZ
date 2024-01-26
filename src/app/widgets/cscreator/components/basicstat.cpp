@@ -8,11 +8,11 @@ namespace CSCreator {
 /*                                constructors                                */
 /******************************************************************************/
 
-BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString& name, const QString &title, QWidget *parent):
+BasicStat::BasicStat(CS::BasicStat *basicStat, const QString &title, QWidget *parent):
     Component(title, parent),
     basicStat(basicStat)
 {
-    update(valueMax, dice, name);
+    update(20, Dice(), basicStat->getTitle()); // default values
 
     bodyAdd(&nameLabel);
     bodyAdd(&valueMaxLabel);
@@ -25,8 +25,8 @@ BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QS
     connectSettings();
 }
 
-BasicStat::BasicStat(CS::BasicStat *basicStat, int valueMax, Dice dice, const QString &name, QWidget *parent):
-    BasicStat(basicStat, valueMax, dice, name, "Basic stat", parent)
+BasicStat::BasicStat(CS::BasicStat *basicStat, QWidget *parent):
+    BasicStat(basicStat, "Basic stat", parent)
 {
 
 }

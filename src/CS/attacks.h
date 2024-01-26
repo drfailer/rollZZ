@@ -8,21 +8,25 @@
 
 namespace CS {
 
-class Attacks : public Component
-{
-public:
+class Attacks : public Component {
+    SERIALIZABLE_SUPER(Component, int, QList<Weapon*>)
+  public:
     Attacks(int maxWeaponNb = 3, const QString title = "attacks & spells");
+    ~Attacks();
 
-    /* accessors ***************************************************************/
-    void addWeapon(Weapon weapon);
-    Weapon& at(int index) { return weapons[index]; }
+    /* accessors **************************************************************/
+    void addWeapon(Weapon *weapon);
+    Weapon *at(int index) { return weapons[index]; }
+    const QList<Weapon*> getWeapons() { return weapons; }
 
     void setMaxWeaponNb(int maxWeaponNb) { this->maxWeaponNb = maxWeaponNb; }
     int getMaxWeaponNb() const { return maxWeaponNb; }
 
-private:
+    void clearWeapons();
+
+  private:
     int maxWeaponNb;
-    QList<Weapon> weapons;
+    QList<Weapon *> weapons;
 };
 
 } // end namespace CS

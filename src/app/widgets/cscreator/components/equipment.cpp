@@ -9,11 +9,11 @@ namespace CSCreator {
 /*                                constructors                                */
 /******************************************************************************/
 
-Equipment::Equipment(CS::Equipment *equipment, bool useWeight, int maxWeight, int maxItems, QWidget *parent):
+Equipment::Equipment(CS::Equipment *equipment, QWidget *parent):
     Component("Equipment", parent),
     equipment(equipment)
 {
-    update(useWeight, maxWeight, maxItems);
+    update(true, 100, 10);
     bodyAdd(&useWeightLabel);
     bodyAdd(&maxWeightLabel);
     bodyAdd(&maxItemsLabel);

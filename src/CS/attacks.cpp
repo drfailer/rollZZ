@@ -1,21 +1,37 @@
 #include "attacks.h"
+#include "weapon.h"
 
 namespace CS {
 
-Attacks::Attacks(int maxWeaponNb, const QString title):
+/******************************************************************************/
+/*                          constructor & destructor                          */
+/******************************************************************************/
+
+Attacks::Attacks(int _maxWeaponNb, const QString title):
     Component(title),
-    maxWeaponNb(maxWeaponNb)
+    SERIALIZER(maxWeaponNb, weapons),
+    maxWeaponNb(_maxWeaponNb)
 {
 
 }
 
-void Attacks::addWeapon(Weapon weapon)
-{
-    if (weapons.count() < maxWeaponNb) {
-        weapons.push_back(weapon);
-    } else {
-        // exceptions ?
+Attacks::~Attacks() {
+    clearWeapons();
+}
+
+/******************************************************************************/
+/*                                 add weapon                                 */
+/******************************************************************************/
+
+void Attacks::addWeapon(Weapon* weapon) {
+    weapons.push_back(weapon);
+}
+
+void Attacks::clearWeapons() {
+    for (Weapon* weapon : weapons) {
+        delete weapon;
     }
+    weapons.clear();
 }
 
-}
+} // end namespace CS
