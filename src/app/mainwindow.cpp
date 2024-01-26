@@ -87,7 +87,7 @@ void MainWindow::initCSCreator() {
 /******************************************************************************/
 
 void MainWindow::initCSEditor() {
-    QHBoxLayout* CSListLyt = new QHBoxLayout();
+    QVBoxLayout* CSListLyt = new QVBoxLayout();
     QDir csDirectory(CS_DIRECTORY);
     QStringList csFiles = csDirectory.entryList(QStringList(), QDir::Files);
 
