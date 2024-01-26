@@ -1,18 +1,19 @@
 #include "diceedit.h"
-#include <qlabel.h>
+#include <QLabel>
 
-DiceEdit::DiceEdit(bool useBonus, QWidget *parent):
+DiceEdit::DiceEdit(const Dice& dice, int bonusValue, bool useBonus, QWidget *parent):
     QWidget(parent),
-    diceFaces(this),
-    diceNumber(this),
+    diceFacesEdit(this),
+    diceNumberEdit(this),
     bonusEdit(this)
 {
-    diceFaces.setValue(20);
-    diceNumber.setValue(1);
+    diceFacesEdit.setValue(dice.getFaces());
+    diceNumberEdit.setValue(dice.getDiceNumber());
+    bonusEdit.setValue(bonusValue);
     // dice edit: 1 d 20
-    mainLyt.addWidget(&diceNumber);
+    mainLyt.addWidget(&diceNumberEdit);
     mainLyt.addWidget(new QLabel("d"));
-    mainLyt.addWidget(&diceFaces);
+    mainLyt.addWidget(&diceFacesEdit);
 
     if (useBonus) {
         bonusEdit.setMinimum(0);
@@ -23,4 +24,19 @@ DiceEdit::DiceEdit(bool useBonus, QWidget *parent):
     }
     mainLyt.setAlignment(Qt::AlignLeft);
     setLayout(&mainLyt);
+
+    // connects
+    connect(&diceNumberEdit, &QSpinBox::valueChanged, this, [&](int newDiceNumber) {
+                emit diceChanged(Dice(this->diceFacesEdit.value(), newDiceNumber));
+            });
+    connect(&diceFacesEdit, &QSpinBox::valueChanged, this, [&](int newDiceFaces) {
+                emit diceChanged(Dice(newDiceFaces, this->diceNumberEdit.value()));
+            });
+    connect(&bonusEdit, &QSpinBox::valueChanged, this, [&](int newBonus) {
+                emit bonusChanged(newBonus);
+            });
+
+}
+
+DiceEdit::DiceEdit(QWidget *parent): DiceEdit(Dice(), 0, false, parent) {
 }

@@ -1,6 +1,7 @@
 #ifndef CSEDITOR_DICEEDIT_H
 #define CSEDITOR_DICEEDIT_H
 
+#include "dice.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSpinBox>
@@ -9,16 +10,21 @@
 class DiceEdit : public QWidget {
     Q_OBJECT
   public:
-    DiceEdit(bool useBonus = false, QWidget *parent = nullptr);
-    int getFaces() const { return diceFaces.value(); }
-    int getNumber() const { return diceNumber.value(); }
-    void setFaces(int newFaces) { diceFaces.setValue(newFaces); }
-    void setNumber(int newDiceNumber) { diceNumber.setValue(newDiceNumber); }
+    DiceEdit(const Dice& dice, int bonusValue, bool useBonus = false, QWidget *parent = nullptr);
+    DiceEdit(QWidget *parent = nullptr);
+    int getFaces() const { return diceFacesEdit.value(); }
+    int getNumber() const { return diceNumberEdit.value(); }
+    void setFaces(int newFaces) { diceFacesEdit.setValue(newFaces); }
+    void setNumber(int newDiceNumber) { diceNumberEdit.setValue(newDiceNumber); }
+
+signals:
+    void diceChanged(const Dice dice);
+    void bonusChanged(int newValue);
 
   private:
     QHBoxLayout mainLyt;
-    QSpinBox diceFaces;
-    QSpinBox diceNumber;
+    QSpinBox diceFacesEdit;
+    QSpinBox diceNumberEdit;
     QSpinBox bonusEdit;
 };
 
