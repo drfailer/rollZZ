@@ -10,8 +10,8 @@ DescriptorPopup::DescriptorPopup(const QString& name, CS::DescriptorTypes type):
     typeEdit.addItem("long", CS::DescriptorTypes::LONG);
     typeEdit.setCurrentIndex(type);
 
-    add(&nameEdit);
-    add(&typeEdit);
+    add("Name:", &nameEdit);
+    add("Type:", &typeEdit);
 }
 
 } // end namespace CSCreator

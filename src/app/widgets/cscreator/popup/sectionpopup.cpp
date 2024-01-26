@@ -6,7 +6,7 @@ SectionPopup::SectionPopup(const QString &defaultValue):
     Popup("SECTION"),
     nameEdit(defaultValue)
 {
-    add(&nameEdit);
+    add("Title:", &nameEdit);
 }
 
 SectionPopup::SectionPopup():

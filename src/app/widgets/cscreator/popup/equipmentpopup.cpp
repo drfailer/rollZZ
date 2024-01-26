@@ -19,9 +19,9 @@ EquipmentPopup::EquipmentPopup(bool useWeight, int maxWeight, int maxItems):
     // TODO: add a list of weaponType / damageType => make a combobox in the sheet editor ?
     // NOTE: this ^ require to modify the CS tree.
 
-    add(&useWeightRBtn);
-    add(&maxWeightBox);
-    add(&maxItemsBox);
+    add("Use weight:", &useWeightRBtn);
+    add("Max weight:", &maxWeightBox);
+    add("Max items:", &maxItemsBox);
 }
 
 } // end namespace CSCreator

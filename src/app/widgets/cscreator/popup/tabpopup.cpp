@@ -6,7 +6,7 @@ TabPopup::TabPopup(const QString& name, const QString& defaultText):
     Popup(name),
     nameEdit(defaultText)
 {
-    add(&nameEdit);
+    add("Title:", &nameEdit);
 }
 
 TabPopup::TabPopup(const QString& name):

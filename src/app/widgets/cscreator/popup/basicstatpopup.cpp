@@ -8,9 +8,9 @@ BasicStatPopup::BasicStatPopup(const QString &title):
 {
     // TODO: create a form
     valueMaxEdit.setValue(20);
-    add(&nameEdit);
-    add(&valueMaxEdit);
-    add(&diceEditWgt);
+    add("Name:", &nameEdit);
+    add("Value max:", &valueMaxEdit);
+    add("Dice:", &diceEditWgt);
 }
 
 BasicStatPopup::BasicStatPopup():

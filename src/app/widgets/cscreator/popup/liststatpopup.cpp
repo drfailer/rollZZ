@@ -13,7 +13,7 @@ ListStatPopup::ListStatPopup(const QString& name):
 {
     skillListLyt->setAlignment(Qt::AlignTop);
     skillListWgt->setLayout(skillListLyt);
-    add(&nameEdit);
+    add("Name:", &nameEdit);
 
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
