@@ -34,6 +34,8 @@ void Equipment::addItem() {
     if (equipment->count() < equipment->getMaxItems()) {
         CS::Item *item = new CS::Item();
         Item *newItemWgt = new Item(item, equipment->getUseWeight(), this);
+
+        equipment->addItem(item);
         insertAndConnectItem(item, newItemWgt);
     }
 }
