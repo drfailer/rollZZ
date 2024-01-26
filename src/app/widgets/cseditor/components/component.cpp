@@ -20,9 +20,6 @@ Component::Component(const QString &title, QWidget *parent)
     // add to the main layout
     mainLyt.addLayout(&headerLyt);
     mainLyt.addLayout(&bodyLyt);
-
-    // remove content margins
-    setContentsMargins(0, 0, 0, 0);
 }
 
 /******************************************************************************/
