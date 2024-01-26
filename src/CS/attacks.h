@@ -17,9 +17,12 @@ class Attacks : public Component {
     /* accessors **************************************************************/
     void addWeapon(Weapon *weapon);
     Weapon *at(int index) { return weapons[index]; }
+    const QList<Weapon*> getWeapons() { return weapons; }
 
     void setMaxWeaponNb(int maxWeaponNb) { this->maxWeaponNb = maxWeaponNb; }
     int getMaxWeaponNb() const { return maxWeaponNb; }
+
+    void clearWeapons();
 
   private:
     int maxWeaponNb;

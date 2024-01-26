@@ -16,22 +16,22 @@ Attacks::Attacks(int _maxWeaponNb, const QString title):
 }
 
 Attacks::~Attacks() {
-    for (Weapon* weapon : weapons) {
-        delete weapon;
-    }
+    clearWeapons();
 }
 
 /******************************************************************************/
 /*                                 add weapon                                 */
 /******************************************************************************/
 
-void Attacks::addWeapon(Weapon* weapon)
-{
-    if (weapons.count() < maxWeaponNb) {
-        weapons.push_back(weapon);
-    } else {
-        // exceptions ?
+void Attacks::addWeapon(Weapon* weapon) {
+    weapons.push_back(weapon);
+}
+
+void Attacks::clearWeapons() {
+    for (Weapon* weapon : weapons) {
+        delete weapon;
     }
+    weapons.clear();
 }
 
 } // end namespace CS
