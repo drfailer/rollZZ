@@ -52,6 +52,7 @@ QWidget* CSEditor::createTab(CS::Part* part) {
     QVBoxLayout *newTabLyt = new QVBoxLayout(newTabWgt);
     QScrollArea *scrollArea = new QScrollArea(this);
 
+    newTabLyt->setContentsMargins(0, 0, 0, 0);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setWidgetResizable(true);
