@@ -40,7 +40,7 @@ elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/include/mongocxx/v_noabi
     set(LIBMONGOCXX_LIBRARIES mongocxx)
     set(LIBBSONCXX_LIBRARIES bsoncxx)
 else()
-    message(FATAL_ERROR "mongocxx is not available")
+    # message(FATAL_ERROR "mongocxx is not available")
 endif()
 
 ################################################################################
@@ -89,7 +89,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/components/section.h src/app/widgets/cscreator/components/section.cpp
         src/app/widgets/cscreator/components/part.h src/app/widgets/cscreator/components/part.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
-        src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
         src/CS/cs.h src/CS/cs.cpp
         src/CS/part.h src/CS/part.cpp
         src/CS/section.h src/CS/section.cpp
@@ -131,8 +130,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
     )
 
-target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
-target_link_libraries(rollZZ PRIVATE ${LIBBSONCXX_LIBRARIES})
+# target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
+# target_link_libraries(rollZZ PRIVATE ${LIBBSONCXX_LIBRARIES})
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rollZZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
