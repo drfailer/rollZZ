@@ -8,10 +8,14 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 
+#include "serializable.hpp"
+#include "serializer.hpp"
+#include "qtconvertor.h"
 
 // No verification if the file overwrite
 class MapElement
 {
+  SERIALIZABLE_WITH_CONVERTOR(QtConvertor,QString,QString)
 public:
   MapElement(QString filePath);
   MapElement(QString filePath,QString name);
@@ -24,13 +28,15 @@ public:
   void setName(QString name) {this->name = name;}
   void setFilePath(QString filePath) {this->filePath = filePath;}
   QSize getImageSize()const {return imageSize;}
-  QSize getPixMapSize()const {return pixMapSize;}
   void RescalePixMap(int maxX,int maxY);
+
+  void load(const QString& filePath);
+  void save(const QString& filePath);
+
 private:
   //need to be save
   QString filePath;
   QString name;
-  QSize pixMapSize;
 
   // can be retreive from the previous information
   QSize imageSize;

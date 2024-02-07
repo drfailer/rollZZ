@@ -39,7 +39,7 @@ MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
     for(QString& filePath: filesPath)
     {
       QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
-      QString newFilePath = QDir::homePath() + QString("/.local/ressources/") + name;
+      QString newFilePath = QDir::homePath() + QString("/.local/resources/") + name;
 
       if (QFile::exists(newFilePath))
         QFile::remove(newFilePath);
@@ -107,6 +107,10 @@ void MapWidget::drop(QDropEvent *event, MapGraphicsItem* itemDrop)
 
     if(itemDrop)
     {
+      QString str =  QDir::homePath() + QString("/.local/resources/test.txt");
+      itemDrop->getMapElement()->save(str);
+      MapElement* el = new MapElement("");
+      el->load(str);
       QPushButton* temp = new QPushButton(itemDrop->getMapElement()->getName(),menuItemOnMap);
       connect (temp,&QPushButton::clicked,this,[=](){itemDrop->setSelected(true);});
       connect (itemDrop,&MapGraphicsItem::deleteSignal,this,[=](){menuItemOnMap->removeContent(temp); delete temp;});

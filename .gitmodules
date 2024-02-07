@@ -7,3 +7,6 @@
 [submodule "lib/mongo-c-driver"]
 	path = lib/mongo-c-driver
 	url = https://github.com/mongodb/mongo-c-driver.git
+[submodule "lib/serializer-cpp"]
+	path = lib/serializer-cpp
+	url = git@github.com:drfailer/serializer-cpp.git

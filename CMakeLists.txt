@@ -45,6 +45,15 @@ else()
     message(FATAL_ERROR "mongocxx is not available")
 endif()
 
+
+################################################################################
+#                                  serializer                                  #
+################################################################################
+
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/serializer/)
+endif()
+
 ################################################################################
 #                                      Qt                                      #
 ################################################################################
@@ -119,6 +128,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/map/mapgraphicsscene.h src/app/widgets/map/mapgraphicsscene.cpp
         src/app/widgets/map/mapscrollarea.h src/app/widgets/map/mapscrollarea.cpp
         src/app/widgets/map/layerselection.h src/app/widgets/map/layerselection.cpp
+        src/map/componentconvertor.h
+        src/map/qtconvertor.h
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
