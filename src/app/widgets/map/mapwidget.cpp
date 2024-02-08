@@ -4,15 +4,26 @@
 MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
 {
   setAcceptDrops(true);
-  view = new MapGraphicsView(this);
+  sideMenu = new QWidget(this);
+  menu = new QWidget(this);
+  layoutMenu = new QVBoxLayout(menu);
+  layoutGlobal = new QVBoxLayout(this);
+  layoutGlobal->addWidget(menu);
+  layoutGlobal->addWidget(sideMenu);
+
+  QPushButton* buttonSave = new QPushButton("save",menu);
+  layoutMenu->addWidget(buttonSave);
+  connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
+
+  layoutSideMenu = new QBoxLayout(QBoxLayout::LeftToRight,sideMenu);
+  view = new MapGraphicsView(sideMenu);
   connect(view->getScene(),&MapGraphicsScene::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
   connect(view->getScene(),&MapGraphicsScene::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
   connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
 
-  layoutSideMenu = new QBoxLayout(QBoxLayout::LeftToRight,this);
 
-  menuItemOnMap = new MapScrollArea(this);
-  menuMapElementSelection = new QWidget(this);
+  menuItemOnMap = new MapScrollArea(sideMenu);
+  menuMapElementSelection = new QWidget(sideMenu);
   layoutMenuMapElement = new QVBoxLayout(menuMapElementSelection);
   layoutMenuMapElement->setAlignment(Qt::AlignTop);
 
@@ -64,13 +75,22 @@ MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
   labelForCursorDrag->setVisible(false);
   labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
 
+
+
+
+  map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
   for(MapElement* mapElement: map->getmapElementsUse())
   {
     MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
     scrollAreaMapElementSelection->addContent(newElement);
 
-           //create a function since I repeat this 2 times;
     connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
+  }
+
+
+  for(MapElement* mapElement: map->getMap())
+  {
+    view->getScene()->insertNewGraphicsElement(mapElement,false);
   }
 }
 
@@ -95,32 +115,36 @@ void MapWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void MapWidget::dropEvent(QDropEvent *event)
 {
-    drop(event,nullptr);
+    drop(nullptr,false);
 }
 
-void MapWidget::drop(QDropEvent *event, MapGraphicsItem* itemDrop)
+void MapWidget::drop(MapGraphicsItem* itemDrop,bool isNewElement)
 {
     labelForCursorDrag->clear();
     labelForCursorDrag->move(-100,-100);
     labelForCursorDrag->setVisible(false);
-    event->accept();
-
     if(itemDrop)
-    {
-      QString str =  QDir::homePath() + QString("/.local/resources/test.txt");
-      itemDrop->getMapElement()->save(str);
-      MapElement* el = new MapElement("");
-      el->load(str);
-      QPushButton* temp = new QPushButton(itemDrop->getMapElement()->getName(),menuItemOnMap);
-      connect (temp,&QPushButton::clicked,this,[=](){itemDrop->setSelected(true);});
-      connect (itemDrop,&MapGraphicsItem::deleteSignal,this,[=](){menuItemOnMap->removeContent(temp); delete temp;});
-      menuItemOnMap->addContent(temp);
-    }
+      addNewItem(itemDrop,isNewElement);
+
 }
 
+void MapWidget::addNewItem(MapGraphicsItem* itemDrop,bool isNewElement)
+{
+    QPushButton* temp = new QPushButton(itemDrop->getMapElement()->getName(),menuItemOnMap);
+    connect (temp,&QPushButton::clicked,this,[=](){itemDrop->setSelected(true);});
+    connect (itemDrop,&MapGraphicsItem::deleteSignal,this,[=](){menuItemOnMap->removeContent(temp);map->removeElementOnMap(itemDrop->getMapElement()); delete temp;});
+    menuItemOnMap->addContent(temp);
+    if (isNewElement)
+      map->addElementOnMap(itemDrop->getMapElement());
+}
 
 void MapWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Delete)
       view->getScene()->deleteSelected();
+}
+
+void MapWidget::saveMap()
+{
+    map->save(QDir::homePath() + QString("/.local/resources/testMap.txt"));
 }

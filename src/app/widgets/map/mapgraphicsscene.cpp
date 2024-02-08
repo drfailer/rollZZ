@@ -6,7 +6,6 @@ MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), scen
   setSceneRect(0,0,sceneSizeX,sceneSizeY);
   QGraphicsItem *rectItem = new QGraphicsRectItem(0,0,sceneSizeX,sceneSizeY);
   addItem(rectItem);
-  items = std::set<MapGraphicsItem*,CompareMapItem>();
   selectedItem = nullptr;
   previousZValue = 0;
 }
@@ -38,33 +37,34 @@ void MapGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
   QPointF scenePoint = event->scenePos();
-  MapGraphicsItem* el = nullptr;
-
   const QMimeData* mimeData = event->mimeData();
   QByteArray byteArray = mimeData->data("map-element");
   QDataStream inStream(byteArray);
-  MapElement* mapElementToDrop = new MapElement(":ressources/tiles/wall");
+  MapElement* mapElementToDrop = new MapElement();
+  mapElementToDrop->setPos(scenePoint.x(),scenePoint.y());
   inStream >> mapElementToDrop;
+  event->accept();
+  insertNewGraphicsElement(mapElementToDrop,true);
+}
 
+void MapGraphicsScene::insertNewGraphicsElement(MapElement* mapElementToDrop,bool isNewELement)
+{
+  MapGraphicsItem* el = nullptr;
   int elementSizeX = mapElementToDrop->getOriginalPixMap().size().width(),
       elementSizeY = mapElementToDrop->getOriginalPixMap().size().height();
+  QPointF scenePoint = mapElementToDrop->getPos();
+
 
   if(scenePoint.x() + elementSizeX/2 <= sceneSizeX && scenePoint.x() - elementSizeX/2 >= 0 && scenePoint.y() + elementSizeY/2 <= sceneSizeY && scenePoint.y() - elementSizeY/2 >= 0 )
   {
     el = new MapGraphicsItem(mapElementToDrop);
     el->setZValue(actualZValue);
     addItem(el);
-    items.insert(el);
     el->setPos(scenePoint.x()-elementSizeX/2,scenePoint.y()-elementSizeY/2);
     connect(el,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
   }
-  event->accept();
 
-  QPointF dropPos = event->scenePos();
-  Qt::DropActions proposedAction = event->possibleActions();
-  Qt::KeyboardModifiers modifiers = event->modifiers();
-
-  emit dropEventSignal(new QDropEvent(dropPos, proposedAction, event->mimeData(),event->buttons(),modifiers),el);
+  emit dropEventSignal(el,isNewELement);
 }
 
 void MapGraphicsScene::focusItem(MapGraphicsItem* el)

@@ -16,6 +16,8 @@
 /*
  * TODO
  * - clean all code
+ * - save also position and rotation of mapElement
+ * - generalize save and load
  **/
 
 class MapWidget: public QWidget
@@ -27,19 +29,25 @@ public:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void addNewItem(MapGraphicsItem* itemDrop,bool isNewElement);
     ~MapWidget() {/*TODO*/}
   public slots:
-    void drop(QDropEvent *event, MapGraphicsItem* dropItem);
-private:
-        MapGraphicsView* view;
-        QBoxLayout* layoutSideMenu;
-        Map* map;
-        QLabel* labelForCursorDrag;
-        QWidget* menuMapElementSelection;
-        QVBoxLayout* layoutMenuMapElement;
-        MapScrollArea* scrollAreaMapElementSelection;
-        MapScrollArea* menuItemOnMap;
-        LayerSelection* layerSelection;
+    void drop(MapGraphicsItem* dropItem,bool isNewElement);
+    void saveMap();
+  private:
+    MapGraphicsView* view;
+    QWidget* menu;
+    QWidget* sideMenu;
+    QVBoxLayout* layoutGlobal;
+    QVBoxLayout* layoutMenu;
+    QBoxLayout* layoutSideMenu;
+    Map* map;
+    QLabel* labelForCursorDrag;
+    QWidget* menuMapElementSelection;
+    QVBoxLayout* layoutMenuMapElement;
+    MapScrollArea* scrollAreaMapElementSelection;
+    MapScrollArea* menuItemOnMap;
+    LayerSelection* layerSelection;
 
 };
 

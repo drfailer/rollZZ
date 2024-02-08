@@ -130,6 +130,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/map/layerselection.h src/app/widgets/map/layerselection.cpp
         src/map/componentconvertor.h
         src/map/qtconvertor.h
+        src/app/init.h
+        src/app/init.cpp
+        src/app/config.h
+        src/app/config.cpp
     )
 
 target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

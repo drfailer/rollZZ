@@ -13,11 +13,6 @@
 #include <QTimeLine>
 #include <set>
 
-struct CompareMapItem
-{
-  bool operator()(MapGraphicsItem* a, MapGraphicsItem* b) const {return a->zValue() < b->zValue();}
-};
-
 class MapGraphicsScene: public QGraphicsScene
 {
   Q_OBJECT
@@ -31,8 +26,9 @@ public:
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void deleteSelected();
+  void insertNewGraphicsElement(MapElement* mapElementToDrop,bool isNewEvent);
 signals:
-  void dropEventSignal(QDropEvent *event,MapGraphicsItem* dropItem);
+  void dropEventSignal(MapGraphicsItem* dropItem,bool isNewEvent);
   void dragEnterEventSignal(QDragEnterEvent *event) ;
   void dragMoveEventSignal(QDragMoveEvent *event);
 public slots:
@@ -42,7 +38,6 @@ private:
   int actualZValue;
   int previousZValue;
   MapGraphicsItem* selectedItem;
-  std::set<MapGraphicsItem*,CompareMapItem> items;
   int sceneSizeX,sceneSizeY;
 };
 

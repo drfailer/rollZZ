@@ -1,17 +1,16 @@
 #include "mapelement.h"
 
 
-MapElement::MapElement(QString _filePath): SERIALIZER(filePath, name), filePath(_filePath),name(_filePath.mid(_filePath.lastIndexOf('/')+1))
+MapElement::MapElement(QString _filePath,QString _name,int _posX,int _posY): SERIALIZER(filePath, name, posX, posY),filePath(_filePath),name(_name),posX(_posX),posY(_posY)
 {
-    originalPixMap = previewPixMap = QPixmap(_filePath);
-    imageSize = previewPixMap.size();
+  updateImage();
 }
 
-MapElement::MapElement(QString _filePath,QString _name): SERIALIZER(filePath, name),filePath(_filePath),name(_name)
-{
-    originalPixMap = previewPixMap = QPixmap(_filePath);
-    imageSize = previewPixMap.size();
-}
+MapElement::MapElement(QString _filePath,QString _name): MapElement(_filePath,_name,-1,-1)
+{}
+
+MapElement::MapElement(QString _filePath): MapElement(_filePath,_filePath.mid(_filePath.lastIndexOf('/')+1))
+{}
 
 void MapElement::RescalePixMap(int maxX,int maxY)
 {
@@ -50,7 +49,14 @@ QDataStream &operator>>(QDataStream &stream, MapElement* el)
 void MapElement::load(const QString& fileName) {
     //clearParts();
     deserializeFile(fileName.toStdString());
+    updateImage();
 }
 void MapElement::save(const QString& fileName) {
     serializeFile(fileName.toStdString());
+}
+
+void MapElement::updateImage()
+{
+    originalPixMap = previewPixMap = QPixmap(filePath);
+    imageSize = originalPixMap.size();
 }
