@@ -31,8 +31,5 @@ GameList::GameList(const QList<map::Game*>& games, QWidget *parent):
 
 GameList::~GameList()
 {
-    for (auto *widget : layout.children()) {
-        delete widget;
-    }
 }
 

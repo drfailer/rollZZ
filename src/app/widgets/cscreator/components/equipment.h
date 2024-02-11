@@ -1,7 +1,8 @@
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#ifndef CSCREATOR_EQUIPMENT_H
+#define CSCREATOR_EQUIPMENT_H
 
 #include "component.h"
+#include "CS/equipment.h"
 
 namespace CSCreator {
 
@@ -10,8 +11,8 @@ class EquipmentPopup;
 class Equipment : public Component
 {
 public:
-    Equipment(bool useWeight = true, int maxWeight = 0, int maxItems = 0, QWidget* parent = nullptr);
-    void settingsPopup();
+    Equipment(CS::Equipment *equipment, QWidget* parent = nullptr);
+    void settingsPopup() override;
 
 private:
     EquipmentPopup *equipmentPopup = nullptr;
@@ -20,9 +21,10 @@ private:
     QLabel useWeightLabel;
     QLabel maxWeightLabel;
     QLabel maxItemsLabel;
-    bool useWeight;
-    int maxWeight;
-    int maxItems;
+
+    CS::Equipment *equipment = nullptr;
+
+    void update(bool useWeight, int maxWeight, int maxItems);
 };
 
 } // end namespace CSCreator

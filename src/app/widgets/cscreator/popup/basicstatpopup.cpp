@@ -1,19 +1,16 @@
 #include "basicstatpopup.h"
-#include <iostream>
 
 namespace CSCreator {
 
 BasicStatPopup::BasicStatPopup(const QString &title):
-    CSCreatorPopup(title),
-    nameEdit("stat name"),
-    valueMaxEdit(this),
-    diceEditWgt(this)
+    Popup(title),
+    nameEdit("stat name")
 {
     // TODO: create a form
     valueMaxEdit.setValue(20);
-    add(&nameEdit);
-    add(&valueMaxEdit);
-    add(&diceEditWgt);
+    add("Name:", &nameEdit);
+    add("Value max:", &valueMaxEdit);
+    add("Dice:", &diceEditWgt);
 }
 
 BasicStatPopup::BasicStatPopup():

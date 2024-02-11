@@ -2,8 +2,9 @@
 
 namespace CS {
 
-Component::Component(QString title):
-    title(title)
+Component::Component(const QString& _title):
+    SERIALIZER(title),
+    title(_title)
 { }
 
 Component::~Component() { }

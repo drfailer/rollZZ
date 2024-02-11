@@ -1,24 +1,29 @@
-#ifndef DESCRIPTOR_H
-#define DESCRIPTOR_H
+#ifndef CS_DESCRIPTOR_H
+#define CS_DESCRIPTOR_H
 
 #include "component.h"
-
+#include "descriptortypes.h"
 #include <QString>
 
 namespace CS {
 
-class Descriptor : public Component
-{
-public:
+class Descriptor : public Component {
+    SERIALIZABLE_CUSTOM(QtConvertor, Component, QString, DescriptorTypes);
+  public:
     using Component::Component;
-    Descriptor();
+    Descriptor(const QString& title = "name");
 
-    /* accessors ***************************************************************/
+    /* accessors **************************************************************/
     QString getDescription() const { return description; }
-    void setDescription(const QString &newDescription) { description = newDescription; }
+    void setDescription(const QString &newDescription) {
+        description = newDescription;
+    }
+    void setType(DescriptorTypes type) { this->type = type; }
+    DescriptorTypes getType() const { return type; }
 
-private:
+  private:
     QString description;
+    DescriptorTypes type;
 };
 
 } // end namespace CS

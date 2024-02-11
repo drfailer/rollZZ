@@ -1,7 +1,7 @@
-#ifndef ATTACKSPOPUP_H
-#define ATTACKSPOPUP_H
+#ifndef CSEDITOR_ATTACKSPOPUP_H
+#define CSEDITOR_ATTACKSPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 
 #include <QComboBox>
 #include <QLineEdit>
@@ -9,16 +9,17 @@
 
 namespace CSCreator {
 
-class AttacksPopup : public CSCreatorPopup
-{
+class AttacksPopup : public Tools::Popup {
     Q_OBJECT
 public:
-    AttacksPopup();
+    AttacksPopup(const QString name = "name", int maxItems = 3);
+    QString getName() const { return nameEdit.text(); }
+    int getMaxItems() const { return maxItemsEdit.value(); }
 
 private:
     QLineEdit nameEdit;
     QSpinBox maxItemsEdit;
-    QComboBox dataBaseEdit;
+    // QComboBox dataBaseEdit;
 };
 
 } // end namespace CScreator

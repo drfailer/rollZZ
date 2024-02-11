@@ -2,7 +2,6 @@
 #define CONFIG_H
 
 #include <QString>
-#include <QDir>
 
 extern const QString DATA_DIRECTORY;
 extern const QString CONFIG_DIRECTORY;

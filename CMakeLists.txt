@@ -42,7 +42,15 @@ elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/mongo-cxx/include/mongocxx/v_noabi
     set(LIBMONGOCXX_LIBRARIES mongocxx)
     set(LIBBSONCXX_LIBRARIES bsoncxx)
 else()
-    message(FATAL_ERROR "mongocxx is not available")
+    # message(FATAL_ERROR "mongocxx is not available")
+endif()
+
+################################################################################
+#                                  serializer                                  #
+################################################################################
+
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/serializer/)
 endif()
 
 
@@ -60,6 +68,8 @@ endif()
 
 set(PROJECT_SOURCES
         src/app/main.cpp
+        src/app/config.cpp
+        src/app/init.cpp
         src/app/mainwindow.cpp
         src/app/mainwindow.h
         ressources/mainwindow.ui
@@ -67,6 +77,9 @@ set(PROJECT_SOURCES
 
 include_directories(
     src/map/
+    src/
+    src/tools/widgets/
+    src/tools/
     src/CS/
     src/app/
     src/app/widgets/
@@ -90,13 +103,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         src/app/widgets/cscreator/cscreator.h src/app/widgets/cscreator/cscreator.cpp
         src/app/widgets/cscreator/popup/basicstatpopup.h src/app/widgets/cscreator/popup/basicstatpopup.cpp
-        src/app/widgets/cscreator/popup/cscreatorpopup.h src/app/widgets/cscreator/popup/cscreatorpopup.cpp
         src/app/widgets/cscreator/popup/sectionpopup.h src/app/widgets/cscreator/popup/sectionpopup.cpp
         src/app/widgets/cscreator/popup/descriptorpopup.h src/app/widgets/cscreator/popup/descriptorpopup.cpp
         src/app/widgets/cscreator/popup/equipmentpopup.h src/app/widgets/cscreator/popup/equipmentpopup.cpp
         src/app/widgets/cscreator/components/section.h src/app/widgets/cscreator/components/section.cpp
+        src/app/widgets/cscreator/components/part.h src/app/widgets/cscreator/components/part.cpp
         src/app/widgets/cscreator/popup/tabpopup.h src/app/widgets/cscreator/popup/tabpopup.cpp
-        src/app/mongodb/mongodb.hpp src/app/mongodb/mongodb.cpp
         src/CS/cs.h src/CS/cs.cpp
         src/CS/part.h src/CS/part.cpp
         src/CS/section.h src/CS/section.cpp
@@ -114,7 +126,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cscreator/popup/bonusstatpopup.h src/app/widgets/cscreator/popup/bonusstatpopup.cpp
         src/app/widgets/cscreator/popup/liststatpopup.h src/app/widgets/cscreator/popup/liststatpopup.cpp
         src/app/widgets/cscreator/popup/attackspopup.h src/app/widgets/cscreator/popup/attackspopup.cpp
-        src/app/widgets/cscreator/popup/diceedit.h src/app/widgets/cscreator/popup/diceedit.cpp
         src/app/widgets/cscreator/components/basicstat.h src/app/widgets/cscreator/components/basicstat.cpp
         src/app/widgets/cscreator/components/component.h src/app/widgets/cscreator/components/component.cpp
         src/app/widgets/cscreator/components/bonusstat.h src/app/widgets/cscreator/components/bonusstat.cpp
@@ -129,15 +140,29 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/map/mapscrollarea.h src/app/widgets/map/mapscrollarea.cpp
         src/app/widgets/map/layerselection.h src/app/widgets/map/layerselection.cpp
         src/map/componentconvertor.h
-        src/map/qtconvertor.h
+        src/tools/qtconvertor.h
         src/app/init.h
         src/app/init.cpp
         src/app/config.h
         src/app/config.cpp
+        src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
+        src/app/widgets/cseditor/components/attacks.cpp src/app/widgets/cseditor/components/attacks.h
+        src/app/widgets/cseditor/components/basicstat.cpp src/app/widgets/cseditor/components/basicstat.h
+        src/app/widgets/cseditor/components/bonusstat.cpp src/app/widgets/cseditor/components/bonusstat.h
+        src/app/widgets/cseditor/components/component.cpp src/app/widgets/cseditor/components/component.h
+        src/app/widgets/cseditor/components/descriptor.cpp src/app/widgets/cseditor/components/descriptor.h
+        src/app/widgets/cseditor/components/equipment.cpp src/app/widgets/cseditor/components/equipment.h
+        src/app/widgets/cseditor/components/item.cpp src/app/widgets/cseditor/components/item.h
+        src/app/widgets/cseditor/components/liststat.cpp src/app/widgets/cseditor/components/liststat.h
+        src/app/widgets/cseditor/components/caracteristic.cpp src/app/widgets/cseditor/components/caracteristic.h
+        src/app/widgets/cseditor/components/section.cpp src/app/widgets/cseditor/components/section.h
+        src/app/widgets/cseditor/components/weapon.cpp src/app/widgets/cseditor/components/weapon.h
+        src/app/widgets/cseditor/cseditor.cpp src/app/widgets/cseditor/cseditor.h
+        src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
     )
 
-target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
-target_link_libraries(rollZZ PRIVATE ${LIBBSONCXX_LIBRARIES})
+# target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
+# target_link_libraries(rollZZ PRIVATE ${LIBBSONCXX_LIBRARIES})
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rollZZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)

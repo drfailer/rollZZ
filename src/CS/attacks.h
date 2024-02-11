@@ -1,5 +1,5 @@
-#ifndef ATTACKS_H
-#define ATTACKS_H
+#ifndef CS_ATTACKS_H
+#define CS_ATTACKS_H
 
 #include "component.h"
 #include "weapon.h"
@@ -8,18 +8,25 @@
 
 namespace CS {
 
-class Attacks : public Component
-{
-public:
-    Attacks(int maxNbWeapons);
+class Attacks : public Component {
+    SERIALIZABLE_SUPER(Component, int, QList<Weapon*>)
+  public:
+    Attacks(int maxWeaponNb = 3, const QString title = "attacks & spells");
+    ~Attacks();
 
-    /* accessors ***************************************************************/
-    void addWeapon(Weapon weapon);
-    Weapon& at(int index) { return weapons[index]; }
+    /* accessors **************************************************************/
+    void addWeapon(Weapon *weapon);
+    Weapon *at(int index) { return weapons[index]; }
+    const QList<Weapon*> getWeapons() { return weapons; }
 
-private:
-    int maxNbWeapons;
-    QList<Weapon> weapons;
+    void setMaxWeaponNb(int maxWeaponNb) { this->maxWeaponNb = maxWeaponNb; }
+    int getMaxWeaponNb() const { return maxWeaponNb; }
+
+    void clearWeapons();
+
+  private:
+    int maxWeaponNb;
+    QList<Weapon *> weapons;
 };
 
 } // end namespace CS

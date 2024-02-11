@@ -1,8 +1,6 @@
-#ifndef INIT_H
-#define INIT_H
-
-#include "config.h"
+#ifndef INIT_HPP
+#define INIT_HPP
 
 void init();
 
-#endif // INIT_H
+#endif

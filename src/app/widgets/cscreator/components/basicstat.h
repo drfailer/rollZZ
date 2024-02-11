@@ -1,6 +1,7 @@
-#ifndef BASICSTAT_H
-#define BASICSTAT_H
+#ifndef CSCREATOR_BASICSTAT_H
+#define CSCREATOR_BASICSTAT_H
 
+#include "CS/basicstat.h"
 #include "component.h"
 
 #include <QLabel>
@@ -16,9 +17,9 @@ class BasicStat : public Component
 {
     Q_OBJECT
 public:
-    BasicStat(int valueMax, Dice dice, const QString& name, const QString& title, QWidget *parent = nullptr);
-    BasicStat(int valueMax, Dice dice, const QString& name, QWidget *parent = nullptr);
-    virtual void settingsPopup();
+    BasicStat(CS::BasicStat *basicStat, const QString& title, QWidget *parent = nullptr);
+    BasicStat(CS::BasicStat *basicStat, QWidget *parent = nullptr);
+    void settingsPopup() override;
     virtual ~BasicStat() {}
     QString getName() const { return nameLabel.text(); }
 
@@ -29,11 +30,10 @@ protected:
     QLabel valueMaxLabel;
     QLabel diceLabel;
     QLabel nameLabel;
-    QString name;
-    int valueMax;
-    Dice dice; // NOTE: it would be better to find an alternative to this
 
-    void updateLabels();
+    CS::BasicStat *basicStat = nullptr;
+
+    virtual void update(int valueMax, Dice dice, const QString& name);
 };
 
 } // end namespace CSCreator

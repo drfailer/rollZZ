@@ -1,7 +1,8 @@
-#ifndef CSCREATORSECTION_H
-#define CSCREATORSECTION_H
+#ifndef CSCREATOR_SECTION_H
+#define CSCREATOR_SECTION_H
 
 #include "component.h"
+#include "CS/section.h"
 
 #include <QComboBox>
 #include <QHBoxLayout>
@@ -12,20 +13,8 @@
 
 namespace CSCreator {
 
-class SectionPopup;
-class BasicStatPopup;
-class BonusStatPopup;
-class ListStatPopup;
-class DescriptorPopup;
-class EquipmentPopup;
-class AttacksPopup;
 class Section;
-class BasicStat;
-class BonusStat;
-class ListStat;
-class Descriptor;
-class Equipment;
-class Attacks;
+class SectionPopup;
 
 enum class ComponentTypes {
     None = 0,
@@ -41,41 +30,46 @@ class Section : public Component
 {
     Q_OBJECT
 public:
-    explicit Section(const QString& title, QWidget *parent = nullptr);
+    Section(CS::Section* section, QWidget *parent = nullptr);
     ~Section();
-    void add(QWidget* wgt);
+    void add(Component *wgt, CS::Component *component);
     void move(bool up, QWidget* wgt);
 
 private slots:
-    void settingsPopup();
+    void settingsPopup() override;
     void addElement(ComponentTypes element);
-    void addBasicStat();
-    void addBonusStat();
-    void addListStat();
-    void addDescriptor();
-    void addEquipment();
-    void addAttacks();
 
 private:
     QComboBox addElementBtn;
     QList<QWidget*> content;
+    CS::Section *section;
 
-    /* popups ******************************************************************/
+    /* popups *****************************************************************/
     SectionPopup *sectionPopup = nullptr;
-    BasicStatPopup *basicStatPopup = nullptr;
-    BonusStatPopup *bonusStatPopup = nullptr;
-    ListStatPopup *listStatPopup = nullptr;
-    DescriptorPopup *descriptorPopup = nullptr;
-    EquipmentPopup *equipmentPopup = nullptr;
-    AttacksPopup *attacksPopup = nullptr;
 
-    /* create elements *********************************************************/
-    BasicStat* createBasicStat();
-    BonusStat* createBonusStat();
-    ListStat* createListStat();
-    Descriptor* createDescriptor();
-    Equipment* createEquipment();
-    Attacks* createAttacks();
+    /* create elements ********************************************************/
+    Component *createComponent(CS::Component *component);
+    template<typename WgtT, typename CompT>
+    void createElement() {
+        CompT *component = new CompT();
+        WgtT *wgt = new WgtT(component, this);
+
+        wgt->settingsPopup();
+        connect(wgt, &Component::update, this,
+                [&, wgt, component](bool confirm) {
+                    if (confirm) {
+                        add(wgt, component);
+                        disconnect(wgt, &Component::update, nullptr, nullptr);
+                    } else {
+                        delete wgt;
+                        delete component;
+                    }
+                });
+    }
+
+    /* utility functions ******************************************************/
+    void connectNewSection(Component *wgt, CS::Component *component);
+    void appendComponent(Component *wgt);
 };
 
 } // end namespace CSCrator

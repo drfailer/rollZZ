@@ -9,4 +9,4 @@
 	url = https://github.com/mongodb/mongo-c-driver.git
 [submodule "lib/serializer-cpp"]
 	path = lib/serializer-cpp
-	url = git@github.com:drfailer/serializer-cpp.git
+	url = https://github.com/drfailer/serializer-cpp.git

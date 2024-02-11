@@ -1,14 +1,13 @@
-#ifndef SECTIONPOPUP_H
-#define SECTIONPOPUP_H
+#ifndef CSEDITOR_SECTIONPOPUP_H
+#define CSEDITOR_SECTIONPOPUP_H
 
-#include "cscreatorpopup.h"
+#include "tools/popup.h"
 
 #include <QLineEdit>
 
 namespace CSCreator {
 
-class SectionPopup : public CSCreatorPopup
-{
+class SectionPopup : public Tools::Popup {
     Q_OBJECT
 public:
     SectionPopup();

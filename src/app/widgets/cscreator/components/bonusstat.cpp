@@ -1,30 +1,26 @@
 #include "bonusstat.h"
 #include "bonusstatpopup.h"
+#include "component.h"
 
 namespace CSCreator {
 
-BonusStat::BonusStat(int valueMax, Dice dice, const QString& name, QWidget *parent):
-    BasicStat(valueMax, dice, name, "Bonus stat", parent)
+/******************************************************************************/
+/*                                constructors                                */
+/******************************************************************************/
+
+BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent):
+    BasicStat(static_cast<CS::BasicStat*>(bonuStat_in), "Bonus stat", parent),
+    bonusStat(bonuStat_in)
 {
 
 }
 
-void BonusStat::settingsPopup()
-{
-    if (bonusStatPopup == nullptr) {
-        bonusStatPopup = new BonusStatPopup(name, valueMax, dice);
-    }
-    bonusStatPopup->show();
-    connect(bonusStatPopup, &BonusStatPopup::confirm, this, [&](bool confirm) {
-        if (confirm) {
-            valueMax = bonusStatPopup->getMaxValue();
-            dice = bonusStatPopup->getDice();
-            name = bonusStatPopup->getName();
-            updateLabels();
-        }
-        delete bonusStatPopup;
-        bonusStatPopup = nullptr;
-    });
-}
+/******************************************************************************/
+/*                                  settings                                  */
+/******************************************************************************/
+
+genSettingsPopup(BonusStat, bonusStatPopup, BonusStatPopup, {
+    update(bonusStatPopup->getMaxValue(), bonusStatPopup->getDice(), bonusStatPopup->getName());
+}, bonusStat->getTitle(), bonusStat->getValueMax(), bonusStat->getDice());
 
 } // end namespace CSCreator
