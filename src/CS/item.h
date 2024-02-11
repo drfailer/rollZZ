@@ -1,7 +1,7 @@
 #ifndef CS_ITEM_H
 #define CS_ITEM_H
 
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "serializer.hpp"
 #include <QString>
 

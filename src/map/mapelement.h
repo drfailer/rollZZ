@@ -10,7 +10,7 @@
 
 #include "serializable.hpp"
 #include "serializer.hpp"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 
 // No verification if the file overwrite
 class MapElement

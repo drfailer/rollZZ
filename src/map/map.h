@@ -3,7 +3,7 @@
 
 #include "mapelement.h"
 #include "serializable.hpp"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 
 class Map
 {

@@ -2,7 +2,7 @@
 #define CS_CARACTERISTIC_H
 
 #include "dice.h"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "serializable.hpp"
 
 #include <QString>

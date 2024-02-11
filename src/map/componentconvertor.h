@@ -3,7 +3,7 @@
 
 #ifndef CS_COMPONENTCONVERTOR_HPP
 #define CS_COMPONENTCONVERTOR_HPP
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "serializer.hpp"
 
 struct ComponentConvertor {
