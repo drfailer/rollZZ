@@ -1,6 +1,8 @@
 #include "gamelist.h"
+#include "gamecs/gamecs.h"
 
 #include <QPushButton>
+#include <QDir>
 
 GameList::GameList(const QList<QString>& games, QWidget *parent):
     QWidget(parent),
@@ -15,9 +17,13 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
         // marche pas et je ne comprends pas pk
         layout.setAlignment(Qt::AlignHCenter|Qt::AlignTop);
         for (const QString& elt : games) {
-            layout.addWidget(new QPushButton(elt));
-            // TODO: connect button
-            // TODO: change the stylesheet
+            QPushButton *btn = new QPushButton(elt);
+            layout.addWidget(btn);
+            connect(btn, &QPushButton::clicked, this, [&]() {
+                    CSTree.load(QDir::homePath() + "/.local/share/rollZZ/cs/Talion");
+                    gameCS = new GameCS::GameCS("file", &CSTree);
+                    gameCS->show();
+                });
         }
     }
 }
