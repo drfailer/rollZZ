@@ -9,7 +9,8 @@ namespace CSEditor {
 
 BasicStat::BasicStat(CS::BasicStat *basicStat, QWidget *parent):
     Component(basicStat->getTitle(), parent),
-    valueEdit(this)
+    valueEdit(this),
+    basicStat(basicStat)
 {
     valueEdit.setMinimum(-100);
     valueEdit.setMaximum(basicStat->getValueMax());
