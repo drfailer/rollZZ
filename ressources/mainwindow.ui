@@ -296,7 +296,7 @@ QPushButton:checked:hover {
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QWidget" name="menus" native="true">
             <property name="minimumSize">
              <size>
