@@ -12,4 +12,14 @@ Caracteristic::Caracteristic(const QString &_name, const QString &_statName,
 {
 }
 
+int Caracteristic::roll() const {
+    int diceResult = dice.roll();
+
+    // critical miss configurable ?
+    if (diceResult == 1) {
+        return 1;
+    }
+    return diceResult + bonus;
+}
+
 } // end namespace CS
