@@ -1,4 +1,6 @@
+#include <QLabel>
 #include "gamecs/components/weapon.h"
+#include <iostream>
 
 namespace GameCS {
 
@@ -6,35 +8,25 @@ Weapon::Weapon(CS::Weapon *weapon, QWidget* parent):
     QWidget(parent),
     weapon(weapon),
     layout(this),
-    nameEdit("name", this),
-    damageTypeEdit("damage type", this),
-    damageDiceEdit(weapon->getDamageDice(), weapon->getDamageBonus(), true, this),
-    attackBonusEdit(this)
+    rollAttackBtn("roll attack"),
+    rollDamageBtn("roll damage")
 {
-    nameEdit.setText(weapon->getWeaponType());
-    attackBonusEdit.setValue(weapon->getAttackBonus());
-    damageTypeEdit.setText(weapon->getDamageType());
-    layout.addWidget(&nameEdit);
-    layout.addWidget(&attackBonusEdit);
-    layout.addWidget(&damageDiceEdit);
-    layout.addWidget(&damageTypeEdit);
-    // TODO: compute default values for bonnuses (this should be done by the CS::Weapon)
+    layout.addWidget(new QLabel(
+                weapon->getDamageType()
+                + " +" + QString::number(weapon->getAttackBonus())
+                + " " + weapon->getDamageDice().toString()
+                + " " + weapon->getDamageType(), this));
+    layout.addWidget(&rollAttackBtn);
+    layout.addWidget(&rollDamageBtn);
 
     // connects
-    connect(&nameEdit, &QLineEdit::textChanged, this, [&](const QString& newText) {
-                this->weapon->setWeaponType(newText);
+    connect(&rollAttackBtn, &QPushButton::clicked, this, [&]() {
+                /* emit rolled(weapon->getAttackDice().roll()); */
+                std::cout << weapon->getAttackDice().roll() << std::endl;
             });
-    connect(&attackBonusEdit, &QSpinBox::valueChanged, this, [&](int newValue) {
-                this->weapon->setAttackBonus(newValue);
-            });
-    connect(&damageDiceEdit, &DiceEdit::diceChanged, this, [&](const Dice& newDice) {
-                this->weapon->setDamageDice(newDice);
-            });
-    connect(&damageDiceEdit, &DiceEdit::bonusChanged, this, [&](int newValue) {
-                this->weapon->setDamageBonus(newValue);
-            });
-    connect(&damageTypeEdit, &QLineEdit::textChanged, this, [&](const QString& newText) {
-                this->weapon->setDamageType(newText);
+    connect(&rollDamageBtn, &QPushButton::clicked, this, [&]() {
+                /* emit rolled(weapon->getDamageDice().roll()); */
+                std::cout << weapon->getDamageDice().roll() << std::endl;
             });
     layout.setContentsMargins(0, 0, 0, 0);
 }

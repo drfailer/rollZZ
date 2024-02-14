@@ -19,11 +19,11 @@ class SectionPopup;
 class GameCS : public QWidget {
     Q_OBJECT
 public:
-    CS::CS* getCSTree() const { return CSTree; }
     GameCS(const QString& csFile = "", CS::CS *CSTree = nullptr);
     ~GameCS();
 
     /* accessors **************************************************************/
+    CS::CS* getCSTree() const { return CSTree; }
     QString getCSFile() const { return csFile; }
 
 private:

@@ -17,7 +17,7 @@ public:
     BonusStat(CS::BonusStat *bonuStat, QWidget *parent = nullptr);
 
 signals:
-    void rolled(int); // TODO: move in cs
+    void rolled(int);
 
 private:
     CS::BonusStat *bonusStat = nullptr;

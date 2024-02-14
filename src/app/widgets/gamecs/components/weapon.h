@@ -2,11 +2,9 @@
 #define GAMECS_WEAPON_HPP
 
 #include "CS/weapon.h"
-#include "diceedit.h"
 #include <QBoxLayout>
-#include <QLineEdit>
-#include <QSpinBox>
 #include <QWidget>
+#include <QPushButton>
 
 namespace GameCS {
 
@@ -16,13 +14,14 @@ class Weapon : public QWidget {
     Weapon(CS::Weapon *weapon, QWidget* parent);
     ~Weapon() = default;
 
+signals:
+    void rolled(int);
+
   private:
     CS::Weapon *weapon;
     QHBoxLayout layout;
-    QLineEdit nameEdit;
-    QLineEdit damageTypeEdit;
-    DiceEdit damageDiceEdit;
-    QSpinBox attackBonusEdit; // NOTE: this sould be computed automatically
+    QPushButton rollAttackBtn;
+    QPushButton rollDamageBtn;
 };
 
 } // namespace GameCS

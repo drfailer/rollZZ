@@ -1,4 +1,5 @@
 #include "bonusstat.h"
+#include "gamecs/gamecs.h"
 #include <iostream>
 
 namespace GameCS {
