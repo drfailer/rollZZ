@@ -1,5 +1,5 @@
-#ifndef GAMECS_COMPONENT_H
-#define GAMECS_COMPONENT_H
+#ifndef CSEDITOR_COMPONENT_H
+#define CSEDITOR_COMPONENT_H
 
 #include <QFrame>
 #include <QLabel>
@@ -9,7 +9,7 @@
 #include <QLineEdit>
 #include <QFormLayout>
 
-namespace GameCS {
+namespace Tools {
 
 class Component : public QFrame {
     Q_OBJECT
@@ -37,6 +37,6 @@ class Component : public QFrame {
     QHBoxLayout titleLyt;
 };
 
-} // end namespace GameCS
+} // end namespace Tools
 
 #endif // COMPONENT_H

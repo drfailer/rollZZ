@@ -119,7 +119,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cseditor/components/attacks.cpp src/app/widgets/cseditor/components/attacks.h
         src/app/widgets/cseditor/components/basicstat.cpp src/app/widgets/cseditor/components/basicstat.h
         src/app/widgets/cseditor/components/bonusstat.cpp src/app/widgets/cseditor/components/bonusstat.h
-        src/app/widgets/cseditor/components/component.cpp src/app/widgets/cseditor/components/component.h
         src/app/widgets/cseditor/components/descriptor.cpp src/app/widgets/cseditor/components/descriptor.h
         src/app/widgets/cseditor/components/equipment.cpp src/app/widgets/cseditor/components/equipment.h
         src/app/widgets/cseditor/components/item.cpp src/app/widgets/cseditor/components/item.h
@@ -132,7 +131,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/gamecs/components/attacks.cpp src/app/widgets/gamecs/components/attacks.h
         src/app/widgets/gamecs/components/basicstat.cpp src/app/widgets/gamecs/components/basicstat.h
         src/app/widgets/gamecs/components/bonusstat.cpp src/app/widgets/gamecs/components/bonusstat.h
-        src/app/widgets/gamecs/components/component.cpp src/app/widgets/gamecs/components/component.h
         src/app/widgets/gamecs/components/descriptor.cpp src/app/widgets/gamecs/components/descriptor.h
         src/app/widgets/gamecs/components/equipment.cpp src/app/widgets/gamecs/components/equipment.h
         src/app/widgets/gamecs/components/item.cpp src/app/widgets/gamecs/components/item.h
@@ -145,6 +143,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
         src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
+        src/app/widgets/tools/component.h src/app/widgets/tools/component.cpp
     )
 
 # target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

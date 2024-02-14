@@ -1,14 +1,14 @@
 #ifndef CSEDITOR_LISTSTAT_H
 #define CSEDITOR_LISTSTAT_H
 
-#include "component.h"
+#include "tools/component.h"
 #include "CS/liststat.h"
 
 namespace CSEditor {
 
 class SkillWgt;
 
-class ListStat : public Component
+class ListStat : public Tools::Component
 {
     Q_OBJECT
 public:

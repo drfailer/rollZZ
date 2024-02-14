@@ -1,7 +1,7 @@
 #ifndef GAMECS_EQUIPMENT_H
 #define GAMECS_EQUIPMENT_H
 
-#include "component.h"
+#include "tools/component.h"
 #include "CS/equipment.h"
 #include <QPushButton>
 #include <QList>
@@ -10,7 +10,7 @@ namespace GameCS {
 
 class Item;
 
-class Equipment : public Component {
+class Equipment : public Tools::Component {
     Q_OBJECT
 public:
     Equipment(CS::Equipment *equipment, QWidget* parent = nullptr);

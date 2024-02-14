@@ -1,18 +1,19 @@
 #include "cseditor/components/attacks.h"
 #include "cseditor/components/basicstat.h"
 #include "cseditor/components/bonusstat.h"
-#include "cseditor/components/component.h"
 #include "cseditor/components/descriptor.h"
 #include "cseditor/components/equipment.h"
 #include "cseditor/components/liststat.h"
+#include "tools/component.h"
 #include "cseditor/components/section.h"
+#include "CS/component.h"
 #include "CS/section.h"
 #include <QPalette>
 
 namespace CSEditor {
 
 Section::Section(CS::Section* section, QWidget *parent):
-    Component(section->getTitle(), parent),
+    Tools::Component(section->getTitle(), parent),
     section(section)
 {
     setStyleSheet("QLabel { font-size: 18px; }"

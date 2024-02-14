@@ -8,7 +8,7 @@ namespace GameCS {
 /******************************************************************************/
 
 BasicStat::BasicStat(CS::BasicStat *basicStat, QWidget *parent):
-    Component(basicStat->getTitle(), parent),
+    Tools::Component(basicStat->getTitle(), parent),
     basicStat(basicStat)
 {
     bodyAdd("Value:", new QLabel(QString::number(basicStat->getValue()), this));

@@ -1,12 +1,12 @@
 #ifndef GAMECS_DESCRIPTOR_H
 #define GAMECS_DESCRIPTOR_H
 
-#include "component.h"
+#include "tools/component.h"
 #include "CS/descriptor.h"
 
 namespace GameCS {
 
-class Descriptor : public Component
+class Descriptor : public Tools::Component
 {
     Q_OBJECT
 public:

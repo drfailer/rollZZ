@@ -10,7 +10,7 @@ namespace  GameCS {
 /******************************************************************************/
 
 ListStat::ListStat(CS::ListStat *listStat, QWidget *parent):
-    Component(listStat->getTitle(), parent),
+    Tools::Component(listStat->getTitle(), parent),
     listStat(listStat)
 {
     setStyleSheet("QLabel { font-size: 18px; }"

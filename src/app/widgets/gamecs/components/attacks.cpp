@@ -1,7 +1,7 @@
 #include "gamecs/components/attacks.h"
 
 #include "gamecs/components/weapon.h"
-#include "component.h"
+#include "tools/component.h"
 #include <QPushButton>
 #include "CS/weapon.h"
 
@@ -12,7 +12,7 @@ namespace GameCS {
 /******************************************************************************/
 
 Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
-    Component(attacks->getTitle(), parent),
+    Tools::Component(attacks->getTitle(), parent),
     attacks(attacks)
 {
     // add weapons

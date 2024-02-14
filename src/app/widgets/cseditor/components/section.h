@@ -1,7 +1,7 @@
 #ifndef CSEDITOR_SECTION_H
 #define CSEDITOR_SECTION_H
 
-#include "cseditor/components/component.h"
+#include "tools/component.h"
 #include "CS/section.h"
 
 #include <QComboBox>
@@ -21,7 +21,7 @@ class Descriptor;
 class Equipment;
 class Attacks;
 
-class Section : public Component
+class Section : public Tools::Component
 {
     Q_OBJECT
 public:

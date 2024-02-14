@@ -8,7 +8,7 @@ namespace CSEditor {
 /******************************************************************************/
 
 BasicStat::BasicStat(CS::BasicStat *basicStat, QWidget *parent):
-    Component(basicStat->getTitle(), parent),
+    Tools::Component(basicStat->getTitle(), parent),
     valueEdit(this),
     basicStat(basicStat)
 {

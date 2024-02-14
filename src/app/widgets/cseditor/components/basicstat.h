@@ -2,7 +2,7 @@
 #define CSEDITOR_BASICSTAT_H
 
 #include "CS/basicstat.h"
-#include "component.h"
+#include "tools/component.h"
 
 #include <QLabel>
 #include <QWidget>
@@ -12,7 +12,7 @@
 
 namespace CSEditor {
 
-class BasicStat : public Component
+class BasicStat : public Tools::Component
 {
     Q_OBJECT
 public:

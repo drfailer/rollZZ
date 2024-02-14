@@ -1,14 +1,14 @@
 #ifndef GAMECS_LISTSTAT_H
 #define GAMECS_LISTSTAT_H
 
-#include "component.h"
+#include "tools/component.h"
 #include "CS/liststat.h"
 
 namespace GameCS {
 
 class SkillWgt;
 
-class ListStat : public Component
+class ListStat : public Tools::Component
 {
     Q_OBJECT
 public:

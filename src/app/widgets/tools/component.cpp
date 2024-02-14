@@ -1,6 +1,6 @@
-#include "component.h"
+#include "tools/component.h"
 
-namespace GameCS {
+namespace Tools {
 
 /******************************************************************************/
 /*                                constructor                                 */
@@ -38,4 +38,4 @@ void Component::bodyInsert(int index, QWidget *wgt) {
     bodyLyt.insertRow(index, wgt);
 }
 
-} // end namespace GameCS
+} // end namespace Tools

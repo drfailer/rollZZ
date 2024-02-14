@@ -1,6 +1,6 @@
 #include "cseditor/components/equipment.h"
 #include "CS/item.h"
-#include "cseditor/components/component.h"
+#include "tools/component.h"
 #include "cseditor/components/item.h"
 #include <QPushButton>
 
@@ -11,7 +11,7 @@ namespace CSEditor {
 /******************************************************************************/
 
 Equipment::Equipment(CS::Equipment *equipment, QWidget *parent)
-    : Component(equipment->getTitle(), parent), equipment(equipment),
+    : Tools::Component(equipment->getTitle(), parent), equipment(equipment),
       addItemBtn("add item") {
     bodyAdd(&addItemBtn);
 

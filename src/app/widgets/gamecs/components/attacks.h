@@ -2,13 +2,13 @@
 #define GAMECS_ATTACKS_H
 
 #include "CS/attacks.h"
-#include "component.h"
+#include "tools/component.h"
 #include <QSpinBox>
 #include <QList>
 
 namespace GameCS {
 
-class Attacks : public Component
+class Attacks : public Tools::Component
 {
     Q_OBJECT
 public:

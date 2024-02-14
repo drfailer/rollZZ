@@ -1,7 +1,7 @@
 #include "gamecs/components/attacks.h"
 #include "gamecs/components/basicstat.h"
 #include "gamecs/components/bonusstat.h"
-#include "gamecs/components/component.h"
+#include "tools/component.h"
 #include "gamecs/components/descriptor.h"
 #include "gamecs/components/equipment.h"
 #include "gamecs/components/liststat.h"
@@ -12,7 +12,7 @@
 namespace GameCS {
 
 Section::Section(CS::Section* section, QWidget *parent):
-    Component(section->getTitle(), parent),
+    Tools::Component(section->getTitle(), parent),
     section(section)
 {
     setStyleSheet("QLabel { font-size: 18px; }"

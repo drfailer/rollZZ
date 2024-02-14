@@ -1,13 +1,12 @@
 #ifndef CSEDITOR_DESCRIPTOR_H
 #define CSEDITOR_DESCRIPTOR_H
 
-#include "component.h"
+#include "tools/component.h"
 #include "CS/descriptor.h"
-#include <QTextEdit>
 
 namespace CSEditor {
 
-class Descriptor : public Component
+class Descriptor : public Tools::Component
 {
     Q_OBJECT
 public:
