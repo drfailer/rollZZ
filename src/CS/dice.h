@@ -2,6 +2,7 @@
 #define CS_DICE_H
 
 #include "serializer.hpp"
+#include <QString>
 
 class Dice {
     SERIALIZABLE(int, int);
@@ -19,6 +20,10 @@ class Dice {
     void setFaces(int newfaces) { faces = newfaces; }
     int getDiceNumber() const { return diceNumber; }
     void setDiceNumber(int newDiceNumber) { diceNumber = newDiceNumber; }
+    QString toString() const {
+    return QString::number(diceNumber) + "d" +
+           QString::number(faces);
+    }
 
   private:
     int faces;
