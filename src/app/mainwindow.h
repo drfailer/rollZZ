@@ -1,10 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QPushButton>
 #include "cs.h"
 #include "widgets/gamelist.h"
+#include "widgets/map/mapwidget.h"
+#include <QMainWindow>
 #include "cseditor/cseditor.h"
 #include "cscreator/cscreator.h"
 
@@ -27,6 +28,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     GameList *gameList;
+    MapWidget* mapWidget;
     CSCreator::CSCreator *csCreator = nullptr;
     CSEditor::CSEditor *csEditor = nullptr;
     CS::CS CSTree;

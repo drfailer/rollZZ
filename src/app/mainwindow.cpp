@@ -61,8 +61,8 @@ void MainWindow::initMenu() {
 
 void MainWindow::initGames() {
     // TODO: use the games of a real player (needs palyer class)
-    gameList = new GameList({ "Meilleur MJ", "MJ bauf mais ça passe encore"}, ui->gamesList);
-    // gameList = new GameList({}, ui->gamesList);
+    gameList = new GameList({ new map::Game("Meilleur MJ"), new map::Game("MJ bauf mais ça passe encore")},ui->gamesList);
+    connect(gameList,&GameList::setGame,this,[&](map::Game* gameToLaunch){mapWidget = new MapWidget(ui->playerBoardPage,gameToLaunch->getMap()); goToPage(ui->playerBoardPage);});
 }
 
 /******************************************************************************/

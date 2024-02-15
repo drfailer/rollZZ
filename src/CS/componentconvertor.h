@@ -7,7 +7,7 @@
 #include "descriptor.h"
 #include "equipment.h"
 #include "liststat.h"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "serializer.hpp"
 
 struct ComponentConvertor {

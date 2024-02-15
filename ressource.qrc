@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/ressources/tiles">
+        <file alias="wall">ressources/tiles/wall.png</file>
+    </qresource>
+</RCC>

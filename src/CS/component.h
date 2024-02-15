@@ -3,7 +3,7 @@
 
 #include <QString>
 #include "serializer.hpp"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 
 namespace CS {
 

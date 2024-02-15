@@ -15,6 +15,8 @@ add_compile_options(-Wall -Wextra -g -Wuninitialized)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+make_directory($ENV{HOME}/.local/resources)
+
 ################################################################################
 #                                   mongocxx                                   #
 ################################################################################
@@ -51,6 +53,15 @@ if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/serializer/)
 endif()
 
+
+################################################################################
+#                                  serializer                                  #
+################################################################################
+
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/serializer-cpp/serializer/)
+endif()
+
 ################################################################################
 #                                      Qt                                      #
 ################################################################################
@@ -65,12 +76,14 @@ set(PROJECT_SOURCES
 )
 
 include_directories(
+    src/map/
     src/
     src/tools/widgets/
     src/tools/
     src/CS/
     src/app/
     src/app/widgets/
+    src/app/widgets/map
     src/app/widgets/cscreator/
     src/app/widgets/cscreator/popup/
     src/app/widgets/cscreator/components/
@@ -79,7 +92,14 @@ include_directories(
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(rollZZ
         MANUAL_FINALIZATION
+        ressource.qrc
         ${PROJECT_SOURCES}
+        src/map/game.h  src/map/game.cpp
+        src/map/map.h  src/map/map.cpp
+        src/map/mapelement.h src/map/mapelement.cpp
+        src/app/widgets/map/mapwidget.h src/app/widgets/map/mapwidget.cpp
+        src/app/widgets/map/mapgraphicsview.h src/app/widgets/map/mapgraphicsview.cpp
+        src/app/widgets/map/mapelementwidget.h src/app/widgets/map/mapelementwidget.cpp
         src/app/widgets/gamelist.h src/app/widgets/gamelist.cpp
         # cs
         src/CS/cs.h src/CS/cs.cpp
@@ -139,6 +159,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/gamecs/components/section.cpp src/app/widgets/gamecs/components/section.h
         src/app/widgets/gamecs/components/weapon.cpp src/app/widgets/gamecs/components/weapon.h
         src/app/widgets/gamecs/gamecs.cpp src/app/widgets/gamecs/gamecs.h
+        # map
+        src/app/widgets/map/mapgraphicsitem.h src/app/widgets/map/mapgraphicsitem.cpp
+        src/app/widgets/map/handle.h src/app/widgets/map/handle.cpp
+        src/app/widgets/map/mapgraphicsscene.h src/app/widgets/map/mapgraphicsscene.cpp
+        src/app/widgets/map/mapscrollarea.h src/app/widgets/map/mapscrollarea.cpp
+        src/app/widgets/map/layerselection.h src/app/widgets/map/layerselection.cpp
         # tools
         src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp

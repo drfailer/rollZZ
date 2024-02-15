@@ -2,7 +2,7 @@
 #define CS_WEAPON_H
 
 #include "dice.h"
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "serializer.hpp"
 
 #include <QString>

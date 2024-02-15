@@ -1,5 +1,6 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #include <QString>
 
 extern const QString DATA_DIRECTORY;
@@ -7,4 +8,4 @@ extern const QString CONFIG_DIRECTORY;
 extern const QString TEMPLATE_DIRECTORY;
 extern const QString CS_DIRECTORY;
 
-#endif
+#endif // CONFIG_H

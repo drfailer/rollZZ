@@ -1,10 +1,13 @@
 #include "gamelist.h"
 #include "gamecs/gamecs.h"
-
+#include <QMainWindow>
 #include <QPushButton>
-#include <QDir>
+#include <exception>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
 
-GameList::GameList(const QList<QString>& games, QWidget *parent):
+GameList::GameList(const QList<map::Game*>& games, QWidget *parent):
     QWidget(parent),
     games(games)
 {
@@ -16,14 +19,11 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
     } else {
         // marche pas et je ne comprends pas pk
         layout.setAlignment(Qt::AlignHCenter|Qt::AlignTop);
-        for (const QString& elt : games) {
-            QPushButton *btn = new QPushButton(elt);
+        for (map::Game* elt : games) {
+            QPushButton* btn = new QPushButton(elt->getName());
             layout.addWidget(btn);
-            connect(btn, &QPushButton::clicked, this, [&]() {
-                    CSTree.load(QDir::homePath() + "/.local/share/rollZZ/cs/Talion");
-                    gameCS = new GameCS::GameCS("file", &CSTree);
-                    gameCS->show();
-                });
+            connect(btn, &QPushButton::clicked, this, [=](){emit setGame(elt);});
+            // TODO: change the stylesheet
         }
     }
 }
@@ -31,3 +31,4 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
 GameList::~GameList()
 {
 }
+
