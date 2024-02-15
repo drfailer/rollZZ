@@ -1,17 +1,16 @@
-#ifndef CSEDITOR_EQUIPMENT_H
-#define CSEDITOR_EQUIPMENT_H
+#ifndef GAMECS_EQUIPMENT_H
+#define GAMECS_EQUIPMENT_H
 
 #include "tools/component.h"
 #include "CS/equipment.h"
 #include <QPushButton>
 #include <QList>
 
-namespace CSEditor {
+namespace GameCS {
 
 class Item;
 
-class Equipment : public Tools::Component
-{
+class Equipment : public Tools::Component {
     Q_OBJECT
 public:
     Equipment(CS::Equipment *equipment, QWidget* parent = nullptr);
@@ -32,6 +31,6 @@ private:
     void insertAndConnectItem(CS::Item *item, Item* newItemWgt);
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // EQUIPMENT_H

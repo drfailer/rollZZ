@@ -1,9 +1,9 @@
-#include "cseditor/components/liststat.h"
+#include "gamecs/components/liststat.h"
 
 #include "CS/liststat.h"
-#include "cseditor/components/caracteristic.h"
+#include "gamecs/components/caracteristic.h"
 
-namespace  CSEditor {
+namespace  GameCS {
 
 /******************************************************************************/
 /*                         constructors & destructors                         */
@@ -27,4 +27,4 @@ ListStat::~ListStat()
 {
 }
 
-} // end namespace CSEditor
+} // end namespace GameCS

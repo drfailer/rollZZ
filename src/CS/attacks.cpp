@@ -12,7 +12,6 @@ Attacks::Attacks(int _maxWeaponNb, const QString title):
     SERIALIZER(maxWeaponNb, weapons),
     maxWeaponNb(_maxWeaponNb)
 {
-
 }
 
 Attacks::~Attacks() {

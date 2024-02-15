@@ -1,4 +1,6 @@
 #include "cseditor/components/descriptor.h"
+#include <QTextEdit>
+#include <QLineEdit>
 
 namespace CSEditor {
 
@@ -7,7 +9,7 @@ namespace CSEditor {
 /******************************************************************************/
 
 Descriptor::Descriptor(CS::Descriptor *descriptor, QWidget *parent)
-    : Component(descriptor->getTitle(), parent), descriptor(descriptor) {
+    : Tools::Component(descriptor->getTitle(), parent), descriptor(descriptor) {
     switch (descriptor->getType()) {
     case CS::DescriptorTypes::ONELINE: {
         QLineEdit *contentEdit = new QLineEdit(this);

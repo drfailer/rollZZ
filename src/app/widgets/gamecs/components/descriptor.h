@@ -1,10 +1,10 @@
-#ifndef CSEDITOR_DESCRIPTOR_H
-#define CSEDITOR_DESCRIPTOR_H
+#ifndef GAMECS_DESCRIPTOR_H
+#define GAMECS_DESCRIPTOR_H
 
 #include "tools/component.h"
 #include "CS/descriptor.h"
 
-namespace CSEditor {
+namespace GameCS {
 
 class Descriptor : public Tools::Component
 {
@@ -16,6 +16,6 @@ private:
     CS::Descriptor *descriptor = nullptr;
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // DESCRIPTOR_H

@@ -1,16 +1,13 @@
-#ifndef CSEDITOR_BASICSTAT_H
-#define CSEDITOR_BASICSTAT_H
+#ifndef GAMECS_BASICSTAT_H
+#define GAMECS_BASICSTAT_H
 
 #include "CS/basicstat.h"
 #include "tools/component.h"
 
-#include <QLabel>
 #include <QWidget>
-#include <dice.h>
-#include <QSpinBox>
 #include <QBoxLayout>
 
-namespace CSEditor {
+namespace GameCS {
 
 class BasicStat : public Tools::Component
 {
@@ -20,10 +17,9 @@ public:
     virtual ~BasicStat() {}
 
 protected:
-    QSpinBox valueEdit;
     CS::BasicStat *basicStat = nullptr;
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // BASICSTAT_H

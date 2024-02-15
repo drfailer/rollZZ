@@ -1,16 +1,15 @@
-#include "cseditor/components/attacks.h"
-#include "cseditor/components/basicstat.h"
-#include "cseditor/components/bonusstat.h"
-#include "cseditor/components/descriptor.h"
-#include "cseditor/components/equipment.h"
-#include "cseditor/components/liststat.h"
+#include "gamecs/components/attacks.h"
+#include "gamecs/components/basicstat.h"
+#include "gamecs/components/bonusstat.h"
 #include "tools/component.h"
-#include "cseditor/components/section.h"
-#include "CS/component.h"
+#include "gamecs/components/descriptor.h"
+#include "gamecs/components/equipment.h"
+#include "gamecs/components/liststat.h"
+#include "gamecs/components/section.h"
 #include "CS/section.h"
 #include <QPalette>
 
-namespace CSEditor {
+namespace GameCS {
 
 Section::Section(CS::Section* section, QWidget *parent):
     Tools::Component(section->getTitle(), parent),

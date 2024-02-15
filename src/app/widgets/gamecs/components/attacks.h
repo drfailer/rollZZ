@@ -1,12 +1,12 @@
-#ifndef CSEDITOR_ATTACKS_H
-#define CSEDITOR_ATTACKS_H
+#ifndef GAMECS_ATTACKS_H
+#define GAMECS_ATTACKS_H
 
 #include "CS/attacks.h"
 #include "tools/component.h"
 #include <QSpinBox>
 #include <QList>
 
-namespace CSEditor {
+namespace GameCS {
 
 class Attacks : public Tools::Component
 {
@@ -21,6 +21,6 @@ private:
     void addWeapon(CS::Weapon *weapon);
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // ATTACKS_H

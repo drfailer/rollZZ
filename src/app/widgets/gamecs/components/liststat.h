@@ -1,10 +1,10 @@
-#ifndef CSEDITOR_LISTSTAT_H
-#define CSEDITOR_LISTSTAT_H
+#ifndef GAMECS_LISTSTAT_H
+#define GAMECS_LISTSTAT_H
 
 #include "tools/component.h"
 #include "CS/liststat.h"
 
-namespace CSEditor {
+namespace GameCS {
 
 class SkillWgt;
 
@@ -19,6 +19,6 @@ private:
     CS::ListStat *listStat = nullptr;
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // LISTSTAT_H

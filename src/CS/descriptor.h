@@ -2,7 +2,7 @@
 #define CS_DESCRIPTOR_H
 
 #include "component.h"
-#include "descriptortypes.h"
+#include "CS/descriptortypes.h"
 #include <QString>
 
 namespace CS {

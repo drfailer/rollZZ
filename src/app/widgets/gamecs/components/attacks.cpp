@@ -1,11 +1,11 @@
-#include "cseditor/components/attacks.h"
+#include "gamecs/components/attacks.h"
 
-#include "cseditor/components/weapon.h"
+#include "gamecs/components/weapon.h"
 #include "tools/component.h"
 #include <QPushButton>
 #include "CS/weapon.h"
 
-namespace CSEditor {
+namespace GameCS {
 
 /******************************************************************************/
 /*                          constructor & destructor                          */
@@ -35,4 +35,4 @@ void Attacks::addWeapon(CS::Weapon *weapon) {
 
 // TODO: remove weapons
 
-} // end namespace CSEditor
+} // end namespace GameCS
