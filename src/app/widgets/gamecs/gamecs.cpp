@@ -4,7 +4,6 @@
 #include <CS/part.h>
 #include <QTabWidget>
 #include <QScrollArea>
-#include <iostream>
 
 namespace GameCS {
 
@@ -15,12 +14,14 @@ GameCS::GameCS(const QString& csFile, CS::CS *CSTree):
     QWidget(nullptr),
     contentLyt(new QVBoxLayout(this)),
     tabWgt(new QTabWidget(this)),
+    saveBtn(new QPushButton("save", this)),
     CSTree(CSTree),
     csFile(csFile)
 {
     // add the tabWgt in the page
     setLayout(contentLyt);
     contentLyt->addWidget(tabWgt);
+    contentLyt->addWidget(saveBtn);
     tabWgt->setMovable(false);
     tabWgt->setTabPosition(QTabWidget::South);
 
@@ -32,6 +33,11 @@ GameCS::GameCS(const QString& csFile, CS::CS *CSTree):
     setContentsMargins(0, 0, 0, 0);
     contentLyt->setContentsMargins(0, 0, 0, 0);
     setStyleSheet("background-color: rgb(27, 27, 27); color: rgb(242, 242, 242);");
+
+    // connect save button
+    connect(saveBtn, &QPushButton::clicked, this, [&]() {
+        CSTree->save(csFile);
+    });
 }
 
 GameCS::~GameCS() {

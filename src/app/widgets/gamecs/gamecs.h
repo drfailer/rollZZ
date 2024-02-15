@@ -32,6 +32,7 @@ private:
     /* elements on the page ***************************************************/
     QVBoxLayout *contentLyt;
     QTabWidget *tabWgt;
+    QPushButton *saveBtn;
 
     /* cs tree ****************************************************************/
     CS::CS* CSTree = nullptr;
