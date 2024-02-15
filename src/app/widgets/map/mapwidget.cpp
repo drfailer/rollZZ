@@ -1,13 +1,13 @@
 #include "mapwidget.h"
+#include "config.h"
+#include "cs.h"
+#include "gamecs/gamecs.h"
 
 MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
 {
   setAcceptDrops(true);
   sideMenu = new QWidget(this);
-  menu = new QWidget(this);
-  layoutMenu = new QVBoxLayout(menu);
   layoutGlobal = new QVBoxLayout(this);
-  layoutGlobal->addWidget(menu);
   layoutGlobal->addWidget(sideMenu);
 
   view = new MapGraphicsView(sideMenu);
@@ -29,14 +29,27 @@ MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
   layoutMenuMapElement->addWidget(layerSelection);
   layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
 
+  if (true) { // if player
+    QPushButton *csBtn = new QPushButton("character", this);
+    layoutMenuMapElement->addWidget(csBtn);
+    connect(csBtn, &QPushButton::clicked, this, [&]() {
+      if (cs == nullptr) {
+        cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
+        cs->show();
+      }
+    });
+  }
+
+  if (true) { // if Game Master or testing mode
+      QPushButton* buttonSave = new QPushButton("save", this);
+      layoutMenuMapElement->addWidget(buttonSave);
+      connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
+  }
+
   layoutSideMenu = new QBoxLayout(QBoxLayout::LeftToRight,sideMenu);
   layoutSideMenu->addWidget(menuMapElementSelection);
   layoutSideMenu->addWidget(view);
   layoutSideMenu->addWidget(menuItemOnMap);
-
-  QPushButton* buttonSave = new QPushButton("save",menu);
-  layoutMenu->addWidget(buttonSave);
-  connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
 
   labelForCursorDrag = new QLabel(this);
   labelForCursorDrag->move(-100,-100);
