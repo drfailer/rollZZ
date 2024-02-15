@@ -1,7 +1,7 @@
 #include "mapgraphicsscene.h"
 #include<iostream>
 
-MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), sceneSizeX(2500),sceneSizeY(2500),actualZValue(0)
+MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), actualZValue(0),sceneSizeX(2500),sceneSizeY(2500)
 {
   setSceneRect(0,0,sceneSizeX,sceneSizeY);
   QGraphicsItem *rectItem = new QGraphicsRectItem(0,0,sceneSizeX,sceneSizeY);
@@ -41,30 +41,22 @@ void MapGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   QByteArray byteArray = mimeData->data("map-element");
   QDataStream inStream(byteArray);
   MapElement* mapElementToDrop = new MapElement();
-  mapElementToDrop->setPos(scenePoint.x(),scenePoint.y());
   inStream >> mapElementToDrop;
+  mapElementToDrop->setPos(scenePoint.x()-mapElementToDrop->getSize().width()/2,scenePoint.y()-mapElementToDrop->getSize().height()/2);
+  mapElementToDrop->setLayer(actualZValue);
+
   event->accept();
-  insertNewGraphicsElement(mapElementToDrop,true);
+
+ insertNewGraphicsElement(mapElementToDrop);
 }
 
-void MapGraphicsScene::insertNewGraphicsElement(MapElement* mapElementToDrop,bool isNewELement)
+void MapGraphicsScene::insertNewGraphicsElement(MapElement* mapElementToDrop)
 {
-  MapGraphicsItem* el = nullptr;
-  int elementSizeX = mapElementToDrop->getOriginalPixMap().size().width(),
-      elementSizeY = mapElementToDrop->getOriginalPixMap().size().height();
-  QPointF scenePoint = mapElementToDrop->getPos();
+  MapGraphicsItem* el = new MapGraphicsItem(mapElementToDrop);
+  addItem(el);
+  connect(el,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
 
-
-  if(scenePoint.x() + elementSizeX/2 <= sceneSizeX && scenePoint.x() - elementSizeX/2 >= 0 && scenePoint.y() + elementSizeY/2 <= sceneSizeY && scenePoint.y() - elementSizeY/2 >= 0 )
-  {
-    el = new MapGraphicsItem(mapElementToDrop);
-    el->setZValue(actualZValue);
-    addItem(el);
-    el->setPos(scenePoint.x()-elementSizeX/2,scenePoint.y()-elementSizeY/2);
-    connect(el,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
-  }
-
-  emit dropEventSignal(el,isNewELement);
+  emit dropEventSignal(el);
 }
 
 void MapGraphicsScene::focusItem(MapGraphicsItem* el)
@@ -90,13 +82,8 @@ void MapGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
   {
     QGraphicsItem * item = itemAt(event->scenePos(),QTransform());
 
-    std::cout << "item " <<item << std::endl;
-
-    if(item) std::cout << " parent item " << item->parentItem() << std::endl;
-    std::cout << "selected item " << selectedItem << std::endl;
     if(selectedItem == item || (item && item->parentItem() == selectedItem))
     {
-    std::cout << "same or parent" << std::endl;
     }
     else if (selectedItem)
     {
@@ -112,7 +99,6 @@ void MapGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
   QGraphicsScene::mouseMoveEvent(event);
 }
-
 
 void MapGraphicsScene::deleteSelected()
 {

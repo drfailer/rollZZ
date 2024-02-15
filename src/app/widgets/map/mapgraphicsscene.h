@@ -19,16 +19,25 @@ class MapGraphicsScene: public QGraphicsScene
 public:
   MapGraphicsScene(QWidget* parent);
   qreal getScale() const;
-  void setActualZValue(int i){actualZValue = i; if(selectedItem) {selectedItem->setZValue(i); previousZValue = i;} }
+
+  void setActualZValue(int i){
+    actualZValue = i;
+    if(selectedItem) {
+      previousZValue = selectedItem->zValue();
+      selectedItem->setZValue(i);
+    }
+  }
+
   void dropEvent(QGraphicsSceneDragDropEvent *event);
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void deleteSelected();
-  void insertNewGraphicsElement(MapElement* mapElementToDrop,bool isNewEvent);
+  void insertNewGraphicsElement(MapElement* mapElementToDrop);
+
 signals:
-  void dropEventSignal(MapGraphicsItem* dropItem,bool isNewEvent);
+  void dropEventSignal(MapGraphicsItem* dropItem);
   void dragEnterEventSignal(QDragEnterEvent *event) ;
   void dragMoveEventSignal(QDragMoveEvent *event);
 public slots:

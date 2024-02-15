@@ -81,6 +81,7 @@ include_directories(
     src/tools/widgets/
     src/tools/
     src/CS/
+    src/game/
     src/app/
     src/app/widgets/
     src/app/widgets/map
@@ -94,7 +95,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ressource.qrc
         ${PROJECT_SOURCES}
-        src/map/game.h  src/map/game.cpp
+        src/game/game.h  src/game/game.cpp
         src/map/map.h  src/map/map.cpp
         src/map/mapelement.h src/map/mapelement.cpp
         src/app/widgets/map/mapwidget.h src/app/widgets/map/mapwidget.cpp
@@ -145,6 +146,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/init.cpp
         src/app/config.h
         src/app/config.cpp
+<<<<<<< HEAD
         src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
         src/app/widgets/cseditor/components/attacks.cpp src/app/widgets/cseditor/components/attacks.h
         src/app/widgets/cseditor/components/basicstat.cpp src/app/widgets/cseditor/components/basicstat.h
@@ -159,6 +161,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/cseditor/components/weapon.cpp src/app/widgets/cseditor/components/weapon.h
         src/app/widgets/cseditor/cseditor.cpp src/app/widgets/cseditor/cseditor.h
         src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
+=======
+        src/game/user.h src/game/user.cpp
+>>>>>>> features/map
     )
 
 # target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

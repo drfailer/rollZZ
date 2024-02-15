@@ -59,11 +59,17 @@ void MainWindow::initMenu() {
 /*                                 init games                                 */
 /******************************************************************************/
 
+<<<<<<< HEAD
 void MainWindow::initGames() {
     // TODO: use the games of a real player (needs palyer class)
     gameList = new GameList({ new map::Game("Meilleur MJ"), new map::Game("MJ bauf mais ça passe encore")},ui->gamesList);
     connect(gameList,&GameList::setGame,this,[&](map::Game* gameToLaunch){mapWidget = new MapWidget(ui->playerBoardPage,gameToLaunch->getMap()); goToPage(ui->playerBoardPage);});
 }
+=======
+    // TODO: use the games of a real player (needs player class)
+    gameList = new GameList({ new Game("Meilleur MJ"), new Game("MJ bauf mais ça passe encore")},ui->gamesList);
+    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(ui->playerBoardPage,gameToLaunch->getDefaultMap()); goToPage(ui->playerBoardPage);});
+>>>>>>> features/map
 
 /******************************************************************************/
 /*                               init CSCreator                               */

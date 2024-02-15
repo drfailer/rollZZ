@@ -4,19 +4,16 @@
 #include <QString>
 #include "map.h"
 
-namespace map
-{
 class Game
 {
 public:
     Game(QString name);
     QString getName() const;
-    Map* getMap() const;
+    Map* getDefaultMap() const;
 private:
-    QString name;
-    Map* map;
+  QString name;
+  std::vector<Map*> maps;
 };
 
 #endif // GAME_H
 
-}
