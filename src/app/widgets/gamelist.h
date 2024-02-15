@@ -4,18 +4,27 @@
 #include <QHBoxLayout>
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
+#include "game.h"
 
 class GameList : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GameList(const QList<QString>& games, QWidget *parent = nullptr);
+    explicit GameList(const QList<map::Game*>& games,QWidget *parent);
     ~GameList();
+
+public: signals:
+    // Useless parameters, since the parameters of the signal are given as paremters to the slots/lambda
+    // else we should create a signal in our game class,
+    // and call  QObject::sender() to retreive the class and the game value
+    void setGame(map::Game* game =nullptr);
+
 
 private:
     // TODO: we use string for testing but this will be real games (or at least,
     // we will build a list of buttons with the player's games)
-    QList<QString> games;
+    QList<map::Game*> games;
     QVBoxLayout layout;
 };
 

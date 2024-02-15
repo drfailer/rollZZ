@@ -2,6 +2,7 @@
 #define QTCONVERTOR_HPP
 #include "convertor.hpp"
 #include <QString>
+#include <QSize>
 
 // TODO rename
 struct QtConvertor {
@@ -14,6 +15,21 @@ struct QtConvertor {
         oss << "\"" << elt.toStdString() << "\"";
         return oss.str();
     }
+
+  deserialize_custom_type(QSize, const std::string& str) {
+    int first,second;
+    std::stringstream ss(str);
+    char _;
+    ss >> _ >> first >> _ >> second >> _;
+
+    return QSize(first,second);
+  }
+
+  serialize_custom_type(const QSize &elt) {
+    std::ostringstream oss;
+    oss << "\(" << elt.width() << ":" << elt.height() << ")\"";
+    return oss.str();
+  }
 
     CONVERTOR;
 };

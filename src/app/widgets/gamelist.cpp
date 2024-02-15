@@ -1,8 +1,14 @@
 #include "gamelist.h"
 
-#include <QPushButton>
 
-GameList::GameList(const QList<QString>& games, QWidget *parent):
+#include <QMainWindow>
+#include <QPushButton>
+#include <exception>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+GameList::GameList(const QList<map::Game*>& games, QWidget *parent):
     QWidget(parent),
     games(games)
 {
@@ -14,9 +20,10 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
     } else {
         // marche pas et je ne comprends pas pk
         layout.setAlignment(Qt::AlignHCenter|Qt::AlignTop);
-        for (const QString& elt : games) {
-            layout.addWidget(new QPushButton(elt));
-            // TODO: connect button
+        for (map::Game* elt : games) {
+            QPushButton* btn = new QPushButton(elt->getName());
+            layout.addWidget(btn);
+            connect(btn, &QPushButton::clicked, this, [=](){emit setGame(elt);});
             // TODO: change the stylesheet
         }
     }
@@ -25,3 +32,4 @@ GameList::GameList(const QList<QString>& games, QWidget *parent):
 GameList::~GameList()
 {
 }
+

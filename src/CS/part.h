@@ -1,7 +1,7 @@
 #ifndef CS_PART_H
 #define CS_PART_H
 
-#include "qtconvertor.h"
+#include "tools/qtconvertor.h"
 #include "section.h"
 
 #include <QList>
