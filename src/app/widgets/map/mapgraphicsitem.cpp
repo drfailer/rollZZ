@@ -5,20 +5,21 @@
 MapGraphicsItem::MapGraphicsItem(MapElement* mapElement,QGraphicsItem* parent):QGraphicsObject(parent),mapElement(mapElement)
 {
   QPixmap pixmap = mapElement->getOriginalPixMap();
-  borderRect = QRectF(-borderSize/2,-borderSize/2, pixmap.width()+borderSize, pixmap.height()+borderSize);
+  borderRect = QRectF(0,0, mapElement->getSize().width(), mapElement->getSize().height());
   scaleHandles = QVector<Handle*>(5);
-  setFlags(QGraphicsItem::ItemIsSelectable|
-           QGraphicsItem::ItemIsMovable);
-  setAcceptHoverEvents(true);
 
+  setRotation(mapElement->getRotation());
+  setPos(mapElement->getPos());
+  setZValue(mapElement->getLayer());
+
+  setFlags(QGraphicsItem::ItemIsSelectable|
+           QGraphicsItem::ItemIsMovable|
+           QGraphicsItem::ItemSendsGeometryChanges);
+  setAcceptHoverEvents(true);
 }
 
 QRectF MapGraphicsItem::boundingRect() const
-{
-  // Can have a problem with the border, seem the border don't contain everything when we zoom a lot, no problem is we stay on pixmap.rect()
-  // I think it come from the fact that rect width grow when we zoom;
-  return borderRect;
-}
+{return borderRect;}
 
 void MapGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr)
 {
@@ -27,6 +28,7 @@ void MapGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
   QPixmap pixmap = mapElement->getOriginalPixMap();
   painter->drawPixmap(borderRect, pixmap,pixmap.rect());
+
   if (isSelected())
   {
     QPen pen = QPen(Qt::cyan);
@@ -39,10 +41,9 @@ void MapGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
 void MapGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-  if(event->buttons()== Qt::LeftButton)
-  {
-      setSelected(true);
-  }
+  if(event->buttons()== Qt::LeftButton)  
+    setSelected(true);
+
   QGraphicsObject::mousePressEvent(event);
 }
 
@@ -64,18 +65,14 @@ void MapGraphicsItem::setSelected(bool b)
   scaleHandles[4]= new Handle(this,ROTATE);
   scaleHandles[4]->setPos(border.center().x(),border.topLeft().y()-20);
 
-
   for(Handle* handle : scaleHandles)
-  {
-      connect(handle,&Handle::mousePressSignal,this,&MapGraphicsItem::prepareForRescale);
-      connect(handle,&Handle::mouseMoveSignal,this,&MapGraphicsItem::rescale);
-  }
+    connect(handle,&Handle::mouseMoveSignal,this,&MapGraphicsItem::rescale);
 
   selected = true;
   emit mousePressedSignal(this);
   }
   else
-  emit mousePressedSignal(nullptr);
+    emit mousePressedSignal(nullptr);
 }
 
 void MapGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -90,83 +87,82 @@ void MapGraphicsItem::unselected()
     delete h;
 }
 
-void MapGraphicsItem::prepareForRescale(QPointF scenePos)
+void MapGraphicsItem::setSize()
 {
-  std::cout << "prepareforrescale" << std::endl;
-  resizing = true;
+  mapElement->setSize(borderRect.size().width(),borderRect.size().height());
 }
 
 void MapGraphicsItem::rescale(QPointF newPosition,CORNER corner)
 {
-    if (resizing)
-    {
-    QPointF posInItem = mapFromScene(newPosition);
+  QPointF posInItem = mapFromScene(newPosition);
+  QLineF line;
+  double rotations;
 
-    QLineF line;
-    double rotations;
+  switch (corner)
+  {
+  case TOP_LEFT:
+    if(posInItem.x() < borderRect.right() && posInItem.y() < borderRect.bottom()) {
+      borderRect.setTopLeft(posInItem);
+      setSize();}
+    break;
+  case TOP_RIGHT:
+    if(posInItem.x() > borderRect.x() && posInItem.y() < borderRect.bottom()) {
+      borderRect.setTopRight(posInItem);
+      setSize();}
+    break;
+  case BOTTOM_RIGHT:
+    if(posInItem.x() > borderRect.x() && posInItem.y() > borderRect.y()) {
+      borderRect.setBottomRight(posInItem);
+      setSize(); }
+    break;
+  case BOTTOM_LEFT:
+    if(posInItem.x() < borderRect.right() && posInItem.y() > borderRect.y()) {
+      borderRect.setBottomLeft(posInItem);
+      setSize();}
+    break;
+    // Strange effect rotation after scaling
+  case ROTATE:
+    line = QLine(borderRect.center().toPoint(), posInItem.toPoint());
+    rotations = line.angleTo(QLineF(0, 0, 0, -1)) + rotation();
+    setTransformOriginPoint(borderRect.center());
+    setRotation(rotations);
+    break;
+  default:
+    break;
+  }
 
-    // Not exactly the right coordinate (we can squeeze more bottom right than top left
-    // not urgent to change it
-    switch (corner)
-    {
-    case TOP_LEFT:
-      if(posInItem.x() < borderRect.width() && posInItem.y() < borderRect.height())
-        borderRect.setTopLeft(posInItem);
-      break;
-    case TOP_RIGHT:
-      if(posInItem.x() > borderRect.x() && posInItem.y() < borderRect.height())
-        borderRect.setTopRight(posInItem);
-      break;
-    case BOTTOM_RIGHT:
-      if(posInItem.x() > borderRect.x() && posInItem.y() > borderRect.y())
-        borderRect.setBottomRight(posInItem);
-      break;
-    case BOTTOM_LEFT:
-      if(posInItem.x() < borderRect.y() && posInItem.y() > borderRect.y())
-        borderRect.setBottomLeft(posInItem);
-      break;
-    case ROTATE:
-      line = QLine(borderRect.center().toPoint(), posInItem.toPoint());
-      rotations = line.angleTo(QLineF(0, 0, 0, -1));
+  prepareGeometryChange();
+  update();
 
-      qDebug() << "rotations " << rotations;
-      // idk why, but the first input always turn 90 left
-
-      setTransformOriginPoint(borderRect.center());
-      setRotation(rotation() + rotations);
-
-      qDebug() << "transformOriginPoint()" << transformOriginPoint();
-      qDebug() << "sceneBoundingRect()" << sceneBoundingRect();
-      break;
-    default:
-      break;
-    }
-
-    prepareGeometryChange();
-    update();
-
-    QRectF border = boundingRect();
-    scaleHandles[0]->setPos(border.topLeft());
-    scaleHandles[1]->setPos(border.topRight());
-    scaleHandles[2]->setPos(border.bottomRight());
-    scaleHandles[3]->setPos(border.bottomLeft());
-    scaleHandles[4]->setPos(border.center().x(),border.topLeft().y()-20);
-    }
+  QRectF border = boundingRect();
+  scaleHandles[0]->setPos(border.topLeft());
+  scaleHandles[1]->setPos(border.topRight());
+  scaleHandles[2]->setPos(border.bottomRight());
+  scaleHandles[3]->setPos(border.bottomLeft());
+  scaleHandles[4]->setPos(border.center().x(),border.topLeft().y()-20);
 }
-
 
 void MapGraphicsItem::endRescale()
 {
     prepareGeometryChange();
     update();
-    resizing = false;
 }
-
-
 
 MapGraphicsItem::~MapGraphicsItem()
 {
   for(Handle* h: scaleHandles)
     delete h;
+}
+
+QVariant MapGraphicsItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+  //std::cout << "changement: " << change << std::endl;
+  if (change == ItemPositionHasChanged) {
+    QPointF newPos = value.toPointF();
+    mapElement->setPos(newPos.x(),newPos.y());
+  }
+  if(change == ItemRotationHasChanged)
+    mapElement->setRotate(value.toFloat());
+  return QGraphicsItem::itemChange(change, value);
 }
 

@@ -11,12 +11,8 @@
 #include "mapscrollarea.h"
 #include "layerselection.h"
 
-#define PIXMAP_MENU_SIZE 128
-
 /*
  * TODO
- * - clean all code
- * - save also position and rotation of mapElement
  * - generalize save and load
  **/
 
@@ -27,13 +23,14 @@ public:
     MapWidget(QWidget *parent = nullptr, Map* map = {});
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
+    void dropEvent(QDropEvent *) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void addNewItem(MapGraphicsItem* itemDrop,bool isNewElement);
+    void addNewItem(MapGraphicsItem* itemDrop);
     ~MapWidget() {/*TODO*/}
   public slots:
-    void drop(MapGraphicsItem* dropItem,bool isNewElement);
+    void drop(MapGraphicsItem* dropItem);
     void saveMap();
+
   private:
     MapGraphicsView* view;
     QWidget* menu;
@@ -48,7 +45,7 @@ public:
     MapScrollArea* scrollAreaMapElementSelection;
     MapScrollArea* menuItemOnMap;
     LayerSelection* layerSelection;
-
+    bool loading;
 };
 
 #endif // MAPWIDGET_H
