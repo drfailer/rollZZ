@@ -21,13 +21,16 @@ Weapon::Weapon(Dice attackDice, Dice damageDice, int attackBonus, int damageBonu
     CS::Weapon::Weapon("none", "none", attackDice, damageDice, attackBonus, damageBonus, range, weight)
 { }
 
-int Weapon::rollAttack() const
-{
-    return attackDice.roll() + attackBonus;
+int Weapon::rollAttack() const {
+    int result = attackDice.roll() + attackBonus;
+
+    if (result > 0) {
+        result += attackBonus;
+    }
+    return result;
 }
 
-int Weapon::rollDamage() const
-{
+int Weapon::rollDamage() const {
     return damageDice.roll() + damageBonus;
 }
 

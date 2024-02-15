@@ -13,7 +13,7 @@ class Weapon {
   public:
     /* constructors ***********************************************************/
     Weapon(const QString &name = "name", const QString &damageType = "none",
-           Dice attackDice = Dice(), Dice damageDice = Dice(6, 1), int = 0,
+           Dice attackDice = Dice(20, 1), Dice damageDice = Dice(6, 1), int = 0,
            int = 0, int = 0, int = 0);
     Weapon(Dice, Dice, int = 0, int = 0, int = 0, int = 0);
 
