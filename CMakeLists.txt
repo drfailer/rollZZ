@@ -81,6 +81,7 @@ include_directories(
     src/tools/widgets/
     src/tools/
     src/CS/
+    src/game/
     src/app/
     src/app/widgets/
     src/app/widgets/map
@@ -94,7 +95,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ressource.qrc
         ${PROJECT_SOURCES}
-        src/map/game.h  src/map/game.cpp
+        src/game/game.h  src/game/game.cpp
         src/map/map.h  src/map/map.cpp
         src/map/mapelement.h src/map/mapelement.cpp
         src/app/widgets/map/mapwidget.h src/app/widgets/map/mapwidget.cpp
@@ -170,6 +171,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
         src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
         src/app/widgets/tools/component.h src/app/widgets/tools/component.cpp
+        # user
+        src/game/user.h src/game/user.cpp
     )
 
 # target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

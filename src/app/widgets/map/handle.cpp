@@ -34,13 +34,6 @@ void Handle::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
   QGraphicsObject::hoverEnterEvent(event);
 }
 
-void Handle::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-  std::cout << "send prepareforrescale" << std::endl;
-  emit mousePressSignal(event->scenePos());
-  QGraphicsObject::mousePressEvent(event);
-}
-
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
   emit mouseMoveSignal(event->scenePos(),corner);
