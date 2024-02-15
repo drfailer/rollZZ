@@ -13,20 +13,21 @@ Weapon::Weapon(CS::Weapon *weapon, QWidget* parent):
 {
     layout.addWidget(new QLabel(
                 weapon->getDamageType()
-                + " +" + QString::number(weapon->getAttackBonus())
-                + " " + weapon->getDamageDice().toString()
+                + " [+" + QString::number(weapon->getAttackBonus())
+                + "] " + weapon->getDamageDice().toString()
+                + "+" + QString::number(weapon->getDamageBonus())
                 + " " + weapon->getDamageType(), this));
     layout.addWidget(&rollAttackBtn);
     layout.addWidget(&rollDamageBtn);
 
     // connects
     connect(&rollAttackBtn, &QPushButton::clicked, this, [&]() {
-                /* emit rolled(weapon->getAttackDice().roll()); */
-                std::cout << weapon->getAttackDice().roll() << std::endl;
+                /* emit rolled(this->weapon->rollAttack()); */
+                std::cout << this->weapon->rollAttack() << std::endl;
             });
     connect(&rollDamageBtn, &QPushButton::clicked, this, [&]() {
-                /* emit rolled(weapon->getDamageDice().roll()); */
-                std::cout << weapon->getDamageDice().roll() << std::endl;
+                /* emit rolled(this->weapon->rollDamage()); */
+                std::cout << this->weapon->rollDamage() << std::endl;
             });
     layout.setContentsMargins(0, 0, 0, 0);
 }
