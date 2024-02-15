@@ -19,8 +19,9 @@ void MapGraphicsView::wheelEvent ( QWheelEvent * event )
   int numDegrees = event->angleDelta().y()/8;
   int numSteps = numDegrees / 15;
   numScheduledScalings += numSteps;
+
  if (numScheduledScalings * numSteps < 0)
- numScheduledScalings = numSteps;
+   numScheduledScalings = numSteps;
 
  QTimeLine *anim = new QTimeLine(350, this);
  anim->setUpdateInterval(20);
@@ -33,9 +34,10 @@ void MapGraphicsView::wheelEvent ( QWheelEvent * event )
 
 void MapGraphicsView::scalingTime(qreal x)
 {
+ Q_UNUSED(x);
+
  qreal factor = 1.0+ qreal(numScheduledScalings) / 300.0;
  scale(factor, factor);
-
 }
 
 void MapGraphicsView::animFinished()
@@ -44,17 +46,15 @@ void MapGraphicsView::animFinished()
     numScheduledScalings--;
  else
     numScheduledScalings++;
+
  sender()->~QObject();
 }
-
 
 void MapGraphicsView::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::RightButton)
-    {
-    // Store original position.
-    mousePosOrigin = event->pos();
-    }
+      mousePosOrigin = event->pos();
+
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -64,9 +64,7 @@ void MapGraphicsView::mouseMoveEvent(QMouseEvent* event)
     {
     QPointF newPoint = event->pos();
     QPointF translation = newPoint - mousePosOrigin;
-
     translate(translation.x(), translation.y());
-
     mousePosOrigin = event->pos();
     }
     QGraphicsView::mouseMoveEvent(event);

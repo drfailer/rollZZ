@@ -28,11 +28,9 @@ public:
   QRectF boundingRect() const override;
   void hoverEnterEvent(QGraphicsSceneHoverEvent*);
   void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
-  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
 signals:
-  void mousePressSignal(QPointF);
   void mouseMoveSignal(QPointF,CORNER);
   void mouseReleaseSignal();
 
