@@ -166,6 +166,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/map/mapgraphicsscene.h src/app/widgets/map/mapgraphicsscene.cpp
         src/app/widgets/map/mapscrollarea.h src/app/widgets/map/mapscrollarea.cpp
         src/app/widgets/map/layerselection.h src/app/widgets/map/layerselection.cpp
+        src/app/widgets/map/mapplayertoken.h src/app/widgets/map/mapplayertoken.cpp
         # tools
         src/tools/widgets/diceedit.h src/tools/widgets/diceedit.cpp
         src/app/widgets/tools/listelement.h src/app/widgets/tools/listelement.cpp
