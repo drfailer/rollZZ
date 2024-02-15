@@ -4,20 +4,23 @@
 #include <CS/part.h>
 #include <QTabWidget>
 #include <QScrollArea>
+#include <iostream>
 
 namespace GameCS {
 
 // TODO: get the title in the cnfiguration and change it (put the name of the
 // character).
 
-GameCS::GameCS(const QString& csFile, CS::CS *CSTree):
+GameCS::GameCS(const QString& csFile):
     QWidget(nullptr),
     contentLyt(new QVBoxLayout(this)),
     tabWgt(new QTabWidget(this)),
     saveBtn(new QPushButton("save", this)),
-    CSTree(CSTree),
     csFile(csFile)
 {
+    std::cout << csFile.toStdString() << std::endl;
+    CSTree.load(csFile);
+
     // add the tabWgt in the page
     setLayout(contentLyt);
     contentLyt->addWidget(tabWgt);
@@ -26,7 +29,7 @@ GameCS::GameCS(const QString& csFile, CS::CS *CSTree):
     tabWgt->setTabPosition(QTabWidget::South);
 
     // add parts
-    for (CS::Part *part : CSTree->getParts()) {
+    for (CS::Part *part : CSTree.getParts()) {
         tabWgt->addTab(createTab(part), part->getName());
     }
 
@@ -36,7 +39,7 @@ GameCS::GameCS(const QString& csFile, CS::CS *CSTree):
 
     // connect save button
     connect(saveBtn, &QPushButton::clicked, this, [&]() {
-        CSTree->save(csFile);
+        this->CSTree.save(this->csFile);
     });
 }
 

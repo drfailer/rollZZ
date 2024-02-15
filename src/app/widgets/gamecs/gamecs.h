@@ -19,11 +19,10 @@ class SectionPopup;
 class GameCS : public QWidget {
     Q_OBJECT
 public:
-    GameCS(const QString& csFile = "", CS::CS *CSTree = nullptr);
+    GameCS(const QString& csFile = "");
     ~GameCS();
 
     /* accessors **************************************************************/
-    CS::CS* getCSTree() const { return CSTree; }
     QString getCSFile() const { return csFile; }
 
 private:
@@ -35,7 +34,7 @@ private:
     QPushButton *saveBtn;
 
     /* cs tree ****************************************************************/
-    CS::CS* CSTree = nullptr;
+    CS::CS CSTree;
     QString csFile = "";
 
     /* private methods ********************************************************/
