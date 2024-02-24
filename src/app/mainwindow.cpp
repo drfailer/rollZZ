@@ -108,7 +108,12 @@ void MainWindow::initGames() {
             });
 
     gameList = new GameList(listGames,ui->gamesList);
-    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(gameToLaunch->getDefaultMap(),ui->playerBoardPage); goToPage(ui->playerBoardPage);});
+    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){
+                ui->playerBoardPage->setLayout(new QHBoxLayout());
+                mapWidget = new MapWidget(gameToLaunch->getDefaultMap());
+                ui->playerBoardPage->layout()->addWidget(mapWidget);
+                goToPage(ui->playerBoardPage);
+            });
 }
 
 /******************************************************************************/
