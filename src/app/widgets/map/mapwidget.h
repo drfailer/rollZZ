@@ -24,7 +24,7 @@ class MapWidget: public QWidget
 {
   Q_OBJECT
 public:
-  MapWidget(Map* map, QWidget *parent = nullptr);
+  MapWidget(Map* map,User* user, QWidget *parent = nullptr);
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *) override;

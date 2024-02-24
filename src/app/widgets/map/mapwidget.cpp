@@ -1,9 +1,7 @@
 #include "mapwidget.h"
 
-MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
+MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user(user),map(map)
 {
-    user = new User();
-    user->load();
     setAcceptDrops(true);
     sideMenu = new QWidget(this);
     menu = new QWidget(this);
@@ -29,6 +27,8 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     menuItemOnMap = new MapScrollArea(tabRight);
     chat = new Chat(tabRight);
     chat->addText("bot", QString::fromStdString("Server launch with port:" + std::to_string(user->getPort()) + " and ip:" + user->getIp().toStdString()));
+
+    connect(user,&User::newParticipant,chat,&Chat::newUser);
     menuMapElementSelection = new QWidget(sideMenu);
     QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
     scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
@@ -51,7 +51,7 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     layoutSideMenu->addWidget(menuMapElementSelection,1);
     maps = new QTabWidget(this);
     maps->addTab(view, "test");
-    layoutSideMenu->addWidget(maps,0);
+    layoutSideMenu->addWidget(maps,4);
     layoutSideMenu->addWidget(tabRight,1);
 
     QPushButton* buttonSave = new QPushButton("save",menu);

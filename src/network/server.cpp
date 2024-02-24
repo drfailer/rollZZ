@@ -2,7 +2,12 @@
 
 Server::Server(QObject* parent): QTcpServer(parent)
 {
-    listen(QHostAddress::Any);
+    QList<QNetworkAddressEntry> adresses = QNetworkInterface::interfaceFromName("eno1").addressEntries();
+    QHostAddress adress = adresses.first().ip();
+    // Connect to the first ip of the interface (in my case 192.168.1.25)
+    qDebug() << adress;
+    listen(adress,7711);
+    //listen(QHostAddress::Any,7711);
 }
 
 void Server::incomingConnection(qintptr socketDescriptor)

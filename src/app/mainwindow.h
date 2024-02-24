@@ -10,6 +10,7 @@
 #include "cscreator/cscreator.h"
 #include "User.h"
 #include "gamepopup.h"
+#include "joingamepopup.h"
 
 class CreateCharacterPopup;
 
@@ -31,12 +32,13 @@ private:
     Ui::MainWindow *ui;
     GameList *gameList;
     GamePopup* gamePopup;
+    JoinGamePopup* joinGamePopup;
     MapWidget* mapWidget;
     CSCreator::CSCreator *csCreator = nullptr;
     CSEditor::CSEditor *csEditor = nullptr;
     CS::CS CSTree;
     QTimer* timer;
-    User *A,*B;
+    User *user;
 
     /* popup ******************************************************************/
     CreateCharacterPopup *createCharacterPopup = nullptr;

@@ -13,8 +13,8 @@ Chat::Chat(QWidget *parent)
 {
     layout->setAlignment(Qt::AlignTop);
     tableFormat = new QTextTableFormat();
-    lineEdit =new QLineEdit("test",this);
-    textEdit =new QTextEdit("coucou",this);
+    lineEdit =new QLineEdit(this);
+    textEdit =new QTextEdit(this);
     lineEdit->setFocusPolicy(Qt::StrongFocus);
     textEdit->setFocusPolicy(Qt::NoFocus);
     textEdit->setReadOnly(true);
@@ -60,19 +60,18 @@ void Chat::returnPressed()
     lineEdit->clear();
 }
 
-/**void ChatDialog::newParticipant(const QString &nick)
+void Chat::newUser(const QString &user)
 {
-    if (nick.isEmpty())
+    if (user.isEmpty())
         return;
 
     QColor color = textEdit->textColor();
     textEdit->setTextColor(Qt::gray);
-    textEdit->append(tr("* %1 has joined").arg(nick));
+    textEdit->append(tr("* %1 a rejoint").arg(user));
     textEdit->setTextColor(color);
-    listWidget->addItem(nick);
 }
 
-void ChatDialog::participantLeft(const QString &nick)
+/**void ChatDialog::participantLeft(const QString &nick)
 {
     if (nick.isEmpty())
         return;

@@ -16,31 +16,21 @@ class PeerManager : public QObject
 
   public:
     PeerManager(User *client);
-    //PeerManager(QObject * parent = nullptr): QObject(parent){}
 
     void setServerPort(int port);
+    // TODO later
+    void setHostAddress(QHostAddress adr) {}
     QString userName() const;
-    void startBroadcasting();
-    bool isLocalHostAddress(const QHostAddress &address) const;
+    void initiateNewConnection(const QHostAddress &addressDest,const int portDest);
 
   signals:
     void newConnection(Connection *connection);
 
-  private slots:
-    void sendBroadcastDatagram();
-    void readBroadcastDatagram();
-
   private:
-    void updateAddresses();
-
     User *client = nullptr;
-    QList<QHostAddress> broadcastAddresses;
-    QList<QHostAddress> ipAddresses;
-    QUdpSocket broadcastSocket;
-    QTimer broadcastTimer;
     QString username;
     int serverPort = 0;
-    int hostAddress;
+    QHostAddress hostAddress;
 };
 
 

@@ -18,6 +18,7 @@ class Chat : public QWidget
   public slots:
     void addText(const QString &from, const QString &message);
     void returnPressed();
+    void newUser(const QString &name);
 
   private:
     QString myNickName;

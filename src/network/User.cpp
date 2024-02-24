@@ -13,7 +13,6 @@ User::User()
       peerManager(new PeerManager(this))
 {
     peerManager->setServerPort(server->serverPort());
-    peerManager->startBroadcasting();
     connect(peerManager, &PeerManager::newConnection,
             this, &User::newConnection);
     connect(server, &Server::newConnection,
@@ -63,8 +62,7 @@ int User::getPort() const
 
 QString User::getIp() const
 {
-    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
-    return localhost.toString();
+    return server->serverAddress().toString();
 }
 
 
@@ -86,12 +84,18 @@ bool User::hasConnection(const QHostAddress &senderIp, int senderPort) const
     return false;
 }
 
+void User::initiateNewConnection(const QHostAddress &addressDest,const int portDest)
+{
+    peerManager->initiateNewConnection(addressDest,portDest);
+}
+
 void User::newConnection(Connection *connection)
 {
     connection->setGreetingMessage(peerManager->userName());
 
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
+    // Connected? no need ?
     connect(connection, &Connection::readyForUse, this, &User::readyForUse);
 }
 

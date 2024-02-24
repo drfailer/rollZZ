@@ -30,6 +30,7 @@ class User : public QObject
     int getPort() const;
     QString getIp() const;
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
+    void initiateNewConnection(const QHostAddress &addressDest,const int portDest);
     void load();
     void save();
 
