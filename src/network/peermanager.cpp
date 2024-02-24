@@ -11,23 +11,10 @@ static const unsigned broadcastPort = 45000;
 PeerManager::PeerManager(User *client)
     : QObject(client), client(client)
 {
-    static const char *envVariables[] = {
-        "USERNAME", "USER", "USERDOMAIN", "HOSTNAME", "DOMAINNAME"
-    };
-
-    for (const char *varname : envVariables) {
-        username = qEnvironmentVariable(varname);
-        if (!username.isNull())
-            break;
-    }
-
-    if (username.isEmpty())
-        username = "unknown";
-
     updateAddresses();
+    username = client->getName();
 
-    broadcastSocket.bind(QHostAddress::Any, broadcastPort, QUdpSocket::ShareAddress
-                                                               | QUdpSocket::ReuseAddressHint);
+    broadcastSocket.bind(QHostAddress::Any, broadcastPort, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint);
     connect(&broadcastSocket, &QUdpSocket::readyRead,
             this, &PeerManager::readBroadcastDatagram);
 

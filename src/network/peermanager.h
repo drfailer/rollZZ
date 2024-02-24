@@ -40,6 +40,7 @@ class PeerManager : public QObject
     QTimer broadcastTimer;
     QString username;
     int serverPort = 0;
+    int hostAddress;
 };
 
 

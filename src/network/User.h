@@ -27,6 +27,8 @@ class User : public QObject
     void sendMessage(const QString &message);
     QString getName() const;
     QString getUuid() const;
+    int getPort() const;
+    QString getIp() const;
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
     void load();
     void save();
@@ -48,7 +50,7 @@ class User : public QObject
     QString uuid;
     QString name;
     PeerManager *peerManager;
-    Server server;
+    Server* server;
     QMultiHash<QHostAddress, Connection *> peers;
 };
 

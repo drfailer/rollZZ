@@ -12,6 +12,7 @@
 #include "mapscrollarea.h"
 #include "layerselection.h"
 #include "chat.h"
+#include "User.h"
 
 
 /*
@@ -23,7 +24,7 @@ class MapWidget: public QWidget
 {
   Q_OBJECT
 public:
-    MapWidget(QWidget *parent = nullptr, Map* map = {});
+  MapWidget(Map* map, QWidget *parent = nullptr);
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *) override;
@@ -49,6 +50,7 @@ public:
     MapScrollArea* scrollAreaMapElementSelection;
     MapScrollArea* menuItemOnMap;
     Chat* chat;
+    User* user;
     LayerSelection* layerSelection;
     bool loading;
 };

@@ -73,8 +73,8 @@ void MainWindow::initMenu() {
 
 void MainWindow::initGames() {
 
-    User user;
-    user.load();
+    User* user = new User();
+    user->load();
 
     gamePopup = nullptr;
     QList<Game *> listGames;
@@ -88,7 +88,7 @@ void MainWindow::initGames() {
     }
 
     connect(ui->CreateGameButton, &QPushButton::clicked, this,
-            [&]() {
+            [=]() {
                 if(gamePopup != nullptr)
                     return;
 
@@ -98,7 +98,7 @@ void MainWindow::initGames() {
                 connect(gamePopup, &GamePopup::confirm, this, [&](bool confirm) {
                     if (confirm)
                     {
-                        Game* g = new Game(user.getUuid(),gamePopup->getName());
+                        Game* g = new Game(user->getUuid(),gamePopup->getName());
                         gameList->addGame(g);
                         g->save();
                     }
@@ -108,7 +108,7 @@ void MainWindow::initGames() {
             });
 
     gameList = new GameList(listGames,ui->gamesList);
-    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(ui->playerBoardPage,gameToLaunch->getDefaultMap()); goToPage(ui->playerBoardPage);});
+    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(gameToLaunch->getDefaultMap(),ui->playerBoardPage); goToPage(ui->playerBoardPage);});
 }
 
 /******************************************************************************/

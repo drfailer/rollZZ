@@ -9,13 +9,14 @@
 
 User::User()
     : SERIALIZER(uuid, name),
+      server(new Server()),
       peerManager(new PeerManager(this))
 {
-    peerManager->setServerPort(server.serverPort());
+    peerManager->setServerPort(server->serverPort());
     peerManager->startBroadcasting();
     connect(peerManager, &PeerManager::newConnection,
             this, &User::newConnection);
-    connect(&server, &Server::newConnection,
+    connect(server, &Server::newConnection,
             this, &User::newConnection);
 
     uuid = QUuid::createUuid().toString();
@@ -47,13 +48,23 @@ void User::save()
 
 QString User::getName() const
 {
-    return name + '@' + QHostInfo::localHostName()
-           + ':' + QString::number(server.serverPort());
+    return name;
 }
 
 QString User::getUuid() const
 {
     return uuid;
+}
+
+int User::getPort() const
+{
+    return server->serverPort();
+}
+
+QString User::getIp() const
+{
+    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
+    return localhost.toString();
 }
 
 

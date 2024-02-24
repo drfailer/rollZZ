@@ -1,105 +1,107 @@
 #include "mapwidget.h"
 
-MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
+MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
 {
-  setAcceptDrops(true);
-  sideMenu = new QWidget(this);
-  menu = new QWidget(this);
-  layoutMenu = new QVBoxLayout(menu);
-  layoutGlobal = new QVBoxLayout(this);
-  layoutGlobal->addWidget(menu);
-  layoutGlobal->addWidget(sideMenu);
-  setLayout(layoutGlobal);
-  menu->setLayout(layoutMenu);
+    user = new User();
+    user->load();
+    setAcceptDrops(true);
+    sideMenu = new QWidget(this);
+    menu = new QWidget(this);
+    layoutMenu = new QVBoxLayout(menu);
+    layoutGlobal = new QVBoxLayout(this);
+    layoutGlobal->addWidget(menu);
+    layoutGlobal->addWidget(sideMenu);
+    setLayout(layoutGlobal);
+    menu->setLayout(layoutMenu);
 
-  tabRight = new QTabWidget(this);
-  tabRight->setMovable(true);
-  tabRight->setTabPosition(QTabWidget::North);
+    tabRight = new QTabWidget(this);
+    tabRight->setMovable(true);
+    tabRight->setTabPosition(QTabWidget::North);
 
-  view = new MapGraphicsView(sideMenu);
-  view->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-
-
-  connect(view->getScene(),&MapGraphicsScene::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
-  connect(view->getScene(),&MapGraphicsScene::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
-  connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
-
-  menuItemOnMap = new MapScrollArea(tabRight);
-  chat = new Chat(tabRight);
-  menuMapElementSelection = new QWidget(sideMenu);
-  QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
-  scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
-  scrollAreaMapElementSelection->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-  layerSelection = new LayerSelection(menuMapElementSelection);
-  connect(layerSelection,&LayerSelection::changeLayer,this,[&](int i){view->getScene()->setActualZValue(i);});
-
-  layoutMenuMapElement = new QVBoxLayout(menuMapElementSelection);
-  menuMapElementSelection->setLayout(layoutMenuMapElement);
-  layoutMenuMapElement->setAlignment(Qt::AlignTop);
-  layoutMenuMapElement->addWidget(addButton);
-  layoutMenuMapElement->addWidget(layerSelection);
-  layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
+    view = new MapGraphicsView(sideMenu);
+    view->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 
 
-  tabRight->addTab(menuItemOnMap,"On Map");
-  tabRight->addTab(chat,"chat");
+    connect(view->getScene(),&MapGraphicsScene::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
+    connect(view->getScene(),&MapGraphicsScene::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
+    connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
 
-  layoutSideMenu = new QHBoxLayout(sideMenu);
-  sideMenu->setLayout(layoutSideMenu);
-  layoutSideMenu->addWidget(menuMapElementSelection,1);
-  layoutSideMenu->addWidget(view,0);
-  layoutSideMenu->addWidget(tabRight,1);
+    menuItemOnMap = new MapScrollArea(tabRight);
+    chat = new Chat(tabRight);
+    chat->addText("bot", QString::fromStdString("Server launch with port:" + std::to_string(user->getPort()) + " and ip:" + user->getIp().toStdString()));
+    menuMapElementSelection = new QWidget(sideMenu);
+    QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
+    scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
+    scrollAreaMapElementSelection->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    layerSelection = new LayerSelection(menuMapElementSelection);
+    connect(layerSelection,&LayerSelection::changeLayer,this,[&](int i){view->getScene()->setActualZValue(i);});
 
-  QPushButton* buttonSave = new QPushButton("save",menu);
-  layoutMenu->addWidget(buttonSave);
-  connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
+    layoutMenuMapElement = new QVBoxLayout(menuMapElementSelection);
+    menuMapElementSelection->setLayout(layoutMenuMapElement);
+    layoutMenuMapElement->setAlignment(Qt::AlignTop);
+    layoutMenuMapElement->addWidget(addButton);
+    layoutMenuMapElement->addWidget(layerSelection);
+    layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
 
-  labelForCursorDrag = new QLabel(this);
-  labelForCursorDrag->move(-100,-100);
-  labelForCursorDrag->setVisible(false);
-  labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-  auto lambdaLabel = [&](MapElement* el)
-  {
-    QPixmap labelPixMap = el->getOriginalPixMap();
-    labelPixMap = labelPixMap.scaled(labelPixMap.size()*view->getScale());
-    labelForCursorDrag->setVisible(true);
-    labelForCursorDrag->setPixmap(labelPixMap);
-    labelForCursorDrag->resize(labelPixMap.size());
-  };
+    tabRight->addTab(menuItemOnMap,"On Map");
+    tabRight->addTab(chat,"chat");
+    layoutSideMenu = new QHBoxLayout(sideMenu);
+    sideMenu->setLayout(layoutSideMenu);
+    layoutSideMenu->addWidget(menuMapElementSelection,1);
+    layoutSideMenu->addWidget(view,0);
+    layoutSideMenu->addWidget(tabRight,1);
 
-  connect(addButton,&QPushButton::clicked,this,[=](){
-    QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg *.jpeg)");
-    for(QString& filePath: filesPath)
+    QPushButton* buttonSave = new QPushButton("save",menu);
+    layoutMenu->addWidget(buttonSave);
+    connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
+
+    labelForCursorDrag = new QLabel(this);
+    labelForCursorDrag->move(-100,-100);
+    labelForCursorDrag->setVisible(false);
+    labelForCursorDrag->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    auto lambdaLabel = [&](MapElement* el)
     {
-      QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
-      QString newFilePath = QDir::homePath() + QString("/.local/resources/") + name;
+        QPixmap labelPixMap = el->getOriginalPixMap();
+        labelPixMap = labelPixMap.scaled(labelPixMap.size()*view->getScale());
+        labelForCursorDrag->setVisible(true);
+        labelForCursorDrag->setPixmap(labelPixMap);
+        labelForCursorDrag->resize(labelPixMap.size());
+    };
 
-      if (QFile::exists(newFilePath))
-        QFile::remove(newFilePath);
-      QFile::copy(filePath,newFilePath);
+    connect(addButton,&QPushButton::clicked,this,[=](){
+        QStringList filesPath= QFileDialog::getOpenFileNames(this, "Select one or more files to open","/home","Images (*.png *.xpm *.jpg *.jpeg)");
+        for(QString& filePath: filesPath)
+        {
+            QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
+            QString newFilePath = QDir::homePath() + QString("/.local/resources/") + name;
 
-      MapElement* el = map->addElementUse(newFilePath,name);
-      MapElementWidget* newElement = new MapElementWidget(el,scrollAreaMapElementSelection);
-      scrollAreaMapElementSelection->addContent(newElement);
-      connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
+            if (QFile::exists(newFilePath))
+                QFile::remove(newFilePath);
+            QFile::copy(filePath,newFilePath);
+
+            MapElement* el = map->addElementUse(newFilePath,name);
+            MapElementWidget* newElement = new MapElementWidget(el,scrollAreaMapElementSelection);
+            scrollAreaMapElementSelection->addContent(newElement);
+            connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
+        }
+    });
+
+    loading = true;
+    map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    for(MapElement* mapElement: map->getmapElementsUse())
+    {
+        MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
+        scrollAreaMapElementSelection->addContent(newElement);
+
+        connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
     }
-  });
-
-  loading = true;
-  map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
-  for(MapElement* mapElement: map->getmapElementsUse())
-  {
-    MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
-    scrollAreaMapElementSelection->addContent(newElement);
-
-    connect(newElement,&MapElementWidget::NewCursorLabel,this,lambdaLabel);
-  }
-  for(MapElement* mapElement: map->getMap())
-  {
-    view->getScene()->insertNewGraphicsElement(mapElement);
-  }
-  loading = false;
+    for(MapElement* mapElement: map->getMap())
+    {
+        view->getScene()->insertNewGraphicsElement(mapElement);
+    }
+    loading = false;
 }
 
 void MapWidget::dragEnterEvent(QDragEnterEvent *event)
