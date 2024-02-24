@@ -12,21 +12,26 @@ GameList::GameList(const QList<Game*>& games, QWidget *parent):
     QWidget(parent),
     games(games)
 {
-    setLayout(&layout);
+    // problem when we add a new game... idk why
+    layout = new QVBoxLayout(this);
+    layout->setAlignment(Qt::AlignTop);
 
-    // adding the elements in the list of games
     if (games.empty()) {
-        layout.addWidget(new QLabel("No game available"), Qt::AlignLeft|Qt::AlignTop);
+        layout->addWidget(new QLabel("No game available"));
     } else {
-        // marche pas et je ne comprends pas pk
-        layout.setAlignment(Qt::AlignHCenter|Qt::AlignTop);
         for (Game* elt : games) {
             QPushButton* btn = new QPushButton(elt->getName());
-            layout.addWidget(btn);
+            layout->addWidget(btn);
             connect(btn, &QPushButton::clicked, this, [=](){emit setGame(elt);});
-            // TODO: change the stylesheet
         }
     }
+}
+
+void GameList::addGame(Game* game)
+{
+    QPushButton* btn = new QPushButton(game->getName());
+    layout->addWidget(btn);
+    connect(btn, &QPushButton::clicked, this, [=](){emit setGame(game);});
 }
 
 GameList::~GameList()

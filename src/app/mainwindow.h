@@ -8,6 +8,8 @@
 #include <QMainWindow>
 #include "cseditor/cseditor.h"
 #include "cscreator/cscreator.h"
+#include "User.h"
+#include "gamepopup.h"
 
 class CreateCharacterPopup;
 
@@ -28,10 +30,13 @@ public slots:
 private:
     Ui::MainWindow *ui;
     GameList *gameList;
+    GamePopup* gamePopup;
     MapWidget* mapWidget;
     CSCreator::CSCreator *csCreator = nullptr;
     CSEditor::CSEditor *csEditor = nullptr;
     CS::CS CSTree;
+    QTimer* timer;
+    User *A,*B;
 
     /* popup ******************************************************************/
     CreateCharacterPopup *createCharacterPopup = nullptr;

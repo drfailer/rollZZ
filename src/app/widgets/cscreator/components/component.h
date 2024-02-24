@@ -50,20 +50,20 @@ class Component : public QFrame {
 };
 
 #define genSettingsPopup(Class, popupVar, PopupClass, confirmCode, ...)        \
-    void Class::settingsPopup() {                                              \
+void Class::settingsPopup() {                                                  \
         if (popupVar == nullptr) {                                             \
             popupVar = new PopupClass(__VA_ARGS__);                            \
-        }                                                                      \
+    }                                                                          \
         popupVar->show();                                                      \
         connect(popupVar, &PopupClass::confirm, this, [&](bool confirm) {      \
-            if (confirm) {                                                     \
-                confirmCode;                                                   \
-                emit Component::update(true);                                  \
+                if (confirm) {                                                 \
+                    confirmCode;                                               \
+                    emit Component::update(true);                              \
             }                                                                  \
-            delete popupVar;                                                   \
-            popupVar = nullptr;                                                \
+                delete popupVar;                                               \
+                popupVar = nullptr;                                            \
         });                                                                    \
-    }
+}
 
 } // end namespace CSCreator
 

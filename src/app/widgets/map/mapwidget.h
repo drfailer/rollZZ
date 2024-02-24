@@ -5,11 +5,14 @@
 #include <QPushButton>
 #include <QBoxLayout>
 #include <QFileDialog>
+#include <QTabWidget>
 #include "map.h"
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
 #include "mapscrollarea.h"
 #include "layerselection.h"
+#include "chat.h"
+
 
 /*
  * TODO
@@ -32,6 +35,7 @@ public:
     void saveMap();
 
   private:
+    QTabWidget* tabRight;
     MapGraphicsView* view;
     QWidget* menu;
     QWidget* sideMenu;
@@ -44,6 +48,7 @@ public:
     QVBoxLayout* layoutMenuMapElement;
     MapScrollArea* scrollAreaMapElementSelection;
     MapScrollArea* menuItemOnMap;
+    Chat* chat;
     LayerSelection* layerSelection;
     bool loading;
 };

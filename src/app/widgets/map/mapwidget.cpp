@@ -9,13 +9,23 @@ MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
   layoutGlobal = new QVBoxLayout(this);
   layoutGlobal->addWidget(menu);
   layoutGlobal->addWidget(sideMenu);
+  setLayout(layoutGlobal);
+  menu->setLayout(layoutMenu);
+
+  tabRight = new QTabWidget(this);
+  tabRight->setMovable(true);
+  tabRight->setTabPosition(QTabWidget::North);
 
   view = new MapGraphicsView(sideMenu);
+  view->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+
+
   connect(view->getScene(),&MapGraphicsScene::dragEnterEventSignal,this,&MapWidget::dragEnterEvent);
   connect(view->getScene(),&MapGraphicsScene::dragMoveEventSignal,this,&MapWidget::dragMoveEvent);
   connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
 
-  menuItemOnMap = new MapScrollArea(sideMenu);
+  menuItemOnMap = new MapScrollArea(tabRight);
+  chat = new Chat(tabRight);
   menuMapElementSelection = new QWidget(sideMenu);
   QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
   scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
@@ -24,15 +34,21 @@ MapWidget::MapWidget(QWidget *parent, Map* map): QWidget(parent),map(map)
   connect(layerSelection,&LayerSelection::changeLayer,this,[&](int i){view->getScene()->setActualZValue(i);});
 
   layoutMenuMapElement = new QVBoxLayout(menuMapElementSelection);
+  menuMapElementSelection->setLayout(layoutMenuMapElement);
   layoutMenuMapElement->setAlignment(Qt::AlignTop);
   layoutMenuMapElement->addWidget(addButton);
   layoutMenuMapElement->addWidget(layerSelection);
   layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
 
-  layoutSideMenu = new QBoxLayout(QBoxLayout::LeftToRight,sideMenu);
-  layoutSideMenu->addWidget(menuMapElementSelection);
-  layoutSideMenu->addWidget(view);
-  layoutSideMenu->addWidget(menuItemOnMap);
+
+  tabRight->addTab(menuItemOnMap,"On Map");
+  tabRight->addTab(chat,"chat");
+
+  layoutSideMenu = new QHBoxLayout(sideMenu);
+  sideMenu->setLayout(layoutSideMenu);
+  layoutSideMenu->addWidget(menuMapElementSelection,1);
+  layoutSideMenu->addWidget(view,0);
+  layoutSideMenu->addWidget(tabRight,1);
 
   QPushButton* buttonSave = new QPushButton("save",menu);
   layoutMenu->addWidget(buttonSave);
