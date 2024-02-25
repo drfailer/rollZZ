@@ -28,7 +28,6 @@ class PeerManager : public QObject
 
   private:
     User *client = nullptr;
-    QString username;
     int serverPort = 0;
     QHostAddress hostAddress;
 };

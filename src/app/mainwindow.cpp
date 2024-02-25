@@ -125,11 +125,12 @@ void MainWindow::initGames() {
             if (confirm)
             {
                 User* b = new User();
+                b->load();
                 b->initiateNewConnection(joinGamePopup->getIp(),joinGamePopup->getPort());
-                /**ui->playerBoardPage->setLayout(new QHBoxLayout());
-                mapWidget = new MapWidget(gameToLaunch->getDefaultMap());
+                ui->playerBoardPage->setLayout(new QHBoxLayout());
+                mapWidget = new MapWidget((new Game())->getDefaultMap(),b);
                 ui->playerBoardPage->layout()->addWidget(mapWidget);
-                goToPage(ui->playerBoardPage);**/
+                goToPage(ui->playerBoardPage);
             }
             delete joinGamePopup;
             joinGamePopup = nullptr;

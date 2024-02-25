@@ -25,10 +25,9 @@ MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user
     connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
 
     menuItemOnMap = new MapScrollArea(tabRight);
-    chat = new Chat(tabRight);
+    chat = new Chat(user,tabRight);
     chat->addText("bot", QString::fromStdString("Server launch with port:" + std::to_string(user->getPort()) + " and ip:" + user->getIp().toStdString()));
 
-    connect(user,&User::newParticipant,chat,&Chat::newUser);
     menuMapElementSelection = new QWidget(sideMenu);
     QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
     scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);

@@ -7,21 +7,25 @@
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QVBoxLayout>
+#include <User.h>
 
 class Chat : public QWidget
 {
     Q_OBJECT
 
   public:
-    explicit Chat(QWidget *parent = nullptr);
+    explicit Chat(User* user,QWidget *parent = nullptr);
 
   public slots:
     void addText(const QString &from, const QString &message);
     void returnPressed();
-    void newUser(const QString &name);
+    void userEnter(const QString &name);
+    void userQuit(const QString &name);
 
   private:
-    QString myNickName;
+    void notification(const QString& msg);
+
+    User* user;
     QVBoxLayout* layout;
     QTextTableFormat* tableFormat;
     QLineEdit* lineEdit;

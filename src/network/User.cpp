@@ -9,17 +9,17 @@
 
 User::User()
     : SERIALIZER(uuid, name),
-      server(new Server()),
+      name(""),
       peerManager(new PeerManager(this))
 {
+    uuid = QUuid::createUuid().toString();
+    server = new Server(this);
+
     peerManager->setServerPort(server->serverPort());
     connect(peerManager, &PeerManager::newConnection,
             this, &User::newConnection);
     connect(server, &Server::newConnection,
             this, &User::newConnection);
-
-    uuid = QUuid::createUuid().toString();
-    name = "mannequin";
 }
 
 void User::sendMessage(const QString &message)
@@ -38,6 +38,8 @@ void User::sendMessage(const QString &message)
 void User::load()
 {
     deserializeFile((UserFilePath).toStdString());
+    // just to reload the name, can create a funtion setName later
+    peerManager = new PeerManager(this);
 }
 
 void User::save()
@@ -91,8 +93,6 @@ void User::initiateNewConnection(const QHostAddress &addressDest,const int portD
 
 void User::newConnection(Connection *connection)
 {
-    connection->setGreetingMessage(peerManager->userName());
-
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
     // Connected? no need ?

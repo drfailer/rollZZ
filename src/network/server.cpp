@@ -7,11 +7,11 @@ Server::Server(QObject* parent): QTcpServer(parent)
     // Connect to the first ip of the interface (in my case 192.168.1.25)
     qDebug() << adress;
     listen(adress,7711);
-    //listen(QHostAddress::Any,7711);
 }
 
 void Server::incomingConnection(qintptr socketDescriptor)
 {
     Connection *connection = new Connection(socketDescriptor, this);
+    connection->setUsername("server response username");
     emit newConnection(connection);
 }

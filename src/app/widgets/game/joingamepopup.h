@@ -17,8 +17,8 @@ class JoinGamePopup : public Tools::Popup
     QHostAddress getIp() const;
     int getPort() const;
   private:
-    QLineEdit idEdit;
-    QLineEdit portEdit;
+    QLineEdit* idEdit;
+    QLineEdit* portEdit;
 
 };
 

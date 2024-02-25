@@ -21,8 +21,7 @@ class Connection : public QTcpSocket
     };
     enum DataType {
         PlainText,
-        Ping,
-        Pong,
+        Map,
         Greeting,
         Undefined
     };
@@ -32,19 +31,14 @@ class Connection : public QTcpSocket
     ~Connection();
 
     QString name() const;
-    void setGreetingMessage(const QString &message);
+    void setUsername(const QString& username);
     bool sendMessage(const QString &message);
 
   signals:
     void readyForUse();
     void newMessage(const QString &from, const QString &message);
-
-  protected:
-    void timerEvent(QTimerEvent *timerEvent) override;
-
   private slots:
     void processReadyRead();
-    void sendPing();
     void sendGreetingMessage();
 
   private:
@@ -54,14 +48,10 @@ class Connection : public QTcpSocket
 
     QCborStreamReader reader;
     QCborStreamWriter writer;
-    QString greetingMessage = tr("undefined");
-    QString username = tr("unknown");
-    QTimer pingTimer;
-    QElapsedTimer pongTime;
+    QString username = "src";
     QString buffer;
     ConnectionState state = WaitingForGreeting;
     DataType currentDataType = Undefined;
-    int transferTimerId = -1;
     bool isGreetingMessageSent = false;
 };
 #endif // CONNECTION_H
