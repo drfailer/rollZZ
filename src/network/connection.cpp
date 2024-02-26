@@ -26,14 +26,9 @@ Connection::Connection(DataType sendType,QObject *parent)
 {
     connect(this, &QTcpSocket::readyRead, this,
             &Connection::processReadyRead);
-   //connect(this,QAbstractSocket::UnknownSocketError,this,&Connection::displayError);
 
     switch(sendType)
     {
-    case ResponsePeerConnection:
-        connect(this, &QTcpSocket::connected,
-                this, &Connection::sendPeerResponse);
-        break;
     case NewPeerConnection:
         connect(this, &QTcpSocket::connected,
                 this, &Connection::sendNewPeer);
@@ -50,16 +45,16 @@ Connection::Connection(qintptr socketDescriptor, QObject *parent)
 
 Connection::~Connection()
 {
-    if (isNameSend) {
+    if (isHandShakeMade) {
         // Indicate clean shutdown.
         writer.endArray();
         waitForBytesWritten(2000);
     }
 }
 
-QString Connection::name() const
+QString Connection::getName() const
 {
-    return username;
+    return otherUsername;
 }
 
 void Connection::setUsername(const QString &username)
@@ -67,21 +62,10 @@ void Connection::setUsername(const QString &username)
     this->username = username;
 }
 
-void Connection::setServerPort(const int serverPort)
-{
-    this->serverPort = serverPort;
-}
-
 bool Connection::sendMessage(const QString &message)
 {
     if (message.isEmpty())
         return false;
-
-    if(!first_msg)
-    {
-        writer.startArray();
-        first_msg = true;
-    }
 
     writer.startArray();
     writer.append(PlainText);
@@ -96,28 +80,8 @@ void Connection::sendNewPeer()
     writer.startArray();
     writer.append(NewPeerConnection);
     writer.append(username);
-    writer.append(serverPort);
     writer.endArray();
-    isNameSend = true;
-    state = ReadyForUse;
-    emit readyForUse();
-
-    if (!reader.device())
-        reader.setDevice(this);
-
-
-}
-
-void Connection::sendPeerResponse()
-{
-    writer.startArray(); // this array stay until the socket in delete
-    writer.startArray();
-    writer.append(ResponsePeerConnection);
-    writer.append(username);
-    writer.endArray();
-    isNameSend = true;
-    state = ReadyForUse;
-    emit readyForUse();
+    isHandShakeMade = true;
 
     if (!reader.device())
         reader.setDevice(this);
@@ -160,15 +124,9 @@ void Connection::processReadyRead()
             switch(currentDataType)
             {
             case NewPeerConnection:
-                buffer = reader.readString().data;
+                otherUsername = reader.readString().data;
                 reader.readString();
-                serverPort = reader.toInteger();
                 processNewPeerConnection();
-                break;
-            case ResponsePeerConnection:
-                buffer = reader.readString().data;
-                reader.readString();
-                processResponsePeerConnection();
                 break;
             default:
                 buffer = reader.readString().data;
@@ -191,8 +149,6 @@ void Connection::processReadyRead()
 
 void Connection::processNewPeerConnection()
 {
-    QString temp = username;
-    username = buffer;
     buffer.clear();
 
     if (!isValid()) {
@@ -201,30 +157,12 @@ void Connection::processNewPeerConnection()
     }
 
     state = ReadyForUse;
-    emit readyForUse();
 
-    Connection* socketDestToSrc = new Connection(Connection::DataType::ResponsePeerConnection);
-    socketDestToSrc->setServerPort(localPort());
-    // change it;
-    socketDestToSrc->setUsername(temp);
-    socketDestToSrc->connectToHost(peerAddress(),serverPort);
-    emit newConnection(socketDestToSrc);
-}
+    if(!isHandShakeMade)
+        sendNewPeer();
 
-void Connection::processResponsePeerConnection()
-{
-    username = buffer;
-    buffer.clear();
-
-    if (!isValid()) {
-        abort();
-        return;
-    }
-
-    state = ReadyForUse;
     emit readyForUse();
 }
-
 
 void Connection::processData()
 {
@@ -232,7 +170,7 @@ void Connection::processData()
     case PlainText:
         qDebug() << "plainText";
         qDebug() << buffer;
-        emit newMessage(username, buffer);
+        emit newMessage(otherUsername, buffer);
         break;
     default:
         break;

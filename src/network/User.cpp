@@ -95,6 +95,7 @@ void User::initiateNewConnection(const QHostAddress &addressDest,const int portD
 
 void User::newConnection(Connection *connection)
 {
+    connection->setUsername(name);
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
     connect(connection, &Connection::readyForUse, this, &User::readyForUse);
@@ -110,7 +111,7 @@ void User::readyForUse()
             this, &User::receiveNewMessage);
 
     peers.insert(connection->peerAddress(), connection);
-    QString nick = connection->name();
+    QString nick = connection->getName();
     if (!nick.isEmpty())
         emit newParticipant(nick);
 }
@@ -139,7 +140,7 @@ void User::connectionError(QAbstractSocket::SocketError /* socketError */)
 void User::removeConnection(Connection *connection)
 {
     if (peers.remove(connection->peerAddress(), connection) > 0) {
-        QString nick = connection->name();
+        QString nick = connection->getName();
         if (!nick.isEmpty())
             emit participantLeft(nick);
     }

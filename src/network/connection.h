@@ -23,7 +23,6 @@ class Connection : public QTcpSocket
         PlainText,
         Map,
         NewPeerConnection,
-        ResponsePeerConnection,
         Undefined
     };
 
@@ -31,34 +30,29 @@ class Connection : public QTcpSocket
     explicit Connection(qintptr socketDescriptor, QObject *parent = nullptr);
     ~Connection();
 
-    QString name() const;
+    QString getName() const;
     void setUsername(const QString& username);
-    void setServerPort(const int serverPort);
     bool sendMessage(const QString &message);
 
   signals:
     void readyForUse();
     void newMessage(const QString &from, const QString &message);
-    void newConnection(Connection*);
   private slots:
     void processReadyRead();
     void sendNewPeer();
-    void sendPeerResponse();
 
   private:
     bool hasEnoughData();
     void processNewPeerConnection();
-    void processResponsePeerConnection();
     void processData();
 
     QCborStreamReader reader;
     QCborStreamWriter writer;
-    QString username = "src";
-    int serverPort;
+    QString username = "me";
+    QString otherUsername = "other";
     QString buffer;
     ConnectionState state = WaitingForConnection;
     DataType currentDataType = Undefined;
-    bool isNameSend = false;
-    bool first_msg = false;
+    bool isHandShakeMade = false;
 };
 #endif // CONNECTION_H

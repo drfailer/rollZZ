@@ -13,7 +13,5 @@ Server::Server(QObject* parent): QTcpServer(parent)
 void Server::incomingConnection(qintptr socketDescriptor)
 {
     Connection *connection = new Connection(socketDescriptor,this);
-    connection->setUsername("mj");
     emit newConnection(connection);
-    connect(connection,&Connection::newConnection,this,&Server::newConnection);
 }
