@@ -22,7 +22,7 @@ class PeerManager : public QObject
     void setHostAddress(QHostAddress adr) {}
     QString userName() const;
     void initiateNewConnection(const QHostAddress &addressDest,const int portDest);
-
+    void initiateResponseConnection(const QHostAddress &addressDest,const int portDest);
   signals:
     void newConnection(Connection *connection);
 

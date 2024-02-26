@@ -20,17 +20,29 @@ static const int TransferTimeout = 30 * 1000;
  *  greeting    = { 3 => text }
  */
 
-Connection::Connection(QObject *parent)
+
+Connection::Connection(DataType sendType,QObject *parent)
     : QTcpSocket(parent), writer(this)
 {
     connect(this, &QTcpSocket::readyRead, this,
             &Connection::processReadyRead);
-    connect(this, &QTcpSocket::connected,
-            this, &Connection::sendGreetingMessage);
+   //connect(this,QAbstractSocket::UnknownSocketError,this,&Connection::displayError);
+
+    switch(sendType)
+    {
+    case ResponsePeerConnection:
+        connect(this, &QTcpSocket::connected,
+                this, &Connection::sendPeerResponse);
+        break;
+    case NewPeerConnection:
+        connect(this, &QTcpSocket::connected,
+                this, &Connection::sendNewPeer);
+        break;
+    }
 }
 
 Connection::Connection(qintptr socketDescriptor, QObject *parent)
-    : Connection(parent)
+    : Connection(Undefined,parent)
 {
     setSocketDescriptor(socketDescriptor);
     reader.setDevice(this);
@@ -38,7 +50,7 @@ Connection::Connection(qintptr socketDescriptor, QObject *parent)
 
 Connection::~Connection()
 {
-    if (isGreetingMessageSent) {
+    if (isNameSend) {
         // Indicate clean shutdown.
         writer.endArray();
         waitForBytesWritten(2000);
@@ -55,27 +67,57 @@ void Connection::setUsername(const QString &username)
     this->username = username;
 }
 
+void Connection::setServerPort(const int serverPort)
+{
+    this->serverPort = serverPort;
+}
+
 bool Connection::sendMessage(const QString &message)
 {
     if (message.isEmpty())
         return false;
 
-    writer.startMap(1);
+    if(!first_msg)
+    {
+        writer.startArray();
+        first_msg = true;
+    }
+
+    writer.startArray();
     writer.append(PlainText);
     writer.append(message);
-    writer.endMap();
+    writer.endArray();
     return true;
 }
 
-void Connection::sendGreetingMessage()
+void Connection::sendNewPeer()
 {
-    writer.startArray();        // this array never ends
-
-    writer.startMap(1);
-    writer.append(Greeting);
+    writer.startArray(); // this array stay until the socket in delete
+    writer.startArray();
+    writer.append(NewPeerConnection);
     writer.append(username);
-    writer.endMap();
-    isGreetingMessageSent = true;
+    writer.append(serverPort);
+    writer.endArray();
+    isNameSend = true;
+    state = ReadyForUse;
+    emit readyForUse();
+
+    if (!reader.device())
+        reader.setDevice(this);
+
+
+}
+
+void Connection::sendPeerResponse()
+{
+    writer.startArray(); // this array stay until the socket in delete
+    writer.startArray();
+    writer.append(ResponsePeerConnection);
+    writer.append(username);
+    writer.endArray();
+    isNameSend = true;
+    state = ReadyForUse;
+    emit readyForUse();
 
     if (!reader.device())
         reader.setDevice(this);
@@ -86,13 +128,13 @@ void Connection::processReadyRead()
     // New data receive
     reader.reparse();
     while (reader.lastError() == QCborError::NoError) {
-        if (state == WaitingForGreeting) {
+        if (state == WaitingForConnection) {
             if (!reader.isArray())
                 break;                  // protocol error
 
             reader.enterContainer();    // we'll be in this array forever
-            state = ReadingGreeting;
-        } else if (reader.containerDepth() == 1) {
+            state = ReadingConnection;
+        }else if (reader.containerDepth() == 1) {
             // Verify the package receive and extract the DataType
             if (!reader.hasNext()) {
                 reader.leaveContainer();
@@ -100,10 +142,14 @@ void Connection::processReadyRead()
                 return;
             }
 
-            if (!reader.isMap() || !reader.isLengthKnown() || reader.length() != 1)
+            if (!reader.isArray())
                 break;                  // protocol error
             reader.enterContainer();
-        } else if (currentDataType == Undefined) {
+        }
+        else if(reader.isArray())
+        {
+            reader.enterContainer();
+        }else if (currentDataType == Undefined) {
             // We fetch the data type, to know what our package is for
             if (!reader.isInteger())
                 break;                  // protocol error
@@ -111,37 +157,61 @@ void Connection::processReadyRead()
             reader.next();
         } else {
             // We now read the command payload
-
-            //We can add later conditions for int, double...
-            if (reader.isString()) {
-                auto r = reader.readString();
-                buffer += r.data;
-                if (r.status != QCborStreamReader::EndOfString)
-                    continue;
-            } else if (reader.isNull()) {
-                reader.next();
-            } else {
-                break;                   // protocol error
-            }
-
-            // Next state: no command read
-            reader.leaveContainer();
-            if (state == ReadingGreeting) {
-                if (currentDataType != Greeting)
-                    break;              // protocol error
-                processGreeting();
-            } else {
+            switch(currentDataType)
+            {
+            case NewPeerConnection:
+                buffer = reader.readString().data;
+                reader.readString();
+                serverPort = reader.toInteger();
+                processNewPeerConnection();
+                break;
+            case ResponsePeerConnection:
+                buffer = reader.readString().data;
+                reader.readString();
+                processResponsePeerConnection();
+                break;
+            default:
+                buffer = reader.readString().data;
+                reader.readString();
                 processData();
+                break;
             }
+            reader.leaveContainer();
             currentDataType = Undefined;
+
         }
     }
 
-    if (reader.lastError() != QCborError::EndOfFile)
-        abort();       // parse error
+    // It was to verify is we read overflow,
+    // in our case we know exactly what we need to read, so why keep it?
+    //if (reader.lastError() != QCborError::EndOfFile)
+    //    abort();       // parse error
+
 }
 
-void Connection::processGreeting()
+void Connection::processNewPeerConnection()
+{
+    QString temp = username;
+    username = buffer;
+    buffer.clear();
+
+    if (!isValid()) {
+        abort();
+        return;
+    }
+
+    state = ReadyForUse;
+    emit readyForUse();
+
+    Connection* socketDestToSrc = new Connection(Connection::DataType::ResponsePeerConnection);
+    socketDestToSrc->setServerPort(localPort());
+    // change it;
+    socketDestToSrc->setUsername(temp);
+    socketDestToSrc->connectToHost(peerAddress(),serverPort);
+    emit newConnection(socketDestToSrc);
+}
+
+void Connection::processResponsePeerConnection()
 {
     username = buffer;
     buffer.clear();
@@ -151,12 +221,10 @@ void Connection::processGreeting()
         return;
     }
 
-    if (!isGreetingMessageSent)
-        sendGreetingMessage();
-
     state = ReadyForUse;
     emit readyForUse();
 }
+
 
 void Connection::processData()
 {

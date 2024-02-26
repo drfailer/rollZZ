@@ -44,6 +44,7 @@ class User : public QObject
     void connectionError(QAbstractSocket::SocketError socketError);
     void disconnected();
     void readyForUse();
+    void receiveNewMessage(const QString &from, const QString &message);
 
   private:
     void removeConnection(Connection *connection);

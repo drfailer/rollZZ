@@ -40,6 +40,8 @@ void User::load()
     deserializeFile((UserFilePath).toStdString());
     // just to reload the name, can create a funtion setName later
     peerManager = new PeerManager(this);
+    connect(peerManager, &PeerManager::newConnection,
+            this, &User::newConnection);
 }
 
 void User::save()
@@ -95,7 +97,6 @@ void User::newConnection(Connection *connection)
 {
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
-    // Connected? no need ?
     connect(connection, &Connection::readyForUse, this, &User::readyForUse);
 }
 
@@ -106,7 +107,7 @@ void User::readyForUse()
         return;
 
     connect(connection,  &Connection::newMessage,
-            this, &User::newMessage);
+            this, &User::receiveNewMessage);
 
     peers.insert(connection->peerAddress(), connection);
     QString nick = connection->name();
@@ -117,7 +118,16 @@ void User::readyForUse()
 void User::disconnected()
 {
     if (Connection *connection = qobject_cast<Connection *>(sender()))
+    {
+        qDebug() << connection->error();
+        qDebug() << connection->errorString();
         removeConnection(connection);
+    }
+}
+
+void User::receiveNewMessage(const QString &from, const QString &message)
+{
+    emit newMessage(from,message);
 }
 
 void User::connectionError(QAbstractSocket::SocketError /* socketError */)

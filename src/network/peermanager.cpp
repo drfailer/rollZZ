@@ -16,8 +16,9 @@ void PeerManager::setServerPort(int port)
 
 void PeerManager::initiateNewConnection(const QHostAddress &addressDest, const int portDest)
 {
-    Connection *connection = new Connection(this);
+    Connection *connection = new Connection(Connection::DataType::NewPeerConnection,this);
     connection->setUsername(client->getName());
+    connection->setServerPort(client->getPort());
     emit newConnection(connection);
     connection->connectToHost(addressDest,portDest);
 }

@@ -77,5 +77,5 @@ void Chat::userEnter(const QString &user)
 
 void Chat::userQuit(const QString & user)
 {
-    notification(tr("* %1 a quitter la partie").arg(user));
+    notification(tr("* %1 a quitté la partie").arg(user));
 }
