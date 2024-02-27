@@ -90,7 +90,7 @@ MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user
     });
 
     loading = true;
-    map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    // map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
     for(MapElement* mapElement: map->getmapElementsUse())
     {
         MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);

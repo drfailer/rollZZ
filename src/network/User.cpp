@@ -9,7 +9,7 @@
 
 User::User()
     : SERIALIZER(uuid, name),
-      name(""),
+      name("quelquechose"),
       peerManager(new PeerManager(this))
 {
     uuid = QUuid::createUuid().toString();
