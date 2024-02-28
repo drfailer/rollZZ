@@ -64,7 +64,9 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     layoutSideMenu = new QHBoxLayout(sideMenu);
     sideMenu->setLayout(layoutSideMenu);
     layoutSideMenu->addWidget(menuMapElementSelection,1);
-    layoutSideMenu->addWidget(view,0);
+    maps = new QTabWidget(this);
+    maps->addTab(view, "test");
+    layoutSideMenu->addWidget(maps,0);
     layoutSideMenu->addWidget(tabRight,1);
 
     labelForCursorDrag = new QLabel(this);

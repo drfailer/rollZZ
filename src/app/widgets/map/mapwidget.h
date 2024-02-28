@@ -48,6 +48,7 @@ public:
     QVBoxLayout* layoutMenuMapElement;
     MapScrollArea* scrollAreaMapElementSelection;
     MapScrollArea* menuItemOnMap;
+    QTabWidget *maps;
     Chat* chat;
     User* user;
     LayerSelection* layerSelection;
