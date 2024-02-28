@@ -109,6 +109,11 @@ void MainWindow::initGames() {
     gameList = new GameList(listGames,ui->gamesList);
     connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){
                 ui->playerBoardPage->setLayout(new QHBoxLayout());
+                // TODO: if same game -> do not reload
+                if (mapWidget != nullptr) {
+                    ui->playerBoardPage->layout()->removeWidget(mapWidget);
+                    delete mapWidget;
+                }
                 mapWidget = new MapWidget(gameToLaunch->getDefaultMap());
                 ui->playerBoardPage->layout()->addWidget(mapWidget);
                 goToPage(ui->playerBoardPage);
