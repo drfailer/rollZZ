@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QFile>
+#include <QFile>
 #include "init.h"
 
 /* #define MAIN_TEST */
@@ -11,10 +12,17 @@
 int main(int argc, char *argv[]) {
     init(); // we call the init function on start
 
+    if(!QFile::exists(UserFilePath))
+    {
+        User* usr = new User();
+        usr->save();
+    }
+
     QApplication app(argc, argv);
     MainWindow   w;
     // on peut faire un steelsheet dans le code aussi :)
-    // w.setStyleSheet("#QLabel                    { color: #F2F2F2; }");
+    // w.setStyleSheet("#QLabel { color: #F2F2F2; }");
+
     w.show();
     return app.exec();
 }

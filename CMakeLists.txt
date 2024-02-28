@@ -12,10 +12,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-Wall -Wextra -g -Wuninitialized)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 
 make_directory($ENV{HOME}/.local/resources)
+make_directory($ENV{HOME}/.local/resources/games)
+
 
 ################################################################################
 #                                   mongocxx                                   #
@@ -82,9 +84,11 @@ include_directories(
     src/tools/
     src/CS/
     src/game/
+    src/network/
     src/app/
     src/app/widgets/
-    src/app/widgets/map
+    src/app/widgets/map/
+    src/app/widgets/game/
     src/app/widgets/cscreator/
     src/app/widgets/cscreator/popup/
     src/app/widgets/cscreator/components/
@@ -173,7 +177,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/tools/popup.h src/app/widgets/tools/popup.cpp
         src/app/widgets/tools/component.h src/app/widgets/tools/component.cpp
         # user
-        src/game/user.h src/game/user.cpp
+        src/network/server.h src/network/server.cpp
+        src/network/User.h src/network/User.cpp
+        src/network/connection.h src/network/connection.cpp
+        src/network/peermanager.h src/network/peermanager.cpp
+        src/app/widgets/game/gamepopup.h src/app/widgets/game/gamepopup.cpp
+        src/app/widgets/map/chat.h src/app/widgets/map/chat.cpp
     )
 
 # target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})
@@ -197,6 +206,7 @@ else()
 endif()
 
 target_link_libraries(rollZZ PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(rollZZ PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

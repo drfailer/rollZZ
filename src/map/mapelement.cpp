@@ -25,7 +25,7 @@ void MapElement::RescalePixMap(int maxX,int maxY)
   else
     pixMapSize = QSize(maxX,imageSize.height()*ratioX);
 
-  previewPixMap = previewPixMap.scaled(pixMapSize);
+  previewPixMap = originalPixMap.scaled(pixMapSize);
 }
 
 QDataStream &operator<<(QDataStream &stream, const MapElement* el) {

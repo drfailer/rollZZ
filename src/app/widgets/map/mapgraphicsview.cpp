@@ -1,13 +1,15 @@
 #include "mapgraphicsview.h"
 
-MapGraphicsView::MapGraphicsView(QWidget* parent):QGraphicsView(parent), numScheduledScalings(0), sceneSizeX(2500),sceneSizeY(2500)
+MapGraphicsView::MapGraphicsView(QWidget* parent):QGraphicsView(parent), numScheduledScalings(0), sceneSizeX(200),sceneSizeY(200)
 {
-  setMinimumSize(QSize(500,500));
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  setMinimumSize(0, 0);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   viewport()->setAcceptDrops(true);
   scene = new MapGraphicsScene(this);
   setScene(scene);
+  setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
   setTransformationAnchor(QGraphicsView::NoAnchor);
 }
 

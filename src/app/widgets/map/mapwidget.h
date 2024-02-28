@@ -6,11 +6,15 @@
 #include <QBoxLayout>
 #include <QFileDialog>
 #include "gamecs/gamecs.h"
+#include <QTabWidget>
 #include "map.h"
 #include "mapelementwidget.h"
 #include "mapgraphicsview.h"
 #include "mapscrollarea.h"
 #include "layerselection.h"
+#include "chat.h"
+#include "User.h"
+
 
 /*
  * TODO
@@ -21,7 +25,7 @@ class MapWidget: public QWidget
 {
   Q_OBJECT
 public:
-    MapWidget(QWidget *parent = nullptr, Map* map = {});
+  MapWidget(Map* map, QWidget *parent = nullptr);
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *) override;
@@ -33,6 +37,7 @@ public:
     void saveMap();
 
   private:
+    QTabWidget* tabRight;
     MapGraphicsView* view;
     QWidget* sideMenu;
     QVBoxLayout* layoutGlobal;
@@ -43,6 +48,8 @@ public:
     QVBoxLayout* layoutMenuMapElement;
     MapScrollArea* scrollAreaMapElementSelection;
     MapScrollArea* menuItemOnMap;
+    Chat* chat;
+    User* user;
     LayerSelection* layerSelection;
     bool loading;
 

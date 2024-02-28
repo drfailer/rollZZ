@@ -24,6 +24,17 @@ MainWindow::MainWindow(QWidget *parent):
     initGames();
     initCSCreator();
     initCSEditor();
+
+
+    A = new User();
+    B = new User();
+
+    timer = new QTimer();
+    timer->setInterval(2000);
+    connect(timer, &QTimer::timeout,this, [&](){
+        B->sendMessage("coucou A");
+        A->sendMessage("yo B");});
+    timer->start();
 }
 
 MainWindow::~MainWindow() {
@@ -47,6 +58,7 @@ void MainWindow::initMenu() {
             [&]() { goToPage(ui->createGamePage); });
     connect(ui->joinGameButton, &QPushButton::clicked, this,
             [&]() { goToPage(ui->joinGamePage); });
+
     connect(ui->characterSheetButton, &QPushButton::clicked, this, [&]() {
                 ui->CSPages->setCurrentIndex(0);
                 goToPage(ui->CSPage);
@@ -60,9 +72,42 @@ void MainWindow::initMenu() {
 /******************************************************************************/
 
 void MainWindow::initGames() {
-    // TODO: use the games of a real player (needs palyer class)
-    gameList = new GameList({ new Game("Meilleur MJ"), new Game("MJ bauf mais ça passe encore")},ui->gamesList);
-    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(ui->playerBoardPage,gameToLaunch->getDefaultMap()); goToPage(ui->playerBoardPage);});
+    User* user = new User();
+    user->load();
+
+    gamePopup = nullptr;
+    QList<Game *> listGames;
+    QDir directory(DirectoriesPath);
+    QStringList games = directory.entryList(QDir::Files);
+    for(QString gameFile: games) {
+        Game* g = new Game();
+        qDebug() << gameFile;
+        g->load(gameFile);
+        listGames.append(g);
+    }
+
+    connect(ui->CreateGameButton, &QPushButton::clicked, this,
+            [=]() {
+                if(gamePopup != nullptr)
+                    return;
+
+                gamePopup = new GamePopup();
+                gamePopup->show();
+                //gamePopup->activateWindow();
+                connect(gamePopup, &GamePopup::confirm, this, [&](bool confirm) {
+                    if (confirm)
+                    {
+                        Game* g = new Game(user->getUuid(),gamePopup->getName());
+                        gameList->addGame(g);
+                        g->save();
+                    }
+                    delete gamePopup;
+                    gamePopup = nullptr;
+                });
+            });
+
+    gameList = new GameList(listGames,ui->gamesList);
+    connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){mapWidget = new MapWidget(gameToLaunch->getDefaultMap(),ui->playerBoardPage); goToPage(ui->playerBoardPage);});
 }
 
 /******************************************************************************/

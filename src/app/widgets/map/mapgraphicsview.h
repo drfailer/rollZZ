@@ -26,7 +26,6 @@ public:
     void scalingTime(qreal x);
     void animFinished();
 
-
 private:
   MapGraphicsScene* scene;
   // For Scene position and scaling

@@ -13,8 +13,10 @@ class GameList : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GameList(const QList<Game*>& games,QWidget *parent);
+    GameList(const QList<Game*>& games,QWidget *parent);
+    void addGame(Game* game);
     ~GameList();
+
 
 public: signals:
     // Useless parameters, since the parameters of the signal are given as paremters to the slots/lambda
@@ -27,10 +29,9 @@ private:
     // TODO: we use string for testing but this will be real games (or at least,
     // we will build a list of buttons with the player's games)
     QList<Game*> games;
-    QVBoxLayout layout;
-
     CS::CS CSTree;
     GameCS::GameCS *gameCS = nullptr;
+    QVBoxLayout* layout;
 };
 
 #endif // GAMELIST_H
