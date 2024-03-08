@@ -48,6 +48,9 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     connect(csBtn, &QPushButton::clicked, this, [&]() {
       if (cs == nullptr) {
         cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
+        connect(cs, &GameCS::GameCS::rolled, this, [&](QString message) {
+                    this->user->sendMessage(message);
+                });
         cs->show();
       }
     });
