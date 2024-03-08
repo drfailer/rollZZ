@@ -12,6 +12,9 @@ void MapPlayerToken::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             delete cs;
         }
         cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
+        connect(cs, &GameCS::GameCS::rolled, this, [&](QString message) {
+                    emit rolled(message);
+                });
         cs->show();
     }
 }
