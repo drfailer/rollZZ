@@ -2,9 +2,9 @@
 #include <QLabel>
 #include <iostream>
 
-namespace  GameCS {
+namespace GameCS {
 
-Caracteristic::Caracteristic(CS::Caracteristic* caracteristic, QWidget* parent):
+Caracteristic::Caracteristic(CS::Caracteristic *caracteristic, QWidget *parent):
     QWidget(parent),
     caracteristic(caracteristic),
     layout(this),
@@ -18,8 +18,11 @@ Caracteristic::Caracteristic(CS::Caracteristic* caracteristic, QWidget* parent):
     layout.setAlignment(Qt::AlignLeft);
 
     connect(&rollBtn, &QPushButton::clicked, this, [&]() {
-                std::cout << this->caracteristic->roll() << std::endl;
-            });
+        QString message = "rolled " + this->caracteristic->getName() + ": " +
+                          QString::number(this->caracteristic->roll());
+        emit rolled(message);
+        std::cout << message.toStdString() << std::endl;
+    });
 }
 
 } // end namespace GameCS

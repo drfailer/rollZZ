@@ -3,9 +3,9 @@
 
 #include "CS/caracteristic.h"
 #include <QBoxLayout>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QWidget>
-#include <QPushButton>
 
 namespace GameCS {
 
@@ -14,6 +14,9 @@ class Caracteristic : public QWidget {
   public:
     Caracteristic(CS::Caracteristic *caracteristic, QWidget *parent = nullptr);
     ~Caracteristic() = default;
+
+  signals:
+    void rolled(QString message);
 
   private:
     CS::Caracteristic *caracteristic;

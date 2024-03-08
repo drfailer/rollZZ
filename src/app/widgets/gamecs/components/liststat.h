@@ -1,21 +1,23 @@
 #ifndef GAMECS_LISTSTAT_H
 #define GAMECS_LISTSTAT_H
 
-#include "tools/component.h"
 #include "CS/liststat.h"
+#include "tools/component.h"
 
 namespace GameCS {
 
 class SkillWgt;
 
-class ListStat : public Tools::Component
-{
+class ListStat : public Tools::Component {
     Q_OBJECT
-public:
-    ListStat(CS::ListStat *listStat, QWidget* parent = nullptr);
+  public:
+    ListStat(CS::ListStat *listStat, QWidget *parent = nullptr);
     ~ListStat();
 
-private:
+  signals:
+    void rolled(QString message);
+
+  private:
     CS::ListStat *listStat = nullptr;
 };
 
