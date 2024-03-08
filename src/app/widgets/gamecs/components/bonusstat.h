@@ -1,8 +1,8 @@
 #ifndef GAMECS_BONUSSTAT_H
 #define GAMECS_BONUSSTAT_H
 
-#include "basicstat.h"
 #include "CS/bonusstat.h"
+#include "basicstat.h"
 
 #include <QPushButton>
 
@@ -10,16 +10,15 @@ namespace GameCS {
 
 class BonusStatPopup;
 
-class BonusStat : public BasicStat
-{
+class BonusStat : public BasicStat {
     Q_OBJECT
-public:
+  public:
     BonusStat(CS::BonusStat *bonuStat, QWidget *parent = nullptr);
 
-signals:
-    void rolled(int);
+  signals:
+    void rolled(QString);
 
-private:
+  private:
     CS::BonusStat *bonusStat = nullptr;
     QPushButton *rollBtn = nullptr;
 };
