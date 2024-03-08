@@ -15,7 +15,7 @@ class Weapon : public QWidget {
     ~Weapon() = default;
 
 signals:
-    void rolled(int);
+    void rolled(QString);
 
   private:
     CS::Weapon *weapon;

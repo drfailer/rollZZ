@@ -22,12 +22,20 @@ Weapon::Weapon(CS::Weapon *weapon, QWidget* parent):
 
     // connects
     connect(&rollAttackBtn, &QPushButton::clicked, this, [&]() {
-                /* emit rolled(this->weapon->rollAttack()); */
-                std::cout << this->weapon->rollAttack() << std::endl;
+                QString message = "attack with "
+                                + this->weapon->getWeaponType()
+                                + ": "
+                                + QString::number(this->weapon->rollAttack());
+                emit rolled(message);
+                std::cout << message.toStdString() << std::endl;
             });
     connect(&rollDamageBtn, &QPushButton::clicked, this, [&]() {
-                /* emit rolled(this->weapon->rollDamage()); */
-                std::cout << this->weapon->rollDamage() << std::endl;
+                QString message = "make damage with "
+                                + this->weapon->getWeaponType()
+                                + ": "
+                                + QString::number(this->weapon->rollDamage());
+                emit rolled(message);
+                std::cout << message.toStdString() << std::endl;
             });
     layout.setContentsMargins(0, 0, 0, 0);
 }

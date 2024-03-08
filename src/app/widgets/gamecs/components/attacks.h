@@ -3,18 +3,20 @@
 
 #include "CS/attacks.h"
 #include "tools/component.h"
-#include <QSpinBox>
 #include <QList>
+#include <QSpinBox>
 
 namespace GameCS {
 
-class Attacks : public Tools::Component
-{
+class Attacks : public Tools::Component {
     Q_OBJECT
-public:
+  public:
     Attacks(CS::Attacks *attack, QWidget *parent = nullptr);
 
-private:
+  signals:
+    void rolled(QString);
+
+  private:
     CS::Attacks *attacks;
 
     /* methods ****************************************************************/

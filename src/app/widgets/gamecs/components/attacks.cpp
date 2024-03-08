@@ -1,9 +1,9 @@
 #include "gamecs/components/attacks.h"
 
+#include "CS/weapon.h"
 #include "gamecs/components/weapon.h"
 #include "tools/component.h"
 #include <QPushButton>
-#include "CS/weapon.h"
 
 namespace GameCS {
 
@@ -11,10 +11,8 @@ namespace GameCS {
 /*                          constructor & destructor                          */
 /******************************************************************************/
 
-Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
-    Tools::Component(attacks->getTitle(), parent),
-    attacks(attacks)
-{
+Attacks::Attacks(CS::Attacks *attacks, QWidget *parent)
+    : Tools::Component(attacks->getTitle(), parent), attacks(attacks) {
     // add weapons
     for (CS::Weapon *weapon : attacks->getWeapons()) {
         addWeapon(weapon);
@@ -22,13 +20,15 @@ Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
 
     // set style
     setStyleSheet("QLabel { font-size: 18px; }"
-                  "QPushButton { font-size: 14px; border: 1px solid #282828; border-radius: 5%; }"
-                  "QFrame { background-color: #202020; }"
-                  );
+                  "QPushButton { font-size: 14px; border: 1px solid #282828; "
+                  "border-radius: 5%; }"
+                  "QFrame { background-color: #202020; }");
 }
 
 void Attacks::addWeapon(CS::Weapon *weapon) {
-    Weapon* newWeaponWgt = new Weapon(weapon, this);
+    Weapon *newWeaponWgt = new Weapon(weapon, this);
+    connect(newWeaponWgt, &Weapon::rolled, this,
+            [&](QString message) { emit rolled(message); });
 
     bodyAdd(newWeaponWgt);
 }
