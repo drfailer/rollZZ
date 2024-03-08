@@ -3,13 +3,12 @@
 
 #include "cs.h"
 #include "part.h"
-#include <QPushButton>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QTabWidget>
 #include <QMap>
+#include <QPushButton>
 #include <QString>
-
+#include <QTabWidget>
+#include <QVBoxLayout>
+#include <QWidget>
 
 namespace GameCS {
 
@@ -18,14 +17,17 @@ class SectionPopup;
 
 class GameCS : public QWidget {
     Q_OBJECT
-public:
-    GameCS(const QString& csFile = "");
+  public:
+    GameCS(const QString &csFile = "");
     ~GameCS();
 
     /* accessors **************************************************************/
     QString getCSFile() const { return csFile; }
 
-private:
+  signals:
+    void rolled(QString message);
+
+  private:
     int index = 0;
 
     /* elements on the page ***************************************************/
@@ -38,8 +40,11 @@ private:
     QString csFile = "";
 
     /* private methods ********************************************************/
-    QVBoxLayout* currentTabLyt() { return dynamic_cast<QVBoxLayout*>(tabWgt->widget(tabWgt->currentIndex())->layout()); }
-    QWidget* createTab(CS::Part* part);
+    QVBoxLayout *currentTabLyt() {
+        return dynamic_cast<QVBoxLayout *>(
+            tabWgt->widget(tabWgt->currentIndex())->layout());
+    }
+    QWidget *createTab(CS::Part *part);
 };
 
 } // end namespace GameCS

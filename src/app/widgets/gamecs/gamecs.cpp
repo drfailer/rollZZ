@@ -60,7 +60,11 @@ QWidget* GameCS::createTab(CS::Part* part) {
     scrollArea->setWidgetResizable(true);
 
     for (CS::Section* section : part->getSections()) {
-        newTabLyt->addWidget(new Section(section, newTabWgt));
+        Section *newSection = new Section(section, newTabWgt);
+        connect(newSection, &Section::rolled, this, [&](QString message) {
+                    emit rolled(message);
+                });
+        newTabLyt->addWidget(newSection);
     }
 
     newTabWgt->setLayout(newTabLyt);

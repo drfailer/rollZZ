@@ -23,17 +23,29 @@ Section::Section(CS::Section* section, QWidget *parent):
     // body
     for (CS::Component* component : section->getComponents()) {
         if (CS::BonusStat* bonusStat = dynamic_cast<CS::BonusStat*>(component)) {
-            bodyAdd(new BonusStat(bonusStat, this));
+            BonusStat *newBonusStat = new BonusStat(bonusStat, this);
+            connect(newBonusStat, &BonusStat::rolled, this, [&](QString message) {
+                        emit rolled(message);
+                    });
+            bodyAdd(newBonusStat);
         } else if (CS::BasicStat* basicStat = dynamic_cast<CS::BasicStat*>(component)) {
             bodyAdd(new BasicStat(basicStat, this));
         } else if (CS::ListStat* listStat = dynamic_cast<CS::ListStat*>(component)) {
-            bodyAdd(new ListStat(listStat, this));
+            ListStat *newListStat = new ListStat(listStat, this);
+            connect(newListStat, &ListStat::rolled, this, [&](QString message) {
+                        emit rolled(message);
+                    });
+            bodyAdd(newListStat);
         } else if (CS::Descriptor* descriptor = dynamic_cast<CS::Descriptor*>(component)) {
             bodyAdd(new Descriptor(descriptor, this));
         } else if (CS::Equipment* equipment = dynamic_cast<CS::Equipment*>(component)) {
             bodyAdd(new Equipment(equipment, this));
         } else if (CS::Attacks* attacks = dynamic_cast<CS::Attacks*>(component)) {
-            bodyAdd(new Attacks(attacks, this));
+            Attacks *newAttacks = new Attacks(attacks, this);
+            connect(newAttacks, &Attacks::rolled, this, [&](QString message) {
+                        emit rolled(message);
+                    });
+            bodyAdd(newAttacks);
         }
     }
 }
