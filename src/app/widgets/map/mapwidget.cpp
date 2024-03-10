@@ -1,7 +1,9 @@
 #include "mapwidget.h"
 
-MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user(user),map(map)
+MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),user(user),game(game)
 {
+    map = new Map(game->getName(),game->getDefaultMap());
+    map->load();
     setAcceptDrops(true);
     sideMenu = new QWidget(this);
     menu = new QWidget(this);
@@ -27,6 +29,9 @@ MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user
     menuItemOnMap = new MapScrollArea(tabRight);
     chat = new Chat(user,tabRight);
     chat->addText("bot", QString::fromStdString("Server launch with port:" + std::to_string(user->getPort()) + " and ip:" + user->getIp().toStdString()));
+
+    if (user->getUuid() == game->getMJUuid())
+        connect(user,&User::askForImage,this,&MapWidget::sendAllImage);
 
     menuMapElementSelection = new QWidget(sideMenu);
     QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
@@ -76,7 +81,7 @@ MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user
         for(QString& filePath: filesPath)
         {
             QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
-            QString newFilePath = QDir::homePath() + QString("/.local/resources/") + name;
+            QString newFilePath = RESOURCE_DIRECTORY + name;
 
             if (QFile::exists(newFilePath))
                 QFile::remove(newFilePath);
@@ -90,7 +95,7 @@ MapWidget::MapWidget(Map* map,User* user, QWidget* parent): QWidget(parent),user
     });
 
     loading = true;
-    // map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    map->load();
     for(MapElement* mapElement: map->getmapElementsUse())
     {
         MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
@@ -157,5 +162,14 @@ void MapWidget::keyPressEvent(QKeyEvent *event)
 
 void MapWidget::saveMap()
 {
-    map->save(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    map->save();
+}
+
+void MapWidget::sendAllImage(Connection *co)
+{
+    //TODO: all maps
+    for(MapElement* el : map->getmapElementsUse())
+        co->sendImage(el);
+    co->sendMap(map);
+    co->sendGame(game);
 }

@@ -13,6 +13,7 @@
 #include "layerselection.h"
 #include "chat.h"
 #include "User.h"
+#include "game.h"
 
 
 /*
@@ -24,7 +25,7 @@ class MapWidget: public QWidget
 {
   Q_OBJECT
 public:
-  MapWidget(Map* map,User* user, QWidget *parent = nullptr);
+  MapWidget(Game* game,User* user, QWidget *parent = nullptr);
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *) override;
@@ -34,6 +35,7 @@ public:
   public slots:
     void drop(MapGraphicsItem* dropItem);
     void saveMap();
+    void sendAllImage(Connection* co);
 
   private:
     QTabWidget* tabRight;
@@ -44,6 +46,7 @@ public:
     QVBoxLayout* layoutMenu;
     QBoxLayout* layoutSideMenu;
     Map* map;
+    Game*game;
     QLabel* labelForCursorDrag;
     QWidget* menuMapElementSelection;
     QVBoxLayout* layoutMenuMapElement;

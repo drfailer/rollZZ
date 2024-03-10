@@ -173,6 +173,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/app/widgets/game/gamepopup.h src/app/widgets/game/gamepopup.cpp
         src/app/widgets/map/chat.h src/app/widgets/map/chat.cpp
         src/app/widgets/game/joingamepopup.h src/app/widgets/game/joingamepopup.cpp
+        src/game/name.h src/game/name.cpp
     )
 
 # target_link_libraries(rollZZ PRIVATE ${LIBMONGOCXX_LIBRARIES})

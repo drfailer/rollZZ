@@ -37,7 +37,7 @@ void User::sendMessage(const QString &message)
 
 void User::load()
 {
-    deserializeFile((UserFilePath).toStdString());
+    deserializeFile((USER_FILEPATH).toStdString());
     // just to reload the name, can create a funtion setName later
     peerManager = new PeerManager(this);
     connect(peerManager, &PeerManager::newConnection,
@@ -46,7 +46,7 @@ void User::load()
 
 void User::save()
 {
-    serializeFile((UserFilePath).toStdString());
+    serializeFile((USER_FILEPATH).toStdString());
 }
 
 QString User::getName() const
@@ -99,9 +99,15 @@ void User::newConnection(Connection *connection)
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
     connect(connection, &Connection::readyForUse, this, &User::readyForUse);
+    connect(connection, &Connection::waitingData, this, &User::waitingData);
 }
 
-void User::readyForUse()
+void User::readyForUse(QString gameName)
+{
+    emit readyToLaunch(gameName);
+}
+
+void User::waitingData()
 {
     Connection *connection = qobject_cast<Connection *>(sender());
     if (!connection || hasConnection(connection->peerAddress(), connection->peerPort()))
@@ -114,6 +120,7 @@ void User::readyForUse()
     QString nick = connection->getName();
     if (!nick.isEmpty())
         emit newParticipant(nick);
+    emit askForImage(connection);
 }
 
 void User::disconnected()

@@ -16,4 +16,7 @@ void init() {
 
     // verify if the config directory is created
     dir.mkdir(CONFIG_DIRECTORY);
+
+    dir.mkdir(GAME_DIRECTORY);
+    dir.mkdir(RESOURCE_DIRECTORY);
 }

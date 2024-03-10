@@ -71,17 +71,18 @@ void MainWindow::initMenu() {
 /******************************************************************************/
 
 void MainWindow::initGames() {
-
+    ui->playerBoardPage->setLayout(new QHBoxLayout());
     user = new User();
     user->load();
 
     gamePopup = nullptr;
     joinGamePopup = nullptr;
     QList<Game *> listGames;
-    QDir directory(DirectoriesPath);
-    QStringList games = directory.entryList(QDir::Files);
+    QDir directory(GAME_DIRECTORY);
+
+    QStringList games = directory.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for(QString gameFile: games) {
-        Game* g = new Game();
+        Game* g = new Game(user->getUuid());
         qDebug() << gameFile;
         g->load(gameFile);
         listGames.append(g);
@@ -109,10 +110,7 @@ void MainWindow::initGames() {
 
     gameList = new GameList(listGames,ui->gamesList);
     connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){
-                ui->playerBoardPage->setLayout(new QHBoxLayout());
-                mapWidget = new MapWidget(gameToLaunch->getDefaultMap(),user);
-                ui->playerBoardPage->layout()->addWidget(mapWidget);
-                goToPage(ui->playerBoardPage);
+                readyToLaunchGame(gameToLaunch);
             });
 
     connect(ui->joinNewGameButton,&QPushButton::clicked,this,[=](){
@@ -124,18 +122,26 @@ void MainWindow::initGames() {
         connect(joinGamePopup, &JoinGamePopup::confirm, this, [&](bool confirm) {
             if (confirm)
             {
-                User* b = new User();
-                b->load();
-                b->initiateNewConnection(joinGamePopup->getIp(),joinGamePopup->getPort());
-                ui->playerBoardPage->setLayout(new QHBoxLayout());
-                mapWidget = new MapWidget((new Game())->getDefaultMap(),b);
-                ui->playerBoardPage->layout()->addWidget(mapWidget);
-                goToPage(ui->playerBoardPage);
+                user->initiateNewConnection(joinGamePopup->getIp(),joinGamePopup->getPort());
+                connect(user,&User::readyToLaunch,this,[&](QString gameName)
+                        {
+                    Game * g = new Game();
+                    g->load(gameName);
+                    readyToLaunchGame(g);
+                });
+
             }
             delete joinGamePopup;
             joinGamePopup = nullptr;
         });
     });
+}
+
+void MainWindow::readyToLaunchGame(Game* gameToLaunch)
+{
+    mapWidget = new MapWidget(gameToLaunch, user);
+    ui->playerBoardPage->layout()->addWidget(mapWidget);
+    goToPage(ui->playerBoardPage);
 }
 
 /******************************************************************************/

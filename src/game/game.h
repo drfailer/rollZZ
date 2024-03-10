@@ -5,22 +5,23 @@
 #include "map.h"
 #include "serializer.hpp"
 #include <QDir>
-
-#define DirectoriesPath QDir::homePath() + QString("/.local/resources/games/")
+#include "name.h"
 
 class Game
 {
-    SERIALIZABLE_WITH_CONVERTOR(QtConvertor,QString,std::vector<Map*>,QString)
+    SERIALIZABLE_WITH_CONVERTOR(QtConvertor,QString,std::vector<Name*>,QString)
 public:
     Game(QString mj = " ", QString name = "");
     QString getName() const;
+    QString getMJUuid() const ;
     void setName(const QString&);
-    void load(const QString&);
+    void load();
+    void load(QString name);
     void save();
-    Map* getDefaultMap() const;
+    QString getDefaultMap() const;
 private:
   QString name;
-  std::vector<Map*> maps;
+  std::vector<Name*> maps;
   QString MJ_uuid;
 };
 

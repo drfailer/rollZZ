@@ -1,25 +1,6 @@
 #include "connection.h"
-
-
-#include "connection.h"
-
 #include <QTimerEvent>
 #include <iostream>
-
-static const int TransferTimeout = 30 * 1000;
-
-/*
- * Protocol is defined as follows, using the CBOR Data Definition Language:
- *
- *  protocol    = [
- *     greeting,        ; must start with a greeting command
- *     * command        ; zero or more regular commands after
- *  ]
- *  plaintext   = { 0 => text }
- *  map
- *  greeting    = { 3 => text }
- */
-
 
 Connection::Connection(DataType sendType,QObject *parent)
     : QTcpSocket(parent), writer(this)
@@ -45,11 +26,9 @@ Connection::Connection(qintptr socketDescriptor, QObject *parent)
 
 Connection::~Connection()
 {
-    if (isHandShakeMade) {
+    if (isHandShakeMade)
         // Indicate clean shutdown.
         writer.endArray();
-        waitForBytesWritten(2000);
-    }
 }
 
 QString Connection::getName() const
@@ -62,16 +41,44 @@ void Connection::setUsername(const QString &username)
     this->username = username;
 }
 
-bool Connection::sendMessage(const QString &message)
+void Connection::sendMessage(const QString &message)
 {
     if (message.isEmpty())
-        return false;
+        return;
 
     writer.startArray();
     writer.append(PlainText);
     writer.append(message);
     writer.endArray();
-    return true;
+}
+
+void Connection::sendImage(MapElement*el)
+{
+    QByteArray byteArray;
+    QDataStream stream(&byteArray, QIODevice::WriteOnly);
+    stream << el->getName();
+    stream << el->getOriginalPixMap();
+
+    writer.startArray();
+    writer.append(Image);
+    writer.append(byteArray);
+    writer.endArray();
+}
+
+void Connection::sendMap(Map *map)
+{
+    writer.startArray();
+    writer.append(MapType);
+    writer.append(QString::fromStdString(map->serialize()));
+    writer.endArray();
+}
+
+void Connection::sendGame(Game *g)
+{
+    writer.startArray();
+    writer.append(GameType);
+    writer.append(QString::fromStdString(g->serialize()));
+    writer.endArray();
 }
 
 void Connection::sendNewPeer()
@@ -89,6 +96,7 @@ void Connection::sendNewPeer()
 
 void Connection::processReadyRead()
 {
+    QCborStreamReader::StringResult<QByteArray> r;
     // New data receive
     reader.reparse();
     while (reader.lastError() == QCborError::NoError) {
@@ -128,6 +136,24 @@ void Connection::processReadyRead()
                 reader.readString();
                 processNewPeerConnection();
                 break;
+            case Image:
+                byteBuffer.clear();
+                r = reader.readByteArray();
+                byteBuffer += r.data;
+                reader.readByteArray();
+                processImage();
+                break;
+            //TODO: Refactor
+            case MapType:
+                buffer = reader.readString().data;
+                reader.readString();
+                processMap();
+                break;
+            case GameType:
+                buffer = reader.readString().data;
+                reader.readString();
+                processGame();
+                break;
             default:
                 buffer = reader.readString().data;
                 reader.readString();
@@ -136,7 +162,6 @@ void Connection::processReadyRead()
             }
             reader.leaveContainer();
             currentDataType = Undefined;
-
         }
     }
 
@@ -156,12 +181,26 @@ void Connection::processNewPeerConnection()
         return;
     }
 
-    state = ReadyForUse;
-
+    state = WaitingData;
     if(!isHandShakeMade)
         sendNewPeer();
 
-    emit readyForUse();
+    emit waitingData();
+}
+
+void Connection::processImage()
+{
+    QString name;
+    QPixmap map;
+    QDataStream stream(&byteBuffer, QIODevice::ReadOnly);
+    stream >> name;
+    stream >> map;
+    QString filepath = RESOURCE_DIRECTORY + name;
+    if (QFile::exists(filepath))
+        QFile::remove(filepath);
+    QFile file(filepath);
+    file.open(QIODevice::WriteOnly);
+    map.save(&file,"PNG");
 }
 
 void Connection::processData()
@@ -177,3 +216,23 @@ void Connection::processData()
     }
     buffer.clear();
 }
+
+void Connection::processMap()
+{
+    Map m;
+    m.deserialize(buffer.toStdString());
+    m.save();
+    buffer.clear();
+}
+
+void Connection::processGame()
+{
+    Game g;
+    g.deserialize(buffer.toStdString());
+    g.save();
+    buffer.clear();
+    state=ReadyForUse;
+    emit readyForUse(g.getName());
+}
+
+

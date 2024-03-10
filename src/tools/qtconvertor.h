@@ -3,6 +3,7 @@
 #include "convertor.hpp"
 #include <QString>
 #include <QSize>
+#include <iostream>
 
 // TODO rename
 struct QtConvertor {
@@ -10,11 +11,38 @@ struct QtConvertor {
         return QString::fromUtf8(str.substr(1, str.size() - 2).c_str());
     }
 
-    serialize_custom_type(const QString &elt) {
+    serialize_custom_type(const QString& elt) {
         std::ostringstream oss;
         oss << "\"" << elt.toStdString() << "\"";
         return oss.str();
     }
+
+    /**deserialize_custom_type(QVector<QString>, const std::string& str) {
+        QVector<QString> result;
+        std::stringstream ss(str);
+        std::string s = "";
+        char _;
+
+        ss >> _;
+        while(s != "]")
+        {
+            ss >> s >> _;
+            std::cout << s << std::endl;
+            result.push_back(QString::fromStdString(s));
+        }
+        return result;
+    }
+
+    serialize_custom_type(const QVector<QString> &elt) {
+        std::ostringstream oss;
+        oss << "[";
+        for(QString str: elt)
+        {
+            oss << str.toStdString() << ",";
+        }
+        oss << "]";
+        return oss.str();
+    }**/
 
   deserialize_custom_type(QSize, const std::string& str) {
     int first,second;

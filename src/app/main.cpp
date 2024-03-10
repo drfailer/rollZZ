@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QFile>
 #include "init.h"
+#include "config.h"
 
 /* #define MAIN_TEST */
 
@@ -12,7 +13,7 @@
 int main(int argc, char *argv[]) {
     init(); // we call the init function on start
 
-    if(!QFile::exists(UserFilePath))
+    if(!QFile::exists(USER_FILEPATH))
     {
         User* usr = new User();
         usr->save();

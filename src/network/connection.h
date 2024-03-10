@@ -6,6 +6,11 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QTcpSocket>
+#include <mapelement.h>
+#include "game.h"
+#include <map.h>
+#include <QDataStream>
+#include <QFile>
 
 static const int MaxBufferSize = 1024000;
 
@@ -17,11 +22,14 @@ class Connection : public QTcpSocket
     enum ConnectionState {
         WaitingForConnection,
         ReadingConnection,
+        WaitingData,
         ReadyForUse
     };
     enum DataType {
         PlainText,
-        Map,
+        Image,
+        MapType,
+        GameType,
         NewPeerConnection,
         Undefined
     };
@@ -32,10 +40,14 @@ class Connection : public QTcpSocket
 
     QString getName() const;
     void setUsername(const QString& username);
-    bool sendMessage(const QString &message);
+    void sendMessage(const QString &message);
+    void sendImage(MapElement* el);
+    void sendMap(Map* map);
+    void sendGame(Game * g);
 
   signals:
-    void readyForUse();
+    void readyForUse(QString gameName);
+    void waitingData();
     void newMessage(const QString &from, const QString &message);
   private slots:
     void processReadyRead();
@@ -45,12 +57,16 @@ class Connection : public QTcpSocket
     bool hasEnoughData();
     void processNewPeerConnection();
     void processData();
+    void processImage();
+    void processMap();
+    void processGame();
 
     QCborStreamReader reader;
     QCborStreamWriter writer;
     QString username = "me";
     QString otherUsername = "other";
     QString buffer;
+    QByteArray byteBuffer;
     ConnectionState state = WaitingForConnection;
     DataType currentDataType = Undefined;
     bool isHandShakeMade = false;
