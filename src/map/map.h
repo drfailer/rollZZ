@@ -13,6 +13,7 @@ public:
   Map(QString gameName="default",QString name="default");
 
   QString getName(){return name;}
+  QString getGameName() const {return gameName;}
   std::list<MapElement*> getMap(){return map;}
   const std::list<MapElement*> getmapElementsUse() const {return mapElementsUse;}
 

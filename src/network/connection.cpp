@@ -63,7 +63,7 @@ void Connection::sendData(std::list<MapElement*> els,Map* map, Game* g)
         QDataStream stream(&byteArray, QIODevice::WriteOnly);
         stream << el->getName();
         stream << el->getOriginalPixMap();
-        const int chunkSize = 8192;
+        const int chunkSize = 1024;
 
         QByteArray compress = qCompress(byteArray);
 
@@ -94,14 +94,14 @@ void Connection::sendData(std::list<MapElement*> els,Map* map, Game* g)
     }
 
     writer.startArray();
-    writer.append(MapType);
-    writer.append(QString::fromStdString(map->serialize()));
+    writer.append(GameType);
+    writer.append(QString::fromStdString(g->serialize()));
     writer.endArray();
     flush();
 
     writer.startArray();
-    writer.append(GameType);
-    writer.append(QString::fromStdString(g->serialize()));
+    writer.append(MapType);
+    writer.append(QString::fromStdString(map->serialize()));
     writer.endArray();
     flush();
 }
@@ -238,7 +238,7 @@ void Connection::processImage()
     QDataStream stream(&byteBuffer, QIODevice::ReadOnly);
     stream >> name;
     stream >> map;
-    QString filepath = RESOURCE_DIRECTORY + name + "test";
+    QString filepath = RESOURCE_DIRECTORY + name;
     if (QFile::exists(filepath))
         QFile::remove(filepath);
     QFile file(filepath);
@@ -267,6 +267,8 @@ void Connection::processMap()
     m.deserialize(buffer.toStdString());
     m.save();
     buffer.clear();
+    state=ReadyForUse;
+    emit readyForUse();
 }
 
 void Connection::processGame()
@@ -275,6 +277,5 @@ void Connection::processGame()
     g.deserialize(buffer.toStdString());
     g.save();
     buffer.clear();
-    state=ReadyForUse;
-    emit readyForUse(g.getName());
+
 }
