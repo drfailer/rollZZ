@@ -268,7 +268,7 @@ void Connection::processMap()
     m.save();
     buffer.clear();
     state=ReadyForUse;
-    emit readyForUse();
+    emit readyForUse(m.getGameName());
 }
 
 void Connection::processGame()
