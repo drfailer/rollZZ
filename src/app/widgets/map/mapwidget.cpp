@@ -1,4 +1,6 @@
 #include "mapwidget.h"
+#include<thread>
+#include<chrono>
 
 MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),user(user),game(game)
 {
@@ -13,7 +15,6 @@ MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),us
     layoutGlobal->addWidget(sideMenu);
     setLayout(layoutGlobal);
     menu->setLayout(layoutMenu);
-
     tabRight = new QTabWidget(this);
     tabRight->setMovable(true);
     tabRight->setTabPosition(QTabWidget::North);
@@ -167,9 +168,5 @@ void MapWidget::saveMap()
 
 void MapWidget::sendAllImage(Connection *co)
 {
-    //TODO: all maps
-    for(MapElement* el : map->getmapElementsUse())
-        co->sendImage(el);
-    co->sendMap(map);
-    co->sendGame(game);
+    co->sendData(map->getmapElementsUse(),map,game);
 }

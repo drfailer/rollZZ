@@ -1,5 +1,4 @@
 #include "connection.h"
-#include <QTimerEvent>
 #include <iostream>
 
 Connection::Connection(DataType sendType,QObject *parent)
@@ -52,38 +51,64 @@ void Connection::sendMessage(const QString &message)
     writer.endArray();
 }
 
-void Connection::sendImage(MapElement*el)
+void Connection::sendData(std::list<MapElement*> els,Map* map, Game* g)
 {
-    QByteArray byteArray;
-    QDataStream stream(&byteArray, QIODevice::WriteOnly);
-    stream << el->getName();
-    stream << el->getOriginalPixMap();
+    int MaxBufferSize= 500000;
+    int criticalBufferSize = MaxBufferSize*0.75;
 
-    writer.startArray();
-    writer.append(Image);
-    writer.append(byteArray);
-    writer.endArray();
-}
+    for(MapElement * el:els)
+    {
+        QByteArray byteArray;
 
-void Connection::sendMap(Map *map)
-{
+        QDataStream stream(&byteArray, QIODevice::WriteOnly);
+        stream << el->getName();
+        stream << el->getOriginalPixMap();
+        const int chunkSize = 8192;
+
+        QByteArray compress = qCompress(byteArray);
+
+        int i;
+        for (i = 0; i < compress.size() - chunkSize; i += chunkSize) {
+
+            QByteArray chunk = compress.mid(i, chunkSize);
+            writer.startArray();
+            writer.append(Image);
+            writer.append(chunk);
+            writer.endArray();
+            qDebug() << "write " << chunk.size();
+            flush();
+            QThread::msleep(100);
+        }
+
+        if (compress.size() % chunkSize != 0) {
+            qDebug() << "write " << compress.size() % chunkSize ;
+            QByteArray lastChunk = compress.mid(i, compress.size() % chunkSize);
+            qDebug() << lastChunk.size();
+            writer.startArray();
+            writer.append(Image);
+            writer.append(lastChunk);
+            writer.append(EndImage);
+            writer.endArray();
+            flush();
+        }
+    }
+
     writer.startArray();
     writer.append(MapType);
     writer.append(QString::fromStdString(map->serialize()));
     writer.endArray();
-}
+    flush();
 
-void Connection::sendGame(Game *g)
-{
     writer.startArray();
     writer.append(GameType);
     writer.append(QString::fromStdString(g->serialize()));
     writer.endArray();
+    flush();
 }
 
 void Connection::sendNewPeer()
 {
-    writer.startArray(); // this array stay until the socket in delete
+    writer.startArray(); // this array stay until the socket is delete
     writer.startArray();
     writer.append(NewPeerConnection);
     writer.append(username);
@@ -92,12 +117,15 @@ void Connection::sendNewPeer()
 
     if (!reader.device())
         reader.setDevice(this);
+
+    emit waitingData();
 }
 
 void Connection::processReadyRead()
 {
     QCborStreamReader::StringResult<QByteArray> r;
     // New data receive
+    //QCborStreamReader::StringResult<qsizetype> result;
     reader.reparse();
     while (reader.lastError() == QCborError::NoError) {
         if (state == WaitingForConnection) {
@@ -134,14 +162,30 @@ void Connection::processReadyRead()
             case NewPeerConnection:
                 otherUsername = reader.readString().data;
                 reader.readString();
+                reader.leaveContainer();
+                currentDataType = Undefined;
                 processNewPeerConnection();
                 break;
             case Image:
-                byteBuffer.clear();
+                qDebug() << "bytes available: " << bytesAvailable();
                 r = reader.readByteArray();
-                byteBuffer += r.data;
-                reader.readByteArray();
-                processImage();
+                while (r.status == QCborStreamReader::Ok) {
+                    byteBuffer += r.data;
+                    r = reader.readByteArray();
+                }
+
+                if (r.status == QCborStreamReader::Error)
+                    qDebug() << "error reading byte array";
+
+                if(reader.hasNext() && DataType(reader.toInteger() == EndImage))
+                {
+                    qDebug() << "rend end image";
+                    byteBuffer = qUncompress(byteBuffer);
+                    processImage();
+                    qDebug() << reader.lastError();
+                    reader.next();
+                    qDebug() << reader.lastError();
+                }
                 break;
             //TODO: Refactor
             case MapType:
@@ -160,16 +204,17 @@ void Connection::processReadyRead()
                 processData();
                 break;
             }
+
+            if(currentDataType != Undefined)
+            {
+            qDebug() << reader.lastError();
             reader.leaveContainer();
+            qDebug() << reader.lastError();
             currentDataType = Undefined;
+            }
         }
     }
-
-    // It was to verify is we read overflow,
-    // in our case we know exactly what we need to read, so why keep it?
-    //if (reader.lastError() != QCborError::EndOfFile)
-    //    abort();       // parse error
-
+    qDebug() << reader.lastError();
 }
 
 void Connection::processNewPeerConnection()
@@ -184,8 +229,6 @@ void Connection::processNewPeerConnection()
     state = WaitingData;
     if(!isHandShakeMade)
         sendNewPeer();
-
-    emit waitingData();
 }
 
 void Connection::processImage()
@@ -195,12 +238,13 @@ void Connection::processImage()
     QDataStream stream(&byteBuffer, QIODevice::ReadOnly);
     stream >> name;
     stream >> map;
-    QString filepath = RESOURCE_DIRECTORY + name;
+    QString filepath = RESOURCE_DIRECTORY + name + "test";
     if (QFile::exists(filepath))
         QFile::remove(filepath);
     QFile file(filepath);
     file.open(QIODevice::WriteOnly);
     map.save(&file,"PNG");
+    byteBuffer.clear();
 }
 
 void Connection::processData()
@@ -234,5 +278,3 @@ void Connection::processGame()
     state=ReadyForUse;
     emit readyForUse(g.getName());
 }
-
-
