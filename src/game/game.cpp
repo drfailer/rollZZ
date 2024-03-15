@@ -42,5 +42,7 @@ void Game::load(QString name)
 
 void Game::save()
 {
+    QDir dir;
+    dir.mkdir(GAME_DIRECTORY + name);
     serializeFile((GAME_DIRECTORY + name + "/" + name + "_game").toStdString());
 }
