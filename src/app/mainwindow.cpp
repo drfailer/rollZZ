@@ -25,16 +25,15 @@ MainWindow::MainWindow(QWidget *parent):
     initCSCreator();
     initCSEditor();
 
+    //A = new User();
+    //B = new User();
 
-    A = new User();
-    B = new User();
-
-    timer = new QTimer();
+    /**timer = new QTimer();
     timer->setInterval(2000);
     connect(timer, &QTimer::timeout,this, [&](){
         B->sendMessage("coucou A");
         A->sendMessage("yo B");});
-    timer->start();
+    timer->start();**/
 }
 
 MainWindow::~MainWindow() {
@@ -72,20 +71,24 @@ void MainWindow::initMenu() {
 /******************************************************************************/
 
 void MainWindow::initGames() {
-    User* user = new User();
+    ui->playerBoardPage->setLayout(new QHBoxLayout());
+    user = new User();
     user->load();
 
     gamePopup = nullptr;
+    joinGamePopup = nullptr;
     QList<Game *> listGames;
-    QDir directory(DirectoriesPath);
-    QStringList games = directory.entryList(QDir::Files);
+    QDir directory(GAME_DIRECTORY);
+
+    QStringList games = directory.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for(QString gameFile: games) {
-        Game* g = new Game();
+        Game* g = new Game(user->getUuid());
         qDebug() << gameFile;
         g->load(gameFile);
         listGames.append(g);
     }
 
+    // Can refractor a lot here
     connect(ui->CreateGameButton, &QPushButton::clicked, this,
             [=]() {
                 if(gamePopup != nullptr)
@@ -93,7 +96,6 @@ void MainWindow::initGames() {
 
                 gamePopup = new GamePopup();
                 gamePopup->show();
-                //gamePopup->activateWindow();
                 connect(gamePopup, &GamePopup::confirm, this, [&](bool confirm) {
                     if (confirm)
                     {
@@ -108,16 +110,38 @@ void MainWindow::initGames() {
 
     gameList = new GameList(listGames,ui->gamesList);
     connect(gameList,&GameList::setGame,this,[&](Game* gameToLaunch){
-                ui->playerBoardPage->setLayout(new QHBoxLayout());
-                // TODO: if same game -> do not reload
-                if (mapWidget != nullptr) {
-                    ui->playerBoardPage->layout()->removeWidget(mapWidget);
-                    delete mapWidget;
-                }
-                mapWidget = new MapWidget(gameToLaunch->getDefaultMap());
-                ui->playerBoardPage->layout()->addWidget(mapWidget);
-                goToPage(ui->playerBoardPage);
+                readyToLaunchGame(gameToLaunch);
             });
+
+    connect(ui->joinNewGameButton,&QPushButton::clicked,this,[=](){
+        if(joinGamePopup != nullptr)
+            return;
+
+        joinGamePopup = new JoinGamePopup();
+        joinGamePopup->show();
+        connect(joinGamePopup, &JoinGamePopup::confirm, this, [&](bool confirm) {
+            if (confirm)
+            {
+                user->initiateNewConnection(joinGamePopup->getIp(),joinGamePopup->getPort());
+                connect(user,&User::readyToLaunch,this,[&](QString gameName)
+                        {
+                    Game * g = new Game();
+                    g->load(gameName);
+                    readyToLaunchGame(g);
+                });
+
+            }
+            delete joinGamePopup;
+            joinGamePopup = nullptr;
+        });
+    });
+}
+
+void MainWindow::readyToLaunchGame(Game* gameToLaunch)
+{
+    mapWidget = new MapWidget(gameToLaunch, user);
+    ui->playerBoardPage->layout()->addWidget(mapWidget);
+    goToPage(ui->playerBoardPage);
 }
 
 /******************************************************************************/

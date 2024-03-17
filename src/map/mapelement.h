@@ -7,10 +7,12 @@
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QFile>
 
 #include "serializable.hpp"
 #include "serializer.hpp"
 #include "tools/qtconvertor.h"
+#include "config.h"
 
 #define PREVIEW_SIZE 64
 
@@ -62,4 +64,5 @@ private:
 
 QDataStream &operator>>(QDataStream &stream, MapElement* el);
 QDataStream &operator<<(QDataStream &stream, const MapElement* el);
+
 #endif // mapElementS_H

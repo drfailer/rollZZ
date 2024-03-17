@@ -1,46 +1,23 @@
 #include "connection.h"
-
-
-#include "connection.h"
-
-#include <QTimerEvent>
 #include <iostream>
 
-static const int TransferTimeout = 30 * 1000;
-static const int PongTimeout = 60 * 1000;
-static const int PingInterval = 5 * 1000;
-
-/*
- * Protocol is defined as follows, using the CBOR Data Definition Language:
- *
- *  protocol    = [
- *     greeting,        ; must start with a greeting command
- *     * command        ; zero or more regular commands after
- *  ]
- *  command     = plaintext / ping / pong / greeting
- *  plaintext   = { 0 => text }
- *  ping        = { 1 => null }
- *  pong        = { 2 => null }
- *  greeting    = { 3 => text }
- */
-
-Connection::Connection(QObject *parent)
+Connection::Connection(DataType sendType,QObject *parent)
     : QTcpSocket(parent), writer(this)
 {
-    pingTimer.setInterval(PingInterval);
-
     connect(this, &QTcpSocket::readyRead, this,
             &Connection::processReadyRead);
-    connect(this, &QTcpSocket::disconnected,
-            &pingTimer, &QTimer::stop);
-    connect(&pingTimer, &QTimer::timeout,
-            this, &Connection::sendPing);
-    connect(this, &QTcpSocket::connected,
-            this, &Connection::sendGreetingMessage);
+
+    switch(sendType)
+    {
+    case NewPeerConnection:
+        connect(this, &QTcpSocket::connected,
+                this, &Connection::sendNewPeer);
+        break;
+    }
 }
 
 Connection::Connection(qintptr socketDescriptor, QObject *parent)
-    : Connection(parent)
+    : Connection(Undefined,parent)
 {
     setSocketDescriptor(socketDescriptor);
     reader.setDevice(this);
@@ -48,144 +25,200 @@ Connection::Connection(qintptr socketDescriptor, QObject *parent)
 
 Connection::~Connection()
 {
-    if (isGreetingMessageSent) {
+    if (isHandShakeMade)
         // Indicate clean shutdown.
         writer.endArray();
-        waitForBytesWritten(2000);
-    }
 }
 
-QString Connection::name() const
+QString Connection::getName() const
 {
-    return username;
+    return otherUsername;
 }
 
-void Connection::setGreetingMessage(const QString &message)
+void Connection::setUsername(const QString &username)
 {
-    greetingMessage = message;
+    this->username = username;
 }
 
-bool Connection::sendMessage(const QString &message)
+void Connection::sendMessage(const QString &message)
 {
     if (message.isEmpty())
-        return false;
+        return;
 
-    writer.startMap(1);
+    writer.startArray();
     writer.append(PlainText);
     writer.append(message);
-    writer.endMap();
-    return true;
+    writer.endArray();
 }
 
-void Connection::timerEvent(QTimerEvent *timerEvent)
+void Connection::sendData(std::list<MapElement*> els,Map* map, Game* g)
 {
-    if (timerEvent->timerId() == transferTimerId) {
-        abort();
-        killTimer(transferTimerId);
-        transferTimerId = -1;
+    int MaxBufferSize= 500000;
+    int criticalBufferSize = MaxBufferSize*0.75;
+
+    for(MapElement * el:els)
+    {
+        QByteArray byteArray;
+
+        QDataStream stream(&byteArray, QIODevice::WriteOnly);
+        stream << el->getName();
+        stream << el->getOriginalPixMap();
+        const int chunkSize = 1024;
+
+        QByteArray compress = qCompress(byteArray);
+
+        int i;
+        for (i = 0; i < compress.size() - chunkSize; i += chunkSize) {
+
+            QByteArray chunk = compress.mid(i, chunkSize);
+            writer.startArray();
+            writer.append(Image);
+            writer.append(chunk);
+            writer.endArray();
+            qDebug() << "write " << chunk.size();
+            flush();
+            QThread::msleep(100);
+        }
+
+        if (compress.size() % chunkSize != 0) {
+            qDebug() << "write " << compress.size() % chunkSize ;
+            QByteArray lastChunk = compress.mid(i, compress.size() % chunkSize);
+            qDebug() << lastChunk.size();
+            writer.startArray();
+            writer.append(Image);
+            writer.append(lastChunk);
+            writer.append(EndImage);
+            writer.endArray();
+            flush();
+        }
     }
+
+    writer.startArray();
+    writer.append(GameType);
+    writer.append(QString::fromStdString(g->serialize()));
+    writer.endArray();
+    flush();
+
+    writer.startArray();
+    writer.append(MapType);
+    writer.append(QString::fromStdString(map->serialize()));
+    writer.endArray();
+    flush();
+}
+
+void Connection::sendNewPeer()
+{
+    writer.startArray(); // this array stay until the socket is delete
+    writer.startArray();
+    writer.append(NewPeerConnection);
+    writer.append(username);
+    writer.endArray();
+    isHandShakeMade = true;
+
+    if (!reader.device())
+        reader.setDevice(this);
+
+    emit waitingData();
 }
 
 void Connection::processReadyRead()
 {
-    // we've got more data, let's parse
+    QCborStreamReader::StringResult<QByteArray> r;
+    // New data receive
+    //QCborStreamReader::StringResult<qsizetype> result;
     reader.reparse();
     while (reader.lastError() == QCborError::NoError) {
-        if (state == WaitingForGreeting) {
+        if (state == WaitingForConnection) {
             if (!reader.isArray())
                 break;                  // protocol error
 
             reader.enterContainer();    // we'll be in this array forever
-            state = ReadingGreeting;
-        } else if (reader.containerDepth() == 1) {
-            // Current state: no command read
-            // Next state: read command ID
+            state = ReadingConnection;
+        }else if (reader.containerDepth() == 1) {
+            // Verify the package receive and extract the DataType
             if (!reader.hasNext()) {
                 reader.leaveContainer();
                 disconnectFromHost();
                 return;
             }
 
-            if (!reader.isMap() || !reader.isLengthKnown() || reader.length() != 1)
+            if (!reader.isArray())
                 break;                  // protocol error
             reader.enterContainer();
-        } else if (currentDataType == Undefined) {
-            // Current state: read command ID
-            // Next state: read command payload
+        }
+        else if(reader.isArray())
+        {
+            reader.enterContainer();
+        }else if (currentDataType == Undefined) {
+            // We fetch the data type, to know what our package is for
             if (!reader.isInteger())
                 break;                  // protocol error
             currentDataType = DataType(reader.toInteger());
             reader.next();
         } else {
-            // Current state: read command payload
-            if (reader.isString()) {
-                auto r = reader.readString();
-                buffer += r.data;
-                if (r.status != QCborStreamReader::EndOfString)
-                    continue;
-            } else if (reader.isNull()) {
-                reader.next();
-            } else {
-                break;                   // protocol error
-            }
+            // We now read the command payload
+            switch(currentDataType)
+            {
+            case NewPeerConnection:
+                otherUsername = reader.readString().data;
+                reader.readString();
+                reader.leaveContainer();
+                currentDataType = Undefined;
+                processNewPeerConnection();
+                break;
+            case Image:
+                qDebug() << "bytes available: " << bytesAvailable();
+                r = reader.readByteArray();
+                while (r.status == QCborStreamReader::Ok) {
+                    byteBuffer += r.data;
+                    r = reader.readByteArray();
+                }
 
-                   // Next state: no command read
-            reader.leaveContainer();
-            if (transferTimerId != -1) {
-                killTimer(transferTimerId);
-                transferTimerId = -1;
-            }
+                if (r.status == QCborStreamReader::Error)
+                    qDebug() << "error reading byte array";
 
-            if (state == ReadingGreeting) {
-                if (currentDataType != Greeting)
-                    break;              // protocol error
-                processGreeting();
-            } else {
+                if(reader.hasNext() && DataType(reader.toInteger() == EndImage))
+                {
+                    qDebug() << "rend end image";
+                    byteBuffer = qUncompress(byteBuffer);
+                    processImage();
+                    qDebug() << reader.lastError();
+                    reader.next();
+                    qDebug() << reader.lastError();
+                }
+                break;
+            //TODO: Refactor
+            case MapType:
+                buffer = reader.readString().data;
+                reader.readString();
+                processMap();
+                break;
+            case GameType:
+                buffer = reader.readString().data;
+                reader.readString();
+                processGame();
+                break;
+            default:
+                buffer = reader.readString().data;
+                reader.readString();
                 processData();
+                break;
             }
-            //processData();
+
+            if(currentDataType != Undefined)
+            {
+            qDebug() << reader.lastError();
+            reader.leaveContainer();
+            qDebug() << reader.lastError();
+            currentDataType = Undefined;
+            }
         }
     }
-
-    if (reader.lastError() != QCborError::EndOfFile)
-        abort();       // parse error
-
-    if (transferTimerId != -1 && reader.containerDepth() > 1)
-        transferTimerId = startTimer(TransferTimeout);
+    qDebug() << reader.lastError();
 }
 
-void Connection::sendPing()
+void Connection::processNewPeerConnection()
 {
-    if (pongTime.elapsed() > PongTimeout) {
-        abort();
-        return;
-    }
-
-    writer.startMap(1);
-    writer.append(Ping);
-    writer.append(nullptr);     // no payload
-    writer.endMap();
-}
-
-void Connection::sendGreetingMessage()
-{
-    writer.startArray();        // this array never ends
-
-    writer.startMap(1);
-    writer.append(Greeting);
-    writer.append(greetingMessage);
-    writer.endMap();
-    isGreetingMessageSent = true;
-
-    if (!reader.device())
-        reader.setDevice(this);
-}
-
-void Connection::processGreeting()
-{
-    username = buffer + '@' + peerAddress().toString() + ':'
-               + QString::number(peerPort());
-    currentDataType = Undefined;
     buffer.clear();
 
     if (!isValid()) {
@@ -193,13 +226,25 @@ void Connection::processGreeting()
         return;
     }
 
-    if (!isGreetingMessageSent)
-        sendGreetingMessage();
+    state = WaitingData;
+    if(!isHandShakeMade)
+        sendNewPeer();
+}
 
-    pingTimer.start();
-    pongTime.start();
-    state = ReadyForUse;
-    emit readyForUse();
+void Connection::processImage()
+{
+    QString name;
+    QPixmap map;
+    QDataStream stream(&byteBuffer, QIODevice::ReadOnly);
+    stream >> name;
+    stream >> map;
+    QString filepath = RESOURCE_DIRECTORY + name;
+    if (QFile::exists(filepath))
+        QFile::remove(filepath);
+    QFile file(filepath);
+    file.open(QIODevice::WriteOnly);
+    map.save(&file,"PNG");
+    byteBuffer.clear();
 }
 
 void Connection::processData()
@@ -208,21 +253,29 @@ void Connection::processData()
     case PlainText:
         qDebug() << "plainText";
         qDebug() << buffer;
-        emit newMessage(username, buffer);
-        break;
-    case Ping:
-        writer.startMap(1);
-        writer.append(Pong);
-        writer.append(nullptr);     // no payload
-        writer.endMap();
-        break;
-    case Pong:
-        pongTime.restart();
+        emit newMessage(otherUsername, buffer);
         break;
     default:
         break;
     }
-
-    currentDataType = Undefined;
     buffer.clear();
+}
+
+void Connection::processMap()
+{
+    Map m;
+    m.deserialize(buffer.toStdString());
+    m.save();
+    buffer.clear();
+    state=ReadyForUse;
+    emit readyForUse(m.getGameName());
+}
+
+void Connection::processGame()
+{
+    Game g;
+    g.deserialize(buffer.toStdString());
+    g.save();
+    buffer.clear();
+
 }

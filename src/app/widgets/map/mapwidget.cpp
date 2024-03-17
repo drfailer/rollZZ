@@ -1,12 +1,11 @@
 #include "mapwidget.h"
 #include "config.h"
-#include "cs.h"
 #include "gamecs/gamecs.h"
 
-MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
+MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),game(game),user(user)
 {
-    user = new User();
-    user->load();
+    map = new Map(game->getName(),game->getDefaultMap());
+    map->load();
     setAcceptDrops(true);
     sideMenu = new QWidget(this);
     layoutGlobal = new QVBoxLayout(this);
@@ -26,8 +25,12 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     connect(view->getScene(),&MapGraphicsScene::dropEventSignal,this,&MapWidget::drop);
 
     menuItemOnMap = new MapScrollArea(tabRight);
-    chat = new Chat(tabRight);
+    chat = new Chat(user,tabRight);
     chat->addText("bot", QString::fromStdString("Server launch with port:" + std::to_string(user->getPort()) + " and ip:" + user->getIp().toStdString()));
+
+    if (user->getUuid() == game->getMJUuid())
+        connect(user,&User::askForImage,this,&MapWidget::sendAllImage);
+
     menuMapElementSelection = new QWidget(sideMenu);
     QPushButton* addButton = new QPushButton("add new element",menuMapElementSelection);
     scrollAreaMapElementSelection = new MapScrollArea(menuMapElementSelection);
@@ -69,7 +72,7 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     layoutSideMenu->addWidget(menuMapElementSelection,1);
     maps = new QTabWidget(this);
     maps->addTab(view, "test");
-    layoutSideMenu->addWidget(maps,0);
+    layoutSideMenu->addWidget(maps,4);
     layoutSideMenu->addWidget(tabRight,1);
 
     labelForCursorDrag = new QLabel(this);
@@ -91,7 +94,7 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
         for(QString& filePath: filesPath)
         {
             QString name = filePath.mid(filePath.lastIndexOf('/')+1,filePath.lastIndexOf('.'));
-            QString newFilePath = QDir::homePath() + QString("/.local/resources/") + name;
+            QString newFilePath = RESOURCE_DIRECTORY + name;
 
             if (QFile::exists(newFilePath))
                 QFile::remove(newFilePath);
@@ -105,7 +108,7 @@ MapWidget::MapWidget(Map* map, QWidget* parent): QWidget(parent),map(map)
     });
 
     loading = true;
-    map->load(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    map->load();
     for(MapElement* mapElement: map->getmapElementsUse())
     {
         MapElementWidget* newElement = new MapElementWidget(mapElement,scrollAreaMapElementSelection);
@@ -172,5 +175,10 @@ void MapWidget::keyPressEvent(QKeyEvent *event)
 
 void MapWidget::saveMap()
 {
-    map->save(QDir::homePath() + QString("/.local/resources/testMap.txt"));
+    map->save();
+}
+
+void MapWidget::sendAllImage(Connection *co)
+{
+    co->sendData(map->getmapElementsUse(),map,game);
 }

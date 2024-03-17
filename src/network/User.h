@@ -13,8 +13,6 @@
 #include "serializer.hpp"
 #include "qtconvertor.h"
 
-#define UserFilePath QDir::homePath() + QString("/.local/user")
-
 class PeerManager;
 
 class User : public QObject
@@ -30,6 +28,7 @@ class User : public QObject
     int getPort() const;
     QString getIp() const;
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
+    void initiateNewConnection(const QHostAddress &addressDest,const int portDest);
     void load();
     void save();
 
@@ -37,12 +36,16 @@ class User : public QObject
     void newMessage(const QString &from, const QString &message);
     void newParticipant(const QString &nick);
     void participantLeft(const QString &nick);
+    void askForImage(Connection* co);
+    void readyToLaunch(QString gameName);
 
   private slots:
     void newConnection(Connection *connection);
     void connectionError(QAbstractSocket::SocketError socketError);
     void disconnected();
-    void readyForUse();
+    void waitingData();
+    void readyForUse(QString gameName);
+    void receiveNewMessage(const QString &from, const QString &message);
 
   private:
     void removeConnection(Connection *connection);

@@ -2,6 +2,7 @@
 #define SERVER_H
 
 #include <QTcpServer>
+#include <QNetworkInterface>
 #include "connection.h"
 
 class Server : public QTcpServer

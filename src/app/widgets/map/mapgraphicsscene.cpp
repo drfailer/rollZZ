@@ -2,7 +2,7 @@
 #include "mapplayertoken.h"
 #include<iostream>
 
-MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), actualZValue(0),sceneSizeX(500),sceneSizeY(500)
+MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), actualZValue(0),sceneSizeX(2500),sceneSizeY(1500)
 {
   setSceneRect(0,0,sceneSizeX,sceneSizeY);
   QGraphicsItem *rectItem = new QGraphicsRectItem(0,0,sceneSizeX,sceneSizeY);

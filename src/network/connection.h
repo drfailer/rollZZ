@@ -3,9 +3,14 @@
 
 #include <QCborStreamReader>
 #include <QCborStreamWriter>
-#include <QTimer>
-#include <QElapsedTimer>
+#include <QByteArray>
 #include <QTcpSocket>
+#include <mapelement.h>
+#include "game.h"
+#include <map.h>
+#include <QDataStream>
+#include <QFile>
+#include <QThread>
 
 static const int MaxBufferSize = 1024000;
 
@@ -15,53 +20,54 @@ class Connection : public QTcpSocket
 
   public:
     enum ConnectionState {
-        WaitingForGreeting,
-        ReadingGreeting,
+        WaitingForConnection,
+        ReadingConnection,
+        WaitingData,
         ReadyForUse
     };
     enum DataType {
         PlainText,
-        Ping,
-        Pong,
-        Greeting,
+        Image,
+        EndImage,
+        MapType,
+        GameType,
+        NewPeerConnection,
         Undefined
     };
 
-    explicit Connection(QObject *parent = nullptr);
+    explicit Connection(DataType sendType,QObject *parent = nullptr);
     explicit Connection(qintptr socketDescriptor, QObject *parent = nullptr);
     ~Connection();
 
-    QString name() const;
-    void setGreetingMessage(const QString &message);
-    bool sendMessage(const QString &message);
+    QString getName() const;
+    void setUsername(const QString& username);
+    void sendMessage(const QString &message);
+    void sendData(std::list<MapElement*> els,Map* map, Game* g);
 
   signals:
-    void readyForUse();
+    void readyForUse(QString gameName);
+    void waitingData();
     void newMessage(const QString &from, const QString &message);
-
-  protected:
-    void timerEvent(QTimerEvent *timerEvent) override;
-
   private slots:
     void processReadyRead();
-    void sendPing();
-    void sendGreetingMessage();
+    void sendNewPeer();
 
   private:
     bool hasEnoughData();
-    void processGreeting();
+    void processNewPeerConnection();
     void processData();
+    void processImage();
+    void processMap();
+    void processGame();
 
     QCborStreamReader reader;
     QCborStreamWriter writer;
-    QString greetingMessage = tr("undefined");
-    QString username = tr("unknown");
-    QTimer pingTimer;
-    QElapsedTimer pongTime;
+    QString username = "me";
+    QString otherUsername = "other";
     QString buffer;
-    ConnectionState state = WaitingForGreeting;
+    QByteArray byteBuffer;  //= QByteArray(10000000,Qt::Initialization::Uninitialized);
+    ConnectionState state = WaitingForConnection;
     DataType currentDataType = Undefined;
-    int transferTimerId = -1;
-    bool isGreetingMessageSent = false;
+    bool isHandShakeMade = false;
 };
 #endif // CONNECTION_H

@@ -10,6 +10,7 @@
 #include "cscreator/cscreator.h"
 #include "User.h"
 #include "gamepopup.h"
+#include "joingamepopup.h"
 
 class CreateCharacterPopup;
 
@@ -20,23 +21,25 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-public:
+  public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
+  public slots:
     void goToPage(QWidget *w);
+    void readyToLaunchGame(Game* g);
 
-private:
+  private:
     Ui::MainWindow *ui;
     GameList *gameList;
     GamePopup* gamePopup;
+    JoinGamePopup* joinGamePopup;
     MapWidget* mapWidget;
     CSCreator::CSCreator *csCreator = nullptr;
     CSEditor::CSEditor *csEditor = nullptr;
     CS::CS CSTree;
     QTimer* timer;
-    User *A,*B;
+    User *user;
 
     /* popup ******************************************************************/
     CreateCharacterPopup *createCharacterPopup = nullptr;

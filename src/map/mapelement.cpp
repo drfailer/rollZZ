@@ -37,7 +37,6 @@ QDataStream &operator<<(QDataStream &stream, const MapElement* el) {
 QDataStream &operator>>(QDataStream &stream, MapElement* el)
 {
   QString name;
-  QPixmap map;
   QString filePath;
   stream >> name;
   stream >> filePath;
@@ -49,6 +48,9 @@ QDataStream &operator>>(QDataStream &stream, MapElement* el)
 
 void MapElement::updateImage()
 {
+  filePath = RESOURCE_DIRECTORY + name;
+  if (!QFile::exists(filePath))
+    filePath=":ressources/tiles/" + name;
   originalPixMap = previewPixMap = QPixmap(filePath);
   RescalePixMap(PREVIEW_SIZE,PREVIEW_SIZE);
   imageSize = originalPixMap.size();

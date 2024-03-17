@@ -7,14 +7,14 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-Chat::Chat(QWidget *parent)
-    : QWidget(parent),
+Chat::Chat(User* user,QWidget *parent)
+    : QWidget(parent),user(user),
       layout(new QVBoxLayout(this))
 {
     layout->setAlignment(Qt::AlignTop);
     tableFormat = new QTextTableFormat();
-    lineEdit =new QLineEdit("test",this);
-    textEdit =new QTextEdit("coucou",this);
+    lineEdit =new QLineEdit(this);
+    textEdit =new QTextEdit(this);
     lineEdit->setFocusPolicy(Qt::StrongFocus);
     textEdit->setFocusPolicy(Qt::NoFocus);
     textEdit->setReadOnly(true);
@@ -24,14 +24,13 @@ Chat::Chat(QWidget *parent)
 
     connect(lineEdit, &QLineEdit::returnPressed,
             this, &Chat::returnPressed);
-    /**connect(&client, &Client::newMessage,
-            this, &ChatDialog::appendMessage);
-    connect(&client, &Client::newParticipant,
-            this, &ChatDialog::newParticipant);
-    connect(&client, &Client::participantLeft,
-            this, &ChatDialog::participantLeft);**/
+    connect(user, &User::newMessage,
+            this, &Chat::addText);
+    connect(user, &User::newParticipant,
+            this, &Chat::userEnter);
+    connect(user, &User::participantLeft,
+            this, &Chat::userQuit);
 
-    myNickName = "test";
     tableFormat->setBorder(0);
 }
 
@@ -49,52 +48,34 @@ void Chat::addText(const QString &from, const QString &message)
     bar->setValue(bar->maximum());
 }
 
+void Chat::notification(const QString &msg)
+{
+    if (msg.isEmpty())
+        return;
+
+    QColor color = textEdit->textColor();
+    textEdit->setTextColor(Qt::gray);
+    textEdit->append(msg);
+    textEdit->setTextColor(color);
+}
+
 void Chat::returnPressed()
 {
     QString text = lineEdit->text();
     if (text.isEmpty())
         return;
 
-    addText(myNickName,text);
-    //client.sendMessage(text);
+    addText(user->getName(),text);
+    user->sendMessage(text);
     lineEdit->clear();
 }
 
-/**void ChatDialog::newParticipant(const QString &nick)
+void Chat::userEnter(const QString &user)
 {
-    if (nick.isEmpty())
-        return;
-
-    QColor color = textEdit->textColor();
-    textEdit->setTextColor(Qt::gray);
-    textEdit->append(tr("* %1 has joined").arg(nick));
-    textEdit->setTextColor(color);
-    listWidget->addItem(nick);
+    notification(tr("* %1 a rejoint").arg(user));
 }
 
-void ChatDialog::participantLeft(const QString &nick)
+void Chat::userQuit(const QString & user)
 {
-    if (nick.isEmpty())
-        return;
-
-    QList<QListWidgetItem *> items = listWidget->findItems(nick,
-                                                           Qt::MatchExactly);
-    if (items.isEmpty())
-        return;
-
-    delete items.at(0);
-    QColor color = textEdit->textColor();
-    textEdit->setTextColor(Qt::gray);
-    textEdit->append(tr("* %1 has left").arg(nick));
-    textEdit->setTextColor(color);
+    notification(tr("* %1 a quitté la partie").arg(user));
 }
-
-void ChatDialog::showInformation()
-{
-    if (listWidget->count() == 1) {
-        QMessageBox::information(this, tr("Chat"),
-                                 tr("Launch several instances of this "
-                                    "program on your local network and "
-                                    "start chatting!"));
-    }
-}**/

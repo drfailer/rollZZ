@@ -1,6 +1,7 @@
 #include "map.h"
 
-Map::Map():SERIALIZER(map, mapElementsUse)
+Map::Map(QString _gameName,QString _name):SERIALIZER(name,gameName,map, mapElementsUse),
+                                             name(_name),gameName(_gameName)
 {
   MapElement* m = new MapElement(":ressources/tiles/wall");
   mapElementsUse = std::list<MapElement*>{m};
@@ -8,8 +9,8 @@ Map::Map():SERIALIZER(map, mapElementsUse)
 }
 
 
-void Map::load(const QString& fileName) {
-  deserializeFile(fileName.toStdString());
+void Map::load() {
+  deserializeFile((GAME_DIRECTORY + gameName + "/" + name).toStdString());
   for (MapElement * el :map)
     el->updateImage();
   for (MapElement * el :mapElementsUse)
@@ -19,6 +20,6 @@ void Map::load(const QString& fileName) {
   }
 }
 
-void Map::save(const QString& fileName) {
-  serializeFile(fileName.toStdString());
+void Map::save() {
+  serializeFile((GAME_DIRECTORY + gameName + "/" + name).toStdString());
 }

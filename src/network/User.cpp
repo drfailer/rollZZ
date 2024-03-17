@@ -9,18 +9,17 @@
 
 User::User()
     : SERIALIZER(uuid, name),
-      server(new Server()),
+      name("quelquechose"),
       peerManager(new PeerManager(this))
 {
+    uuid = QUuid::createUuid().toString();
+    server = new Server(this);
+
     peerManager->setServerPort(server->serverPort());
-    peerManager->startBroadcasting();
     connect(peerManager, &PeerManager::newConnection,
             this, &User::newConnection);
     connect(server, &Server::newConnection,
             this, &User::newConnection);
-
-    uuid = QUuid::createUuid().toString();
-    name = "mannequin";
 }
 
 void User::sendMessage(const QString &message)
@@ -38,12 +37,16 @@ void User::sendMessage(const QString &message)
 
 void User::load()
 {
-    deserializeFile((UserFilePath).toStdString());
+    deserializeFile((USER_FILEPATH).toStdString());
+    // just to reload the name, can create a funtion setName later
+    peerManager = new PeerManager(this);
+    connect(peerManager, &PeerManager::newConnection,
+            this, &User::newConnection);
 }
 
 void User::save()
 {
-    serializeFile((UserFilePath).toStdString());
+    serializeFile((USER_FILEPATH).toStdString());
 }
 
 QString User::getName() const
@@ -63,8 +66,7 @@ int User::getPort() const
 
 QString User::getIp() const
 {
-    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
-    return localhost.toString();
+    return server->serverAddress().toString();
 }
 
 
@@ -86,34 +88,54 @@ bool User::hasConnection(const QHostAddress &senderIp, int senderPort) const
     return false;
 }
 
+void User::initiateNewConnection(const QHostAddress &addressDest,const int portDest)
+{
+    peerManager->initiateNewConnection(addressDest,portDest);
+}
+
 void User::newConnection(Connection *connection)
 {
-    connection->setGreetingMessage(peerManager->userName());
-
+    connection->setUsername(name);
     connect(connection, &Connection::errorOccurred, this, &User::connectionError);
     connect(connection, &Connection::disconnected, this, &User::disconnected);
     connect(connection, &Connection::readyForUse, this, &User::readyForUse);
+    connect(connection, &Connection::waitingData, this, &User::waitingData);
 }
 
-void User::readyForUse()
+void User::readyForUse(QString gameName)
+{
+    emit readyToLaunch(gameName);
+}
+
+void User::waitingData()
 {
     Connection *connection = qobject_cast<Connection *>(sender());
     if (!connection || hasConnection(connection->peerAddress(), connection->peerPort()))
         return;
 
     connect(connection,  &Connection::newMessage,
-            this, &User::newMessage);
+            this, &User::receiveNewMessage);
 
     peers.insert(connection->peerAddress(), connection);
-    QString nick = connection->name();
+    QString nick = connection->getName();
     if (!nick.isEmpty())
         emit newParticipant(nick);
+    emit askForImage(connection);
 }
 
 void User::disconnected()
 {
     if (Connection *connection = qobject_cast<Connection *>(sender()))
+    {
+        qDebug() << connection->error();
+        qDebug() << connection->errorString();
         removeConnection(connection);
+    }
+}
+
+void User::receiveNewMessage(const QString &from, const QString &message)
+{
+    emit newMessage(from,message);
 }
 
 void User::connectionError(QAbstractSocket::SocketError /* socketError */)
@@ -125,7 +147,7 @@ void User::connectionError(QAbstractSocket::SocketError /* socketError */)
 void User::removeConnection(Connection *connection)
 {
     if (peers.remove(connection->peerAddress(), connection) > 0) {
-        QString nick = connection->name();
+        QString nick = connection->getName();
         if (!nick.isEmpty())
             emit participantLeft(nick);
     }
