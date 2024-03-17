@@ -1,10 +1,10 @@
-#include "cseditor/components/equipment.h"
+#include "gamecs/components/equipment.h"
 #include "CS/item.h"
 #include "tools/component.h"
-#include "cseditor/components/item.h"
+#include "gamecs/components/item.h"
 #include <QPushButton>
 
-namespace CSEditor {
+namespace GameCS {
 
 /******************************************************************************/
 /*                          constructor & destructor                          */
@@ -58,4 +58,4 @@ void Equipment::insertAndConnectItem(CS::Item *item, Item* newItemWgt) {
     /* }); */
 }
 
-} // end namespace CSEditor
+} // end namespace GameCS

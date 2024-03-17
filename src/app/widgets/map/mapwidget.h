@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QBoxLayout>
 #include <QFileDialog>
+#include "gamecs/gamecs.h"
 #include <QTabWidget>
 #include "map.h"
 #include "mapelementwidget.h"
@@ -40,10 +41,8 @@ public:
   private:
     QTabWidget* tabRight;
     MapGraphicsView* view;
-    QWidget* menu;
     QWidget* sideMenu;
     QVBoxLayout* layoutGlobal;
-    QVBoxLayout* layoutMenu;
     QBoxLayout* layoutSideMenu;
     Map* map;
     Game*game;
@@ -57,6 +56,8 @@ public:
     User* user;
     LayerSelection* layerSelection;
     bool loading;
+
+    GameCS::GameCS *cs = nullptr;
 };
 
 #endif // MAPWIDGET_H

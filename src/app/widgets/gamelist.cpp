@@ -1,6 +1,5 @@
 #include "gamelist.h"
-
-
+#include "gamecs/gamecs.h"
 #include <QMainWindow>
 #include <QPushButton>
 #include <exception>

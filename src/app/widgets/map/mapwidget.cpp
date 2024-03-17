@@ -1,20 +1,17 @@
 #include "mapwidget.h"
-#include<thread>
-#include<chrono>
+#include "config.h"
+#include "gamecs/gamecs.h"
 
-MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),user(user),game(game)
+MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),game(game),user(user)
 {
     map = new Map(game->getName(),game->getDefaultMap());
     map->load();
     setAcceptDrops(true);
     sideMenu = new QWidget(this);
-    menu = new QWidget(this);
-    layoutMenu = new QVBoxLayout(menu);
     layoutGlobal = new QVBoxLayout(this);
-    layoutGlobal->addWidget(menu);
     layoutGlobal->addWidget(sideMenu);
     setLayout(layoutGlobal);
-    menu->setLayout(layoutMenu);
+
     tabRight = new QTabWidget(this);
     tabRight->setMovable(true);
     tabRight->setTabPosition(QTabWidget::North);
@@ -48,6 +45,26 @@ MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),us
     layoutMenuMapElement->addWidget(layerSelection);
     layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
 
+    if (true) { // if player
+        QPushButton *csBtn = new QPushButton("character", this);
+        layoutMenuMapElement->addWidget(csBtn);
+        connect(csBtn, &QPushButton::clicked, this, [&]() {
+          if (cs == nullptr) {
+            cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
+            connect(cs, &GameCS::GameCS::rolled, this, [&](QString message) {
+                        this->user->sendMessage(message);
+                        this->chat->addText(this->user->getName(), message);
+                    });
+            cs->show();
+          }
+        });
+    }
+
+    if (true) { // if Game Master or testing mode
+      QPushButton* buttonSave = new QPushButton("save", this);
+      layoutMenuMapElement->addWidget(buttonSave);
+      connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
+    }
 
     tabRight->addTab(menuItemOnMap,"On Map");
     tabRight->addTab(chat,"chat");
@@ -58,10 +75,6 @@ MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),us
     maps->addTab(view, "test");
     layoutSideMenu->addWidget(maps,4);
     layoutSideMenu->addWidget(tabRight,1);
-
-    QPushButton* buttonSave = new QPushButton("save",menu);
-    layoutMenu->addWidget(buttonSave);
-    connect(buttonSave,&QPushButton::pressed,this,&MapWidget::saveMap);
 
     labelForCursorDrag = new QLabel(this);
     labelForCursorDrag->move(-100,-100);

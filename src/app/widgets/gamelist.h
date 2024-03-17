@@ -1,6 +1,8 @@
 #ifndef GAMELIST_H
 #define GAMELIST_H
 
+#include "cs.h"
+#include "gamecs/gamecs.h"
 #include <QHBoxLayout>
 #include <QWidget>
 #include <QLabel>
@@ -27,6 +29,8 @@ private:
     // TODO: we use string for testing but this will be real games (or at least,
     // we will build a list of buttons with the player's games)
     QList<Game*> games;
+    CS::CS CSTree;
+    GameCS::GameCS *gameCS = nullptr;
     QVBoxLayout* layout;
 };
 

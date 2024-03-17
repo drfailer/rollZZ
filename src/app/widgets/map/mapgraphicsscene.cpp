@@ -1,4 +1,5 @@
 #include "mapgraphicsscene.h"
+#include "mapplayertoken.h"
 #include<iostream>
 
 MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), actualZValue(0),sceneSizeX(2500),sceneSizeY(1500)
@@ -8,6 +9,8 @@ MapGraphicsScene::MapGraphicsScene(QWidget* parent):QGraphicsScene(parent), actu
   addItem(rectItem);
   selectedItem = nullptr;
   previousZValue = 0;
+
+  insertNewGraphicsElement(new MapPlayerToken(new MapElement("/home/failer/Pictures/wallpapers/ghost.jpg")));
 }
 
 void MapGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -57,6 +60,15 @@ void MapGraphicsScene::insertNewGraphicsElement(MapElement* mapElementToDrop)
   connect(el,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
 
   emit dropEventSignal(el);
+}
+
+/* This is for testing the MapPlayerToken */
+void MapGraphicsScene::insertNewGraphicsElement(MapPlayerToken* token)
+{
+  addItem(token);
+  connect(token,&MapGraphicsItem::mousePressedSignal,this,&MapGraphicsScene::focusItem);
+
+  emit dropEventSignal(token);
 }
 
 void MapGraphicsScene::focusItem(MapGraphicsItem* el)

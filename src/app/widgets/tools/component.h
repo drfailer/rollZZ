@@ -9,7 +9,7 @@
 #include <QLineEdit>
 #include <QFormLayout>
 
-namespace CSEditor {
+namespace Tools {
 
 class Component : public QFrame {
     Q_OBJECT
@@ -37,6 +37,6 @@ class Component : public QFrame {
     QHBoxLayout titleLyt;
 };
 
-} // end namespace CSEditor
+} // end namespace Tools
 
 #endif // COMPONENT_H

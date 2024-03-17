@@ -1,26 +1,28 @@
-#ifndef CSEDITOR_ATTACKS_H
-#define CSEDITOR_ATTACKS_H
+#ifndef GAMECS_ATTACKS_H
+#define GAMECS_ATTACKS_H
 
 #include "CS/attacks.h"
 #include "tools/component.h"
-#include <QSpinBox>
 #include <QList>
+#include <QSpinBox>
 
-namespace CSEditor {
+namespace GameCS {
 
-class Attacks : public Tools::Component
-{
+class Attacks : public Tools::Component {
     Q_OBJECT
-public:
+  public:
     Attacks(CS::Attacks *attack, QWidget *parent = nullptr);
 
-private:
+  signals:
+    void rolled(QString);
+
+  private:
     CS::Attacks *attacks;
 
     /* methods ****************************************************************/
     void addWeapon(CS::Weapon *weapon);
 };
 
-} // end namespace CSEditor
+} // end namespace GameCS
 
 #endif // ATTACKS_H

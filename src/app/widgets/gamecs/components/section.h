@@ -1,17 +1,17 @@
-#ifndef CSEDITOR_SECTION_H
-#define CSEDITOR_SECTION_H
+#ifndef GAMECS_SECTION_H
+#define GAMECS_SECTION_H
 
-#include "tools/component.h"
 #include "CS/section.h"
+#include "tools/component.h"
 
 #include <QComboBox>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QWidget>
-#include <QFrame>
 
-namespace CSEditor {
+namespace GameCS {
 
 class Section;
 class BasicStat;
@@ -21,17 +21,19 @@ class Descriptor;
 class Equipment;
 class Attacks;
 
-class Section : public Tools::Component
-{
+class Section : public Tools::Component {
     Q_OBJECT
-public:
-    explicit Section(CS::Section* section, QWidget *parent = nullptr);
+  public:
+    Section(CS::Section *section, QWidget *parent = nullptr);
     ~Section();
 
-private:
+  signals:
+    void rolled(QString message);
+
+  private:
     CS::Section *section;
 };
 
-} // end namespace CSCrator
+} // namespace GameCS
 
 #endif // CSEDITORSECTION_H

@@ -13,6 +13,8 @@
 #include <QTimeLine>
 #include <set>
 
+class MapPlayerToken;
+
 class MapGraphicsScene: public QGraphicsScene
 {
   Q_OBJECT
@@ -35,6 +37,7 @@ public:
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void deleteSelected();
   void insertNewGraphicsElement(MapElement* mapElementToDrop);
+  void insertNewGraphicsElement(MapPlayerToken* mapElementToDrop);
 
 signals:
   void dropEventSignal(MapGraphicsItem* dropItem);

@@ -1,7 +1,7 @@
 #include "cseditor/components/attacks.h"
 
 #include "cseditor/components/weapon.h"
-#include "component.h"
+#include "tools/component.h"
 #include <QPushButton>
 #include "CS/weapon.h"
 
@@ -12,7 +12,7 @@ namespace CSEditor {
 /******************************************************************************/
 
 Attacks::Attacks(CS::Attacks *attacks, QWidget* parent):
-    Component(attacks->getTitle(), parent),
+    Tools::Component(attacks->getTitle(), parent),
     attacks(attacks)
 {
     // add weapons

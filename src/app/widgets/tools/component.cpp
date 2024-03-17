@@ -1,6 +1,6 @@
-#include "component.h"
+#include "tools/component.h"
 
-namespace CSEditor {
+namespace Tools {
 
 /******************************************************************************/
 /*                                constructor                                 */
@@ -38,4 +38,4 @@ void Component::bodyInsert(int index, QWidget *wgt) {
     bodyLyt.insertRow(index, wgt);
 }
 
-} // end namespace CSEditor
+} // end namespace Tools
