@@ -46,17 +46,18 @@ MapWidget::MapWidget(Game* game,User* user, QWidget* parent): QWidget(parent),ga
     layoutMenuMapElement->addWidget(scrollAreaMapElementSelection);
 
     if (true) { // if player
-    QPushButton *csBtn = new QPushButton("character", this);
-    layoutMenuMapElement->addWidget(csBtn);
-    connect(csBtn, &QPushButton::clicked, this, [&]() {
-      if (cs == nullptr) {
-        cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
-        connect(cs, &GameCS::GameCS::rolled, this, [&](QString message) {
-                    this->user->sendMessage(message);
-                });
-        cs->show();
-      }
-    });
+        QPushButton *csBtn = new QPushButton("character", this);
+        layoutMenuMapElement->addWidget(csBtn);
+        connect(csBtn, &QPushButton::clicked, this, [&]() {
+          if (cs == nullptr) {
+            cs = new GameCS::GameCS(CS_DIRECTORY + "/Talion");
+            connect(cs, &GameCS::GameCS::rolled, this, [&](QString message) {
+                        this->user->sendMessage(message);
+                        this->chat->addText(this->user->getName(), message);
+                    });
+            cs->show();
+          }
+        });
     }
 
     if (true) { // if Game Master or testing mode

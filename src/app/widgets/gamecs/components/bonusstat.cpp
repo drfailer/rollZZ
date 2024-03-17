@@ -1,5 +1,4 @@
 #include "bonusstat.h"
-#include <iostream>
 
 namespace GameCS {
 
@@ -20,7 +19,6 @@ BonusStat::BonusStat(CS::BonusStat *bonuStat_in, QWidget *parent)
         QString message = "rolled " + this->bonusStat->getTitle() + ": " +
                           QString::number(this->bonusStat->roll());
         emit rolled(message);
-        std::cout << message.toStdString() << std::endl;
     });
 }
 

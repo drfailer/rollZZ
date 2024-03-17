@@ -1,6 +1,5 @@
 #include "gamecs/components/caracteristic.h"
 #include <QLabel>
-#include <iostream>
 
 namespace GameCS {
 
@@ -21,7 +20,6 @@ Caracteristic::Caracteristic(CS::Caracteristic *caracteristic, QWidget *parent):
         QString message = "rolled " + this->caracteristic->getName() + ": " +
                           QString::number(this->caracteristic->roll());
         emit rolled(message);
-        std::cout << message.toStdString() << std::endl;
     });
 }
 

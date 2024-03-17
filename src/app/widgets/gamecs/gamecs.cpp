@@ -63,6 +63,7 @@ QWidget* GameCS::createTab(CS::Part* part) {
         Section *newSection = new Section(section, newTabWgt);
         connect(newSection, &Section::rolled, this, [&](QString message) {
                     emit rolled(message);
+                    std::cout << message.toStdString() << std::endl;
                 });
         newTabLyt->addWidget(newSection);
     }
