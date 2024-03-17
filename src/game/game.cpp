@@ -14,7 +14,7 @@ name(_name), MJ_uuid(mj)
 
 void Game::setName(const QString& str)
 {
-    name;
+    name = str;
 }
 
 QString Game::getName() const {
